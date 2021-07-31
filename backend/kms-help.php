@@ -26,13 +26,13 @@ function webHelp() {
     echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>';
     echo 'Windows Activation';
-    echo '</title><link rel="stylesheet" href="./style.css" /></head>';
+    echo '</title><link rel="stylesheet" href="./assets/style.css" /></head>';
     echo '<body><div><h2>Windows KMS Activation</h2><pre>';
     echo '<code> slmgr /upk' . PHP_EOL;
     echo ' slmgr /ipk {KMS_KEY}' . PHP_EOL;
     echo ' slmgr /skms ' . $webSite . PHP_EOL;
     echo ' slmgr /ato' . PHP_EOL;
-    echo ' slmgr /dlv</code>';
+    echo ' slmgr /dlv </code>';
     echo '</pre><p><a href="';
     echo 'http://' . $webSite . '/win';
     echo '">KMS_KEY (Windows)</a><br><a href="';
