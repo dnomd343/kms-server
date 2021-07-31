@@ -16,6 +16,9 @@ function showHelp() {
     echo 'KMS_KEY -> http://' . $webSite . '/win' . PHP_EOL;
     echo '        -> http://' . $webSite . '/win-server' . PHP_EOL;
     echo PHP_EOL;
+    echo 'KMS_KEY(GBK) -> http://' . $webSite . '/win/gbk' . PHP_EOL;
+    echo '             -> http://' . $webSite . '/win-server/gbk' . PHP_EOL;
+    echo PHP_EOL;
 }
 
 function webHelp() {

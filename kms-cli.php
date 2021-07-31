@@ -4,7 +4,16 @@
 
 require_once 'kms-keys.php';
 
-function showVersion($title, $content) {
+function show($str) { // GBK兼容
+    global $gbk;
+    if ($gbk) {
+        return iconv('utf-8', 'gb2312', $str);
+    } else {
+        return $str;
+    }
+}
+
+function showVersion($title, $content) { // 表格形式显示
     $length = 0;
     foreach ($content as $row) { // 获取最长的字符串长度
         $strLength = strlen(iconv('utf-8', 'gb2312', $row['name']));
@@ -13,11 +22,11 @@ function showVersion($title, $content) {
         }
     }
     $strLength = strlen(iconv('utf-8', 'gb2312', $title)); // 获取标题长度
-    echo str_pad('', floor(($length - $strLength + 36) / 2), ' ') . $title . PHP_EOL; // 居中输出标题
+    echo str_pad('', floor(($length - $strLength + 36) / 2), ' ') . show($title) . PHP_EOL; // 居中输出标题
     echo '┏' . str_pad('', $length + 34, '-') . '┓' . PHP_EOL;
     foreach ($content as $row) { // 显示表格主体
         $strLength = strlen(iconv('utf-8', 'gb2312', $row['name']));
-        echo '| ' . $row['name'] . str_pad('', $length - $strLength, ' ') . ' | ';
+        echo '| ' . show($row['name']) . str_pad('', $length - $strLength, ' ') . ' | ';
         echo $row['key'] . ' |' . PHP_EOL;
     }
     echo '┗' . str_pad('', $length + 34, '-') . '┛' . PHP_EOL;

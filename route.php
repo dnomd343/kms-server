@@ -11,7 +11,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
 }
 
 $url = $_SERVER['DOCUMENT_URI'];
-
+$gbk = false;
 if ($url == '/') {
     if ($_GET['cli'] == 'true') {
         showHelp();
@@ -34,5 +34,23 @@ if ($url == '/win-server') {
     }
 }
 
+if ($url == '/win/gbk') {
+    if ($_GET['cli'] == 'true') {
+        $gbk = true;
+        showWinKeys();
+    } else {
+        header('HTTP/1.1 302 Moved Temporarily');
+        header('Location: /win');
+    }
+}
+if ($url == '/win-server/gbk') {
+    if ($_GET['cli'] == 'true') {
+        $gbk = true;
+        showWinServerKeys();
+    } else {
+        header('HTTP/1.1 302 Moved Temporarily');
+        header('Location: /win-server');
+    }
+}
 
 ?>
