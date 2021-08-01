@@ -1,12 +1,10 @@
 # KMS服务器
 
-快速部署的KMS服务器，提供针对Windows和Office的激活服务，同时内置了各个版本的激活密钥与命令。
-
-kms-server支持Docker容器化部署，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的镜像。
+快速部署的KMS服务器，提供针对Windows和Office的激活服务，同时内置了各个版本的激活密钥与命令，支持Docker容器化部署，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的镜像。
 
 ## 使用方法
 
-以 `kms.343.re` 为例，在成功部署KMS服务以后，你可以访问网页或者命令行请求获取激活密钥。
+以 `kms.343.re` 为例，在成功部署KMS服务以后，你可以通过[网页](https://kms.343.re/)或者命令行获取激活密钥。
 
 ```
 # 输出操作说明
@@ -39,6 +37,8 @@ shell> docker pull ghcr.io/dnomd343/kms-server
 # 阿里云个人镜像
 shell> docker pull registry.cn-shenzhen.aliyuncs.com/dnomd343/kms-server
 ```
+
+镜像对外暴露 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活服务，后者用于获取KMS激活密钥。
 
 ## 部署流程
 
@@ -115,7 +115,7 @@ shell> curl 127.0.0.1:1689/win
 
 **3. 配置反向代理**
 
-将用于KMS服务的域名DNS解析到当前服务器，这里使用Nginx作为示例，其他Web服务原理类似，
+将用于KMS服务的域名DNS解析到当前服务器，这里使用Nginx作为示例，其他Web服务原理类似。
 
 ```
 # 进入Nginx配置目录
@@ -170,7 +170,7 @@ server {
 shell> nginx -s reload
 ```
 
-### 常规方式
+### 常规方式（不推荐）
 
 此方式较为繁琐且可能存在版本兼容问题，不熟悉Linux操作的用户建议使用上述Docker方式。
 
@@ -196,7 +196,6 @@ shell> php -v
 
 shell> curl --version
 ···curl版本信息···
-
 ```
 
 确认PHP-FPM正常运行
@@ -208,7 +207,7 @@ shell> systemctl | grep fpm
 
 **3. 配置Web服务**
 
-配置网页服务器代理，需要额外占用除80与443之外的一个端口，默认为TCP/1689，可按需修改。
+配置网页服务器代理，需要额外占用除80与443之外的一个端口，默认为 `1689/tcp` ，可按需修改。
 
 将用于KMS服务的域名DNS解析到当前服务器，这里使用Nginx作为示例，其他Web服务原理类似。
 
@@ -270,7 +269,7 @@ server {
             set $query_param $query_param&cli=true;
         }
         include fastcgi_params;
-        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_pass 127.0.0.1:9000; # php-fpm接口
         fastcgi_param QUERY_STRING $query_param;
         fastcgi_param SCRIPT_FILENAME /var/www/kms-server/backend/route.php;
     }
