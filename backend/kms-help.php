@@ -13,6 +13,8 @@ function showHelp() {
     echo '| slmgr /dlv' . str_pad('', $length + 3, ' ') . '|' . PHP_EOL;
     echo '┗' . str_pad('', $length + 14, '-') . '┛' . PHP_EOL;
     echo PHP_EOL;
+    echo 'Office -> http://' . $webSite . '/office' . PHP_EOL;
+    echo PHP_EOL;
     echo 'KMS_KEY -> http://' . $webSite . '/win' . PHP_EOL;
     echo '        -> http://' . $webSite . '/win-server' . PHP_EOL;
     echo PHP_EOL;
@@ -34,6 +36,8 @@ function webHelp() {
     echo ' slmgr /ato' . PHP_EOL;
     echo ' slmgr /dlv </code>';
     echo '</pre><p><a href="';
+    echo 'http://' . $webSite . '/office';
+    echo '">KMS (Office)</a><br><a href="';
     echo 'http://' . $webSite . '/win';
     echo '">KMS_KEY (Windows)</a><br><a href="';
     echo 'http://' . $webSite . '/win-server';
