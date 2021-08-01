@@ -36,10 +36,10 @@ case "$MACHINE" in
     VLMCSD_PATH="binaries/Linux/intel/static/vlmcsd-x64-musl-static"
     ;;
   'arm')
-    VLMCSD_PATH=""
+    VLMCSD_PATH="binaries/Linux/arm/little-endian/static/vlmcsd-armv7el-uclibc-static"
     ;;
   'arm64')
-    VLMCSD_PATH=""
+    VLMCSD_PATH="binaries/Linux/arm/little-endian/static/vlmcsd-armv7el-uclibc-static"
     ;;
   *)
     exit 1
