@@ -5,11 +5,30 @@ include 'kms-web.php';
 include 'kms-help.php';
 include 'kms-office.php';
 
-$webSite = "{KMS_HOST}";
-if (isset($_SERVER['HTTP_HOST'])) { // 获取服务域名
-    preg_match('#^127.0.0.1#', $_SERVER['HTTP_HOST'], $match); // 排除127.0.0.1下的host
-    if (count($match) == 0) {
-        $webSite = $_SERVER['HTTP_HOST'];
+function isDomain($domain) {
+    preg_match('/^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/', $domain, $match);
+    return (count($match) != 0);
+}
+
+function isIPv4($ip) {
+    return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+}
+
+$kmsHost = "{KMS_HOST}";
+$webSite = $kmsHost;
+if (isset($_SERVER['HTTP_HOST'])) { // 获取服务URL
+    $webSite = $_SERVER['HTTP_HOST'];
+}
+if (isDomain($webSite) || isIPv4($webSite)) { // URL为域名或者IPv4地址
+    $kmsHost = $webSite;
+} else {
+    preg_match('/^[a-zA-Z0-9.-]*/', $webSite, $match);
+    if (count($match) != 0) {
+        if (isDomain($match[0]) || isIPv4($match[0])) { // 去除端口后为域名或者IPv4地址
+            if ($match[0] != '127.0.0.1') { // 排除本地IP
+                $kmsHost = $match[0];
+            }
+        }
     }
 }
 

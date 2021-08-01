@@ -17,7 +17,7 @@ if exist "%ProgramFiles(x86)%\Microsoft Office\Office16\ospp.vbs" cd /d "%Progra
 cscript ospp.vbs /inpkey:NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP';
 
 function loadOsppInfo() { // 初始化ospp信息
-    global $webSite;
+    global $kmsHost;
     global $osppOption, $osppDescription, $osppDescriptionCn;
 
     $osppOption[] = '/dstatus';
@@ -36,7 +36,7 @@ function loadOsppInfo() { // 初始化ospp信息
     $osppDescription[] = 'Installs a product key with a user-provided product key.';
     $osppDescriptionCn[] = '安装产品密钥';
 
-    $osppOption[] = '/sethst:' . $webSite;
+    $osppOption[] = '/sethst:' . $kmsHost;
     $osppDescription[] = 'Sets a KMS host name with a user-provided host name.';
     $osppDescriptionCn[] = '设置 KMS 主机名';
 
@@ -50,8 +50,8 @@ function loadOsppInfo() { // 初始化ospp信息
 }
 
 function loadOfficeCmd() { // 初始化Office激活命令
-    global $webSite, $office;
-    $activeCmd = 'cscript ospp.vbs /sethst:' . $webSite . PHP_EOL . 'cscript ospp.vbs /act';
+    global $kmsHost, $office;
+    $activeCmd = 'cscript ospp.vbs /sethst:' . $kmsHost . PHP_EOL . 'cscript ospp.vbs /act';
     $activeCmd .= PHP_EOL . 'cscript ospp.vbs /dstatus' . PHP_EOL;
     foreach ($office as $index => $officeKmsCmd) {
         $office[$index] .= PHP_EOL . $activeCmd;

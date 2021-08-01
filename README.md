@@ -290,6 +290,7 @@ php7.3-fpm.pid  php7.3-fpm.sock
 ```
 
 对应Nginx配置如下
+
 ```
 # RH系
 fastcgi_pass 127.0.0.1:9000;
@@ -303,9 +304,16 @@ fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
 shell> nginx -s reload
 ```
 
+测试服务是否正常工作
+
+```
+shell> curl 127.0.0.1:1689/win
+···不同版本Windows的KMS密钥···
+```
+
 **4. 配置vlmcsd服务**
 
-在vlmcsd的[Github页面](https://github.com/Wind4/vlmcsd/releases)获取最新release包
+在vlmcsd的[Github页面](https://github.com/Wind4/vlmcsd/releases)获取最新release包。
 
 ```
 # 下载最新release并解压
@@ -361,7 +369,19 @@ Active: active (running) ···
 ···
 ```
 
-## 容器构建
+## 开发相关
+
+### JSON接口
+
+`kms-server` 预留了以下JSON接口，用于输出内置的KMS密钥。
+
++ `/win/json`：输出各版本Windows的KMS密钥；
+
++ `/win-server/json`：输出各版本Windows Server的KMS密钥；
+
++ `/json`：输出各版本Windows和Windows Server的KMS密钥；
+
+### 容器构建
 
 **本地构建**
 
