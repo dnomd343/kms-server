@@ -16,33 +16,38 @@ $office['2019'] = 'if exist "%ProgramFiles%\Microsoft Office\Office16\ospp.vbs" 
 if exist "%ProgramFiles(x86)%\Microsoft Office\Office16\ospp.vbs" cd /d "%ProgramFiles(x86)%\Microsoft Office\Office16"
 cscript ospp.vbs /inpkey:NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP';
 
-$osppOption[] = '/dstatus';
-$osppDescription[] = 'Displays license information for installed product keys.';
-$osppDescriptionCn[] = '显示当前已安装产品密钥的许可证信息';
+function loadOsppInfo() { // 初始化ospp信息
+    global $webSite;
+    global $osppOption, $osppDescription, $osppDescriptionCn;
 
-$osppOption[] = '/dstatusall';
-$osppDescription[] = 'Displays license information for all installed licenses.';
-$osppDescriptionCn[] = '显示当前已安装的所有许可证信息';
+    $osppOption[] = '/dstatus';
+    $osppDescription[] = 'Displays license information for installed product keys.';
+    $osppDescriptionCn[] = '显示当前已安装产品密钥的许可证信息';
 
-$osppOption[] = '/unpkey:XXXXX';
-$osppDescription[] = 'Uninstalls an product key with the last five digits of it.';
-$osppDescriptionCn[] = '卸载已安装的产品密钥（最后5位）';
+    $osppOption[] = '/dstatusall';
+    $osppDescription[] = 'Displays license information for all installed licenses.';
+    $osppDescriptionCn[] = '显示当前已安装的所有许可证信息';
 
-$osppOption[] = '/inpkey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX';
-$osppDescription[] = 'Installs a product key with a user-provided product key.';
-$osppDescriptionCn[] = '安装产品密钥';
+    $osppOption[] = '/unpkey:XXXXX';
+    $osppDescription[] = 'Uninstalls an product key with the last five digits of it.';
+    $osppDescriptionCn[] = '卸载已安装的产品密钥（最后5位）';
 
-$osppOption[] = '/sethst:kms.xxx.xx';
-$osppDescription[] = 'Sets a KMS host name with a user-provided host name.';
-$osppDescriptionCn[] = '设置 KMS 主机名';
+    $osppOption[] = '/inpkey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX';
+    $osppDescription[] = 'Installs a product key with a user-provided product key.';
+    $osppDescriptionCn[] = '安装产品密钥';
 
-$osppOption[] = '/remhst';
-$osppDescription[] = 'Removes KMS host name and sets port to default.';
-$osppDescriptionCn[] = '删除 KMS 主机名';
+    $osppOption[] = '/sethst:' . $webSite;
+    $osppDescription[] = 'Sets a KMS host name with a user-provided host name.';
+    $osppDescriptionCn[] = '设置 KMS 主机名';
 
-$osppOption[] = '/act';
-$osppDescription[] = 'Activates installed Office product keys.';
-$osppDescriptionCn[] = '激活 Office';
+    $osppOption[] = '/remhst';
+    $osppDescription[] = 'Removes KMS host name and sets port to default.';
+    $osppDescriptionCn[] = '删除 KMS 主机名';
+
+    $osppOption[] = '/act';
+    $osppDescription[] = 'Activates installed Office product keys.';
+    $osppDescriptionCn[] = '激活 Office';
+}
 
 function loadOfficeCmd() { // 初始化Office激活命令
     global $webSite, $office;
@@ -54,6 +59,7 @@ function loadOfficeCmd() { // 初始化Office激活命令
 }
 
 function showOfficeHelp() { // 命令行输出Office激活帮助
+    loadOsppInfo();
     loadOfficeCmd();
     global $office, $osppOption, $osppDescription, $osppDescriptionCn;
     foreach ($office as $index => $officeKmsCmd) {
@@ -84,6 +90,7 @@ function showOfficeHelp() { // 命令行输出Office激活帮助
 }
 
 function webOfficeHelp() { // 网页输出Office激活帮助
+    loadOsppInfo();
     loadOfficeCmd();
     global $office, $osppOption, $osppDescription, $osppDescriptionCn;
     echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
