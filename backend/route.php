@@ -3,6 +3,7 @@
 include 'kms-cli.php';
 include 'kms-web.php';
 include 'kms-help.php';
+include 'kms-office.php';
 
 if (isset($_SERVER['HTTP_HOST'])) { // 获取服务域名
     $webSite = $_SERVER['HTTP_HOST'];
@@ -18,6 +19,15 @@ if ($url == '/' || $url == '/help') { // 操作提示
         showHelp();
     } else {
         webHelp();
+    }
+    exit;
+}
+
+if ($url == '/office') { // office激活帮助
+    if ($_GET['cli'] == 'true') {
+        showOfficeHelp();
+    } else {
+        webOfficeHelp();
     }
     exit;
 }
