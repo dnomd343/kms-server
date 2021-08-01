@@ -5,10 +5,12 @@ include 'kms-web.php';
 include 'kms-help.php';
 include 'kms-office.php';
 
+$webSite = "{KMS_HOST}";
 if (isset($_SERVER['HTTP_HOST'])) { // 获取服务域名
-    $webSite = $_SERVER['HTTP_HOST'];
-} else {
-    $webSite = "{HOST}";
+    preg_match('#^127.0.0.1#', $_SERVER['HTTP_HOST'], $match); // 排除127.0.0.1下的host
+    if (count($match) == 0) {
+        $webSite = $_SERVER['HTTP_HOST'];
+    }
 }
 
 $url = $_SERVER['DOCUMENT_URI'];
