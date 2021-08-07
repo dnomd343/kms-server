@@ -3,6 +3,7 @@ git clone --branch master --single-branch https://github.com/Wind4/vlmcsd.git /t
 cd /tmp/vlmcsd-build
 make
 mkdir /tmp/vlmcsd
+cp /tmp/vlmcsd-build/bin/vlmcs /tmp/vlmcsd/
 cp /tmp/vlmcsd-build/bin/vlmcsd /tmp/vlmcsd/
 cp /tmp/vlmcsd-build/etc/vlmcsd.kmd /tmp/vlmcsd/
 rm -rf /tmp/vlmcsd-build
