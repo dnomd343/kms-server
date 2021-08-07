@@ -1,7 +1,6 @@
 <?php
 
 function checkKms($config) { // 检测KMS服务器是否可用
-    $tempPath = '/var/www/kms-server/backend/';
     if (isset($config['host'])) {
         $host = $config['host'];
     } else { // host参数必选
@@ -20,8 +19,7 @@ function checkKms($config) { // 检测KMS服务器是否可用
     } else {
         $site = null; // site参数可选
     }
-
-    $cmd = 'vlmcs ';
+    $cmd = 'vlmcs '; // 生成vlmcs测试命令
     if (isDomain($host) || isIPv4($host)) {
         $cmd .= $host;
     } else if (isIPv6($host)) {
@@ -38,7 +36,7 @@ function checkKms($config) { // 检测KMS服务器是否可用
             'message' => 'illegal port'
         );
     } else {
-        $cmd .= ':' . $port;
+        $cmd .= ':' . $port; // 命令中加入端口信息
     }
     if ($site !== null) {
         $cmd .= ' -w ' . $site; // 加入site参数

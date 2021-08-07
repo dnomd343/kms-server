@@ -19,6 +19,9 @@ shell> curl kms.343.re/win-server
 # 输出Office激活说明
 shell> curl kms.343.re/office
 
+# 测试其他KMS服务器是否正常
+shell> curl "kms.343.re/check?host=kms.dnomd343.top&port=1688"
+
 ```
 
 部署完成后，需要KMS服务的地方填入 `kms.343.re` 即可激活。
@@ -323,14 +326,22 @@ shell> tar xf binaries.tar.gz
 # 不同架构主机选择不同文件，以下为常见示例
 # x86-64架构
 shell> cp binaries/Linux/intel/static/vlmcsd-x64-musl-static /usr/bin/vlmcsd
+shell> cp binaries/Linux/intel/static/vlmcs-x64-musl-static /usr/bin/vlmcs
 # x86架构
 shell> cp binaries/Linux/intel/static/vlmcsd-x86-musl-static /usr/bin/vlmcsd
+shell> cp binaries/Linux/intel/static/vlmcs-x86-musl-static /usr/bin/vlmcs
 # arm架构
 shell> cp binaries/Linux/arm/little-endian/static/vlmcsd-armv7el-uclibc-static /usr/bin/vlmcsd
+shell> cp binaries/Linux/arm/little-endian/static/vlmcs-armv7el-uclibc-static /usr/bin/vlmcs
+```
 
-# 确认vlmcsd是否正常
+确认是否正确安装
+
+```
 shell> vlmcsd -V
 ···vlmcsd版本信息···
+shell> vlmcs -V
+···vlmcs版本信息···
 ```
 
 将vlmcsd配置为系统服务
@@ -380,6 +391,24 @@ Active: active (running) ···
 + `/win-server/json`：输出各版本Windows Server的KMS密钥；
 
 + `/json`：输出各版本Windows和Windows Server的KMS密钥；
+
+### KMS测试
+
+`kms-server` 内置了检测其他KMS服务器是否可用的功能，接口位于 `/check` 下，使用时指定目标服务器以下参数
+
++ `host`：服务器IPv4、IPv6地址或域名
+
++ `port`：KMS服务端口，默认1688
+
++ `site`：KMS请求中的 `workstation` 参数，可选
+
+```
+shell> curl "kms.343.re/check?host=47.242.30.65"
+{"status":"ok","message":"success"}
+
+shell> curl "kms.343.re/check?host=kms.dnomd343.top&port=8861"
+{"status":"error","message":"connect fail"}
+```
 
 ### 容器构建
 
