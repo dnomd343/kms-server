@@ -4,6 +4,7 @@ include 'kms-cli.php';
 include 'kms-web.php';
 include 'kms-help.php';
 include 'kms-office.php';
+include 'kms-check.php';
 
 function isDomain($domain) {
     preg_match('/^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/', $domain, $match);
@@ -12,6 +13,10 @@ function isDomain($domain) {
 
 function isIPv4($ip) {
     return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+}
+
+function isIPv6($ip) {
+    return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6);
 }
 
 $kmsHost = "{KMS_HOST}";
@@ -107,6 +112,12 @@ if ($url == '/win-server/json') {
     header('Content-Type: application/json; charset=utf-8');
     $kmsKeys = getKmsKeys('win-server');
     echo json_encode($kmsKeys);
+    exit;
+}
+
+if ($url == '/check') {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(checkKms($_GET));
     exit;
 }
 
