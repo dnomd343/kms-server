@@ -43,22 +43,18 @@ function checkKms($config) { // 检测KMS服务器是否可用
     if ($site !== null) {
         $cmd .= ' -w ' . $site; // 加入site参数
     }
-    $fileName = md5(rand()) . '.txt'; // 生成随机文件名
-    $cmd .= ' -G ' . $tempPath . $fileName;
-    shell_exec($cmd); // 执行vlmcs测试
-    $raw = shell_exec('ls ' . $tempPath);
-    preg_match('/' . $fileName . '/', $raw, $match); // 判断随机文件是否存在
-    header('Content-Type: application/json; charset=utf-8');
-    if (!count($match)) { // 随机文件不存在 -> KMS连接错误
-        return array(
-            'status' => 'error',
-            'message' => 'connect fail'
-        );
-    } else { // 随机文件存在 -> KMS测试成功
-        shell_exec('rm -f ' . $tempPath . $fileName); // 删除随机文件
+    $cmd .= ' -G temp';
+    $raw = shell_exec($cmd); // 执行vlmcs测试
+    preg_match_all('/Sending activation request \(KMS V6\)/', $raw, $match);
+    if (count($match[0]) == 6) { // KMS服务器连接成功
         return array(
             'status' => 'ok',
             'message' => 'success'
+        );
+    } else { // KMS服务器连接异常
+        return array(
+            'status' => 'error',
+            'message' => 'connect fail'
         );
     }
 }
