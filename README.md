@@ -101,7 +101,7 @@ Docker version ···, build ···
 
 ```
 # 映射容器1688与1689端口到宿主机，容器路径可替换为上述其他源
-shell> docker run -d --name kms -p 1688:1688 -p 1689:1689 dnomd343/kms-server
+shell> docker run -d --restart=always --name kms -p 1688-1689:1688-1689 dnomd343/kms-server
 # 查看容器状态
 shell> docker ps -a
 CONTAINER ID   IMAGE                    COMMAND           CREATED          STATUS        PORTS     NAMES
