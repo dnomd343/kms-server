@@ -57,9 +57,8 @@ h2:after {
 a {
     color: #0c93e4;
     text-decoration: underline;
-    text-decoration-skip: ink;
+    text-decoration-skip-ink: none;
     background-color: transparent;
-    -webkit-text-decoration-skip: objects;
 }
 
 a:focus,
