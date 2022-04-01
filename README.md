@@ -1,10 +1,10 @@
-# KMS服务器
+# KMS Server
 
-快速部署的KMS服务器，提供针对Windows和Office的激活服务，同时内置了各个版本的激活密钥与命令，支持Docker容器化部署，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的镜像。
+快速部署的KMS服务器，提供针对Windows与Office的激活服务，同时内置各版本的激活密钥；支持Docker部署，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的镜像。
 
 ## 使用方法
 
-以 `kms.343.re` 为例，在成功部署KMS服务以后，你可以通过[网页](https://kms.343.re/)或者命令行获取激活密钥。
+以 `kms.343.re` 为例，在成功部署KMS服务以后，你可以通过[网页](https://kms.343.re/)或命令行环境获取激活密钥。
 
 ```
 # 输出操作说明
@@ -21,35 +21,24 @@ shell> curl kms.343.re/office
 
 # 测试其他KMS服务器是否正常
 shell> curl "kms.343.re/check?host=kms.dnomd343.top&port=1688"
-
 ```
 
-部署完成后，需要KMS服务的地方填入 `kms.343.re` 即可激活。
+在其他需要KMS服务的地方，填入 `kms.343.re` 即可激活。
 
-## 镜像获取
+## 快速部署
 
-`kms-server` 可以从多个镜像源拉取，其数据完全相同，国内用户建议首选阿里云镜像。
+### 1. 防火墙检查
+
+> 服务器1688端口接受外网KMS激活请求，务必检查是否被防火墙拦截。
+
+如果开启了 `ufw` 防火墙服务，使用以下命令放行：
 
 ```
-# Docker Hub
-shell> docker pull docker.io/dnomd343/kms-server
-
-# Github Package
-shell> docker pull ghcr.io/dnomd343/kms-server
-
-# 阿里云个人镜像
-shell> docker pull registry.cn-shenzhen.aliyuncs.com/dnomd343/kms-server
+shell> ufw allow 1688/tcp
+shell> ufw status
 ```
 
-镜像对外暴露 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活服务，后者用于获取KMS激活密钥。
-
-## 部署流程
-
-**检查防火墙**
-
-服务器的1688端口必须能接受来自外网的访问，务必检查是否被防火墙拦截。
-
-如果开启了 `firewalld` 防火墙服务，使用以下命令放行1688端口
+如果开启了 `firewalld` 防火墙服务，使用以下命令放行：
 
 ```
 shell> firewall-cmd --zone=public --add-port=1688/tcp --permanent
@@ -57,28 +46,16 @@ shell> firewall-cmd --reload
 shell> firewall-cmd --list-ports
 ```
 
-如果开启了 `ufw` 防火墙服务，使用以下命令放行1688端口
+部分云服务商可能会在网页端控制台提供防火墙服务，请在对应页面开放 `1688/tcp` 端口。
+
+### 2. Docker环境
 
 ```
-shell> ufw allow 1688/tcp
-shell> ufw status
-```
-
-一些云服务商可能会在网页端控制台提供防火墙服务，请在对应页面开放 `1688/tcp` 端口。
-
-### Docker方式（推荐）
-
-**1. 配置Docker环境**
-
-使用以下命令确认Docker环境
-
-```
-# 若正常输出则跳过本步
 shell> docker --version
 ···Docker版本信息···
 ```
 
-使用以下命令安装Docker
+若上述命令出现 `command not found`，使用以下命令安装Docker
 
 ```
 # RH系
@@ -95,13 +72,31 @@ shell> docker --version
 Docker version ···, build ···
 ```
 
-**2. 启动KMS服务**
+### 3. 镜像获取
 
-启动容器并映射端口
+`kms-server` 可以从多个镜像源拉取，其数据完全相同，国内用户建议首选阿里云镜像。
+
+```
+# Docker Hub
+shell> docker pull docker.io/dnomd343/kms-server
+
+# Github Package
+shell> docker pull ghcr.io/dnomd343/kms-server
+
+# 阿里云个人镜像
+shell> docker pull registry.cn-shenzhen.aliyuncs.com/dnomd343/kms-server
+```
+
+镜像对外暴露 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活服务，后者用于获取KMS激活密钥。
+
+
+
+### 4. 启动KMS服务
 
 ```
 # 映射容器1688与1689端口到宿主机，容器路径可替换为上述其他源
 shell> docker run -d --restart=always --name kms -p 1688-1689:1688-1689 dnomd343/kms-server
+
 # 查看容器状态
 shell> docker ps -a
 CONTAINER ID   IMAGE                    COMMAND           CREATED          STATUS        PORTS     NAMES
@@ -116,20 +111,23 @@ shell> curl 127.0.0.1:1689/win
 ···不同版本Windows的KMS密钥···
 ```
 
-**3. 配置反向代理**
+### 5. 配置反向代理
 
-将用于KMS服务的域名DNS解析到当前服务器，这里使用Nginx作为示例，其他Web服务原理类似。
+将用于KMS服务的域名DNS解析到当前服务器，以Nginx为例：
 
 ```
 # 进入Nginx配置目录
 shell> cd /etc/nginx/conf.d
-# 下载配置文件
-shell> wget https://raw.githubusercontent.com/dnomd343/kms-server/master/conf/nginx/docker.conf -O kms.conf
+
+# 下载配置文件，国内用户可替换为以下链接
+# https://cdn.jsdelivr.net/gh/dnomd343/kms-server@master/conf/nginx/docker.conf
+shell> wget https://github.com/dnomd343/kms-server/raw/master/conf/nginx/docker.conf -O kms.conf
+
 # 修改配置文件中域名、证书、端口等信息
 shell> vim kms.conf
 ```
 
-如果你的网络无法正常访问Github，将下述内容写入配置文件亦可。
+配置文件如下，按备注修改域名与证书：
 
 ```
 server {
@@ -173,9 +171,26 @@ server {
 shell> nginx -s reload
 ```
 
-### 常规方式（不推荐）
+访问上述域名，正常显示页面即部署成功。
 
-此方式较为繁琐且可能存在版本兼容问题，不熟悉Linux操作的用户建议使用上述Docker方式。
+### 6. 检查服务是否正常
+
+以 `kms.dnomd343.top` 为例，使用以下命令检查KMS服务器状态：
+
+```
+shell> curl "https://kms.343.re/check?host=kms.dnomd343.top&port=1688"
+{"status":"ok","message":"success"}
+```
+
+输出status字段为ok即工作正常，若为error，请检查防火墙是否屏蔽了1688/tcp端口。
+
+## 常规部署
+
+> 此方式较为繁琐且可能存在版本兼容问题，仅用于不方便安装Docker的情况，不建议使用。
+
+<details>
+
+<summary><b>配置方式</b></summary>
 
 **1. 拉取源码**
 
@@ -380,6 +395,8 @@ Active: active (running) ···
 ···
 ```
 
+</details>
+
 ## 开发相关
 
 ### JSON接口
@@ -426,7 +443,7 @@ shell> docker build -t kms-server .
 
 ```
 # 构建并推送至Docker Hub
-shell> docker buildx build -t dnomd343/kms-server --platform="linux/amd64,linux/arm64,linux/386,linux/arm/v7" https://github.com/dnomd343/kms-server.git#master --push
+shell> docker buildx build -t dnomd343/kms-server --platform="linux/amd64,linux/arm64,linux/386,linux/arm/v7" https://github.com/dnomd343/kms-server.git --push
 ```
 
 ## 许可证
