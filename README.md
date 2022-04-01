@@ -1,6 +1,14 @@
 # KMS Server
 
-快速部署的KMS服务器，提供针对Windows与Office的激活服务，同时内置各版本的激活密钥；支持Docker部署，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的镜像。
+- [x] 支持Windows与Office全系列激活
+
+- [x] 快速部署，仅需一句命令即可使用
+
+- [x] 内置各版本KMS密钥，无需自行查询
+
+- [x] 网页端、命令行下快速检索密钥与说明
+
+- [x] API接口，检查其他KMS服务器工作状态
 
 ## 使用方法
 
@@ -74,6 +82,8 @@ Docker version ···, build ···
 
 ### 3. 镜像获取
 
+> 在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的镜像。
+
 `kms-server` 可以从多个镜像源拉取，其数据完全相同，国内用户建议首选阿里云镜像。
 
 ```
@@ -89,12 +99,20 @@ shell> docker pull registry.cn-shenzhen.aliyuncs.com/dnomd343/kms-server
 
 镜像对外暴露 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活服务，后者用于获取KMS激活密钥。
 
-
-
 ### 4. 启动KMS服务
 
+> 下述命令中，容器路径可替换为上述其他源
+
+若只需KMS激活功能，使用以下命令，并忽略后续步骤
+
 ```
-# 映射容器1688与1689端口到宿主机，容器路径可替换为上述其他源
+shell> docker run -d --restart=always --name kms -p 1688:1688 dnomd343/kms-server
+```
+
+如需启用其他功能，继续以下步骤：
+
+```
+# 映射容器1688与1689端口到宿主机
 shell> docker run -d --restart=always --name kms -p 1688-1689:1688-1689 dnomd343/kms-server
 
 # 查看容器状态
@@ -182,7 +200,7 @@ shell> curl "https://kms.343.re/check?host=kms.dnomd343.top&port=1688"
 {"status":"ok","message":"success"}
 ```
 
-输出status字段为ok即工作正常，若为error，请检查防火墙是否屏蔽了1688/tcp端口。
+输出中 `status` 字段为 `ok` 即工作正常；若为 `error`，请检查防火墙是否屏蔽1688/tcp端口。
 
 ## 常规部署
 
@@ -191,6 +209,8 @@ shell> curl "https://kms.343.re/check?host=kms.dnomd343.top&port=1688"
 <details>
 
 <summary><b>配置方式</b></summary>
+
+<br/>
 
 **1. 拉取源码**
 
