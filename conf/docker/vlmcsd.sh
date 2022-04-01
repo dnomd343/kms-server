@@ -1,7 +1,6 @@
 apk add --no-cache git make build-base
 git clone --branch master --single-branch https://github.com/Wind4/vlmcsd.git /tmp/vlmcsd-build
-cd /tmp/vlmcsd-build
-make
+cd /tmp/vlmcsd-build || exit && make
 mkdir /tmp/vlmcsd
 cp /tmp/vlmcsd-build/bin/vlmcs /tmp/vlmcsd/
 cp /tmp/vlmcsd-build/bin/vlmcsd /tmp/vlmcsd/
