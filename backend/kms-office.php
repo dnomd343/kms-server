@@ -62,6 +62,7 @@ function showOfficeHelp() { // 命令行输出Office激活帮助
     loadOsppInfo();
     loadOfficeCmd();
     global $office, $osppOption, $osppDescription, $osppDescriptionCn;
+    echo PHP_EOL;
     foreach ($office as $index => $officeKmsCmd) {
         echo str_pad('', 34, ' ') . 'Office Professional Plus ' . $index . ' VL Activation Command' . PHP_EOL;
         echo str_pad('', 120, '-') . PHP_EOL;
