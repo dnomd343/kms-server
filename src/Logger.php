@@ -17,6 +17,13 @@ class logging {
     public const ERROR = 3;
     public const CRITICAL = 4;
     public static int $logLevel;
+    private static array $logName = array(
+        logging::DEBUG    => 'DEBUG',
+        logging::INFO     => 'INFO',
+        logging::WARNING  => 'WARNING',
+        logging::ERROR    => 'ERROR',
+        logging::CRITICAL => 'CRITICAL',
+    );
 
     public static function debug($message): void {
         logging::output($message, logging::DEBUG); // debug level
@@ -38,11 +45,13 @@ class logging {
         logging::output($message, logging::CRITICAL); // critical level
     }
 
-    private static function output($message, $type): void {
+    private static function output($message, $logType): void {
         global $logColor;
-        if ($type < logging::$logLevel) {
+        if ($logType < logging::$logLevel) {
             return; // skip output
         }
-        echo "\033[" . $logColor[$type] . $message . "\033[0m" . PHP_EOL;
+        $timeStr = '[' . date('Y-m-d H:i:s', time()) . ']';
+        $message = $timeStr . ' [' . logging::$logName[$logType] . '] ' . $message;
+        echo "\033[" . $logColor[$logType] . $message . "\033[0m" . PHP_EOL;
     }
 }
