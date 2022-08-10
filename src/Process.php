@@ -56,27 +56,3 @@ class Process {
         return proc_close($this->process); // return status code
     }
 }
-
-
-//$p = new Process(['sleep', '10'], $capture = true);
-//echo "PID -> $p->pid\n";
-//
-//echo "Alive -> " . ($p->isAlive() ? 'yes' : 'no') . "\n";
-//echo "Sleep 5s...\n";
-//sleep(5);
-//
-//echo "Alive -> " . ($p->isAlive() ? 'yes' : 'no') . "\n";
-//echo "Send kill signal\n";
-//$p->signal(15);
-//sleep(1);
-//echo "Alive -> " . ($p->isAlive() ? 'yes' : 'no') . "\n";
-//
-//echo '--------------------------------------------' . PHP_EOL;
-//echo $p->getStdout();
-//echo '--------------------------------------------' . PHP_EOL;
-//echo $p->getStdout();
-//echo '--------------------------------------------' . PHP_EOL;
-//echo $p->getStderr();
-//echo '--------------------------------------------' . PHP_EOL;
-//
-//echo "Return code -> " . $p->quit() . "\n";

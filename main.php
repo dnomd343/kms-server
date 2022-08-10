@@ -1,8 +1,10 @@
 <?php
 
-require_once 'Daemon.php';
-require_once 'Logger.php';
-require_once 'Process.php';
+$version = 'dev';
+
+require_once './src/Daemon.php';
+require_once './src/Logger.php';
+require_once './src/Process.php';
 
 $nginx = array(
     'name' => 'nginx',
@@ -24,12 +26,18 @@ $vlmcsd = array(
 
 declare(ticks = 1);
 pcntl_signal(SIGCHLD, 'subExit'); // receive SIGCHLD signal
+logging::info('Loading kms-server (' . $version . ')');
 
 new Process($nginx['command']);
+logging::info('Start nginx server...OK');
 new Process($phpFpm['command']);
+logging::info('Start php-fpm server...OK');
 new Process($vlmcsd['command']);
+logging::info('Start vlmcsd server...OK');
+
+logging::info('Enter the daemon process');
 while (true) {
-    msSleep(3000); // sleep 3s
+    msSleep(5000); // sleep 5s
     daemon($nginx);
     daemon($phpFpm);
     daemon($vlmcsd);

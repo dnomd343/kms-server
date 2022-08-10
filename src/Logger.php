@@ -1,6 +1,6 @@
 <?php
 
-logging::$logLevel = logging::DEBUG;
+logging::$logLevel = logging::INFO;
 
 $logColor = array(
     logging::DEBUG    => '37m', // white
