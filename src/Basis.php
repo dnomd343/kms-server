@@ -1,5 +1,9 @@
 <?php
 
+function mimeJson(): void { // return json mime type
+    header('Content-Type: application/json; charset=utf-8');
+}
+
 function genStr(int $length, string $fillStr = ' '): string { // generate a string of specified length
     return str_pad('', $length, $fillStr);
 }
@@ -11,6 +15,10 @@ function lenUtf8(string $str): int { // get string length (Chinese -> 2)
 function getKeys(bool $isWinServer = false): array { // get kms keys asset
     $keysAsset = json_decode(file_get_contents('../assets/kms-keys.json'), true);
     return $isWinServer ? array_reverse($keysAsset['win-server']) : $keysAsset['win'];
+}
+
+function getHost(): string { // TODO: get kms host
+    return 'kms.343.re';
 }
 
 function officeInfo(): array { // office dir and kms key for different version
