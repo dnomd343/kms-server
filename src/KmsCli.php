@@ -60,5 +60,3 @@ function showOfficeCli(string $host): void { // show office commands in shell
     echo "These commands are only applicable to the VL version of Office.\n";
     echo "If it is a Retail version, please convert it to Volume first.\n\n";
 }
-
-showOfficeCli('kms.343.re');
