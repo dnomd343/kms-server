@@ -1,16 +1,8 @@
 <?php
 
-function genStr(int $length, string $fillStr = ' '): string { // generate a string of specified length
-    return str_pad('', $length, $fillStr);
-}
+require_once 'Basis.php';
 
-function lenUtf8(string $str): int { // get string length (Chinese -> 2)
-//    preg_match_all('/./us', $str, $match);
-//    return count($match[0]);
-    return strlen(iconv('utf-8', 'gb2312', $str));
-}
-
-function showKeys(array $kmsKeys, bool $isGbk = false): void { // show kms keys in shell
+function showKeysCli(array $kmsKeys, bool $isGbk = false): void { // show kms keys in shell
     $ret = PHP_EOL;
     foreach ($kmsKeys as $title => $keys) {
         $length = 0;
@@ -26,8 +18,3 @@ function showKeys(array $kmsKeys, bool $isGbk = false): void { // show kms keys 
     }
     echo $isGbk ? iconv('utf-8', 'gb2312', $ret) : $ret; // utf-8 or gbk
 }
-
-$keyAsset = json_decode(file_get_contents('../assets/kms-keys.json'), true);
-showKeys($keyAsset['win']);
-echo '========================================================================================' . PHP_EOL;
-showKeys(array_reverse($keyAsset['win-server']));
