@@ -13,11 +13,11 @@ function lenUtf8(string $str): int { // get string length (Chinese -> 2)
 }
 
 function isIPv4($ip): bool {
-    return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+    return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 }
 
 function isIPv6($ip): bool {
-    return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6);
+    return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 }
 
 function isDomain($domain): bool {
@@ -31,8 +31,27 @@ function getKeys(bool $isWinServer = false): array { // get kms keys asset
     return $isWinServer ? array_reverse($keysAsset['win-server']) : $keysAsset['win'];
 }
 
+function v6DelBracket(string $host): string {
+    if (str_starts_with($host, '[') and str_ends_with($host, ']')) {
+        return substr($host, 1, strlen($host) - 2); // remove bracket of ipv6
+    }
+    return $host; // no change
+}
+
 function getHost(): string {
-    return $_SERVER['HTTP_HOST'] ?? 'KMS_HOST'; // TODO: remove port content
+    if (!isset($_SERVER['HTTP_HOST'])) { // missing http host
+        return 'KMS_HOST';
+    }
+    $host = v6DelBracket($_SERVER['HTTP_HOST']); // try to remove ipv6 bracket
+    if (isIPv4($host) or isIPv6($host) or isDomain($host)) { // invalid host
+        return $host;
+    }
+    preg_match_all('/(\S+):\d+$/', $host, $match);
+    if (count($match[1]) == 0) { // ${HOST}:${PORT} format not found
+        return 'KMS_HOST';
+    }
+    $host = v6DelBracket($match[1][0]); // try to remove ipv6 bracket again
+    return (isIPv4($host) or isIPv6($host) or isDomain($host)) ? $host : 'KMS_HOST';
 }
 
 function officeInfo(): array { // office dir and kms key for different version

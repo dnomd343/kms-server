@@ -1,7 +1,7 @@
 <?php
 
 function showKeysHtml(array $kmsKeys, string $header): void { // show kms keys in html
-    echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">';
+    echo '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" />';
     echo "<title>$header</title></head><body><div>";
@@ -29,7 +29,7 @@ function showHelpHtml(string $host): void { // show help message in html
 }
 
 function showOfficeHtml(string $host): void { // show office commands in html
-    echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">';
+    echo '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" />';
     echo "<title>Office KMS Server</title></head>\n<body><div>";
