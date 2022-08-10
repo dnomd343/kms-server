@@ -9,25 +9,17 @@ $url = $_SERVER['DOCUMENT_URI']; // request url
 $isCli = ($_GET['cli'] == 'true'); // shell or web browser
 
 $isGbk = false; // utf-8 or gbk
-if ($url == '/win/gbk') {
-    $url = '/win';
-    $isGbk = true;
-}
-if ($url == '/win-server/gbk') {
-    $url = '/win-server';
-    $isGbk = true;
-}
-
 $isJson = false; // json output
-if ($url == '/win/json') {
-    $url = '/win';
-    $isJson = true;
+if ($url == '/win/gbk' or $url == '/win-server/gbk') {
+    $url = ($url == '/win/gbk') ? '/win' : '/win-server'; // gbk mode
+    $isGbk = true;
 }
-if ($url == '/win-server/json') {
-    $url = '/win-server';
+if ($url == '/win/json' or $url == '/win-server/json') {
+    $url = ($url == '/win/json') ? '/win' : '/win-server'; // json mode
     $isJson = true;
 }
 
+// start route process
 if ($url == '/' or $url == '/help') {
     $isCli ? showHelpCli($kmsHost) : showHelpHtml($kmsHost); // show help message
 } else if ($url == '/office') {
@@ -49,6 +41,6 @@ if ($url == '/' or $url == '/help') {
         echo "Illegal Request\n";
     } else {
         mimeJson();
-        echo '{"status":"error","message":"Illegal Request"}';
+        echo '{"success":false,"message":"Illegal Request"}';
     }
 }

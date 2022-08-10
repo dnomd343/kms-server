@@ -16,7 +16,6 @@ function showKeysHtml(array $kmsKeys, string $header): void { // show kms keys i
     echo '</div></body></html>';
 }
 
-
 function showHelpHtml(string $host): void { // show help message in html
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';

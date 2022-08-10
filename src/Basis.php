@@ -17,8 +17,8 @@ function getKeys(bool $isWinServer = false): array { // get kms keys asset
     return $isWinServer ? array_reverse($keysAsset['win-server']) : $keysAsset['win'];
 }
 
-function getHost(): string { // TODO: get kms host
-    return 'kms.343.re';
+function getHost(): string {
+    return $_SERVER['HTTP_HOST'] ?? 'KMS_HOST'; // TODO: remove port content
 }
 
 function officeInfo(): array { // office dir and kms key for different version
