@@ -17,16 +17,16 @@ function showKeysWeb(array $kmsKeys, string $header): void { // show kms keys in
 }
 
 
-function showHelpWeb(string $site) {
+function showHelpWeb(string $host) {
     echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" /></head>';
     echo '<title>Windows Activation</title>';
     echo '<body><div><h2>Windows KMS Activation</h2><pre>';
-    echo '<code> slmgr /upk\n slmgr /ipk KMS_KEY\n slmgr /skms ' . $site . '\n slmgr /ato\n slmgr /dlv </code>';
-    echo '</pre><p><a href="http://' . $site . '/office">KMS (Office)</a><br>';
-    echo '<a href="http://' . $site . '/win">KMS_KEY (Windows)</a><br>';
-    echo '<a href="http://' . $site . '/win-server">KMS_KEY (Windows Server)</a></p></div></body></html>';
+    echo '<code> slmgr /upk\n slmgr /ipk KMS_KEY\n slmgr /skms ' . $host . '\n slmgr /ato\n slmgr /dlv </code>';
+    echo '</pre><p><a href="http://' . $host . '/office">KMS (Office)</a><br>';
+    echo '<a href="http://' . $host . '/win">KMS_KEY (Windows)</a><br>';
+    echo '<a href="http://' . $host . '/win-server">KMS_KEY (Windows Server)</a></p></div></body></html>';
 }
 
 require_once 'Basis.php';

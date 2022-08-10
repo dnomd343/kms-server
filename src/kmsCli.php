@@ -19,19 +19,19 @@ function showKeysCli(array $kmsKeys, bool $isGbk = false): void { // show kms ke
     echo $isGbk ? iconv('utf-8', 'gb2312', $ret) : $ret; // utf-8 or gbk
 }
 
-function showHelpCli(string $site): void {
-    $length = strlen($site);
+function showHelpCli(string $host): void {
+    $length = strlen($host);
     echo "\n" . genStr(floor(($length - 2) / 2)) . "Activation Command\n";
     echo "┏" . genStr($length + 14, '-') . "┓\n";
     echo "| slmgr /upk" . genStr($length + 3) . "|\n";
     echo "| slmgr /ipk KMS_KEY" . genStr($length - 5) . "|\n";
-    echo "| slmgr /skms $site |\n";
+    echo "| slmgr /skms $host |\n";
     echo "| slmgr /ato" . genStr($length + 3) . "|\n";
     echo "| slmgr /dlv" . genStr($length + 3) . "|\n";
     echo "┗" . genStr($length + 14, '-') . "┛\n\n";
-    echo "Office -> http://$site/office\n\n";
-    echo "KMS_KEY -> http://$site/win\n";
-    echo "        -> http://$site/win-server\n\n";
-    echo "KMS_KEY(GBK) -> http://$site/win/gbk\n";
-    echo "             -> http://$site/win-server/gbk\n\n";
+    echo "Office -> http://$host/office\n\n";
+    echo "KMS_KEY -> http://$host/win\n";
+    echo "        -> http://$host/win-server\n\n";
+    echo "KMS_KEY(GBK) -> http://$host/win/gbk\n";
+    echo "             -> http://$host/win-server/gbk\n\n";
 }
