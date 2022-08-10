@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Basis.php';
+require_once 'Check.php';
 require_once 'KmsCli.php';
 require_once 'KmsWeb.php';
 
@@ -35,7 +36,7 @@ if ($url == '/' or $url == '/help') {
     }
 } else if ($url == '/check') {
     mimeJson();
-    echo "WIP..."; // TODO: kms check
+    echo json_encode(kmsCheck()); // check kms server
 } else { // unknown request
     if ($isCli) {
         echo "Illegal Request\n";

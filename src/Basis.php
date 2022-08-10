@@ -12,6 +12,20 @@ function lenUtf8(string $str): int { // get string length (Chinese -> 2)
     return strlen(iconv('utf-8', 'gb2312', $str));
 }
 
+function isIPv4($ip): bool {
+    return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+}
+
+function isIPv6($ip): bool {
+    return filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6);
+}
+
+function isDomain($domain): bool {
+    $regex = '/^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/';
+    preg_match($regex, $domain, $match);
+    return count($match) != 0;
+}
+
 function getKeys(bool $isWinServer = false): array { // get kms keys asset
     $keysAsset = json_decode(file_get_contents('../assets/kms-keys.json'), true);
     return $isWinServer ? array_reverse($keysAsset['win-server']) : $keysAsset['win'];
