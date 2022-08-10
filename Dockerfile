@@ -7,10 +7,10 @@ RUN make && mv ./bin/vlmcs ./bin/vlmcsd ./etc/vlmcsd.kmd /tmp/
 
 FROM alpine:3.16 AS iconv
 ENV ICONV_VERSION="1.17"
-RUN wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-${ICONV_VERSION}.tar.gz && \
+RUN wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-${ICONV_VERSION}.tar.gz && \
     tar xf libiconv-${ICONV_VERSION}.tar.gz
 RUN apk add build-base php8-dev
-RUN wget http://php.net/distributions/php-$(php -v | grep -E '^PHP' | awk '{print $2}').tar.gz && \
+RUN wget https://php.net/distributions/php-$(php -v | grep -E '^PHP' | awk '{print $2}').tar.gz && \
     tar xf php-*.tar.gz && mv ./php-*/ ./php/
 WORKDIR ./libiconv-${ICONV_VERSION}/
 RUN ./configure && make && make install && \
