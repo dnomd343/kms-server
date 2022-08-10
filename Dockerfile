@@ -20,12 +20,15 @@ RUN sed -i '/blahblah/i\return 0;' config.m4 && \
     phpize && ./configure --with-iconv=/usr/local/ && make && \
     mkdir -p /iconv/lib/php8/modules/ && mv ./modules/iconv.so /iconv/lib/php8/modules/
 
+FROM alpine:3.16 AS asset
+COPY --from=iconv /iconv/ /asset/usr/
+COPY --from=vlmcsd /tmp/vlmcs* /asset/usr/bin/
+COPY . /asset/kms-server/
+RUN mkdir -p /asset/etc/ && mv /asset/kms-server/nginx/ /asset/etc/
+
 FROM alpine:3.16
 RUN apk add --no-cache nginx php8 php8-fpm php8-iconv php8-pcntl
-COPY --from=iconv /iconv/ /usr/
-COPY --from=vlmcsd /tmp/vlmcs* /usr/bin/
-COPY . /kms-server/
-RUN mv /kms-server/nginx/*.conf /etc/nginx/
+COPY --from=asset /asset/ /
 EXPOSE 1688/tcp 1689/tcp
 WORKDIR /kms-server/
 CMD ["php", "main.php"]
