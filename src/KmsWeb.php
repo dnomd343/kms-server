@@ -1,6 +1,6 @@
 <?php
 
-function showKeysWeb(array $kmsKeys, string $header): void { // show kms keys in html
+function showKeysHtml(array $kmsKeys, string $header): void { // show kms keys in html
     echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" /></head>';
@@ -17,7 +17,7 @@ function showKeysWeb(array $kmsKeys, string $header): void { // show kms keys in
 }
 
 
-function showHelpWeb(string $host) {
+function showHelpHtml(string $host): void { // show help message in html
     echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" /></head>';
@@ -29,8 +29,24 @@ function showHelpWeb(string $host) {
     echo '<a href="http://' . $host . '/win-server">KMS_KEY (Windows Server)</a></p></div></body></html>';
 }
 
-require_once 'Basis.php';
+function showOfficeHtml(string $host): void { // show office commands in html
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8">';
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+    echo '<link rel="stylesheet" href="./assets/style.css" /></head><body><div>';
+    echo "<title>Office KMS Server</title>";
+    foreach (officeInfo() as $version => $officeInfo) {
+        echo "<h2>Office Professional Plus $version VL</h2>\n";
+        echo "<pre><code>" . officeCommand($officeInfo[0], $officeInfo[1], $host) . "</code></pre>\n";
+    }
+    echo "<h2>常用激活命令</h2>\n";
+    echo "<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>";
+    foreach (osppCommand($host) as $cmd => $desc) {
+        echo "<tr><td>cscript ospp.vbs $cmd</td>";
+        echo "<td>$desc[1]</td></tr>";
+    }
+    echo "</tbody></table><br>\n";
+    echo "<p>以上命令仅用于激活VL版本的Office，如果当前为Retail版本，请先转化为批量授权版本。</p>\n";
+    echo "</div></body></html>";
+}
 
-//$keys = getKeys();
-//showKeysWeb($keys, 'Windows KMS Keys');
-showHelpWeb('kms.343.re');
+showOfficeHtml('kms.343.re');

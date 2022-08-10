@@ -19,7 +19,7 @@ function showKeysCli(array $kmsKeys, bool $isGbk = false): void { // show kms ke
     echo $isGbk ? iconv('utf-8', 'gb2312', $ret) : $ret; // utf-8 or gbk
 }
 
-function showHelpCli(string $host): void {
+function showHelpCli(string $host): void { // show help message in shell
     $length = strlen($host);
     echo "\n" . genStr(floor(($length - 2) / 2)) . "Activation Command\n";
     echo "┏" . genStr($length + 14, '-') . "┓\n";
@@ -35,3 +35,30 @@ function showHelpCli(string $host): void {
     echo "KMS_KEY(GBK) -> http://$host/win/gbk\n";
     echo "             -> http://$host/win-server/gbk\n\n";
 }
+
+function showOfficeCli(string $host): void { // show office commands in shell
+    $lenLeft = $lenRight = 0;
+    $ospp = osppCommand($host);
+    foreach (officeInfo() as $version => $officeInfo) {
+        echo "\n" . genStr(34) . "Office Professional Plus $version VL Activation Command\n";
+        echo genStr(120, '-') . "\n";
+        echo officeCommand($officeInfo[0], $officeInfo[1], $host);
+        echo genStr(120, '-') . "\n";
+    }
+    foreach ($ospp as $cmd => $desc) {
+        $lenLeft = ($lenLeft < strlen($cmd)) ? strlen($cmd) : $lenLeft;
+        $lenRight = ($lenRight < strlen($desc[0])) ? strlen($desc[0]) : $lenRight;
+    }
+    $header = 'Common activation commands';
+    echo "\n" . genStr(floor(($lenLeft + $lenRight - strlen($header) + 24) / 2)) . $header;
+    echo "\n┏" . genStr($lenLeft + $lenRight + 22, '-') . "┓\n";
+    foreach ($ospp as $cmd => $desc) {
+        echo "| cscript ospp.vbs $cmd" . genStr($lenLeft - strlen($cmd)) . ' | ';
+        echo $desc[0] . genStr($lenRight - strlen($desc[0])) . " |\n";
+    }
+    echo '┗' . genStr($lenLeft + $lenRight + 22, '-') . "┛\n\n";
+    echo "These commands are only applicable to the VL version of Office.\n";
+    echo "If it is a Retail version, please convert it to Volume first.\n\n";
+}
+
+showOfficeCli('kms.343.re');

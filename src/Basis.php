@@ -13,18 +13,27 @@ function getKeys(bool $isWinServer = false): array { // get kms keys asset
     return $isWinServer ? array_reverse($keysAsset['win-server']) : $keysAsset['win'];
 }
 
-function officeCommand(string $version, string $key, string $host): string {
-    $command = 'if exist "%ProgramFiles%\Microsoft Office\\' . $version . '\ospp.vbs" ';
-    $command .= 'cd /d "%ProgramFiles%\Microsoft Office\\' . $version . "\"\n";
-    $command .= 'if exist "%ProgramFiles(x86)%\Microsoft Office\\' . $version . '\ospp.vbs" ';
-    $command .= 'cd /d "%ProgramFiles(x86)%\Microsoft Office\\' . $version . "\"\n";
+function officeInfo(): array { // office dir and kms key for different version
+    return array(
+        '2010' => ['Office14', 'VYBBJ-TRJPB-QFQRF-QFT4D-H3GVB'],
+        '2013' => ['Office15', 'YC7DK-G2NP3-2QQC3-J6H88-GVGXT'],
+        '2016' => ['Office16', 'XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99'],
+        '2019' => ['Office16', 'NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP'],
+    );
+}
+
+function officeCommand(string $dir, string $key, string $host): string { // load office active command
+    $command = 'if exist "%ProgramFiles%\Microsoft Office\\' . $dir . '\ospp.vbs" ';
+    $command .= 'cd /d "%ProgramFiles%\Microsoft Office\\' . $dir . "\"\n";
+    $command .= 'if exist "%ProgramFiles(x86)%\Microsoft Office\\' . $dir . '\ospp.vbs" ';
+    $command .= 'cd /d "%ProgramFiles(x86)%\Microsoft Office\\' . $dir . "\"\n";
     $command .= "cscript ospp.vbs /inpkey:$key\n";
     $command .= "cscript ospp.vbs /sethst:$host\n";
     $command .= "cscript ospp.vbs /act\n";
     return $command . "cscript ospp.vbs /dstatus\n";
 }
 
-function osppCommand(string $host): array {
+function osppCommand(string $host): array { // load office ospp command
     return array(
         '/dstatus' => ['Displays license information for installed product keys.', '显示当前已安装产品密钥的许可证信息'],
         '/dstatusall' => ['Displays license information for all installed licenses.', '显示当前已安装的所有许可证信息'],
