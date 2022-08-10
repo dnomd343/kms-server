@@ -24,4 +24,8 @@ FROM alpine:3.16
 RUN apk add --no-cache nginx php8 php8-fpm php8-iconv php8-pcntl
 COPY --from=iconv /iconv/ /usr/
 COPY --from=vlmcsd /tmp/vlmcs* /usr/bin/
+COPY . /kms-server/
+RUN mv /kms-server/nginx/*.conf /etc/nginx/
 EXPOSE 1688/tcp 1689/tcp
+WORKDIR /kms-server/
+CMD ["php", "main.php"]

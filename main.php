@@ -24,9 +24,9 @@ $vlmcsd = array(
     'pidFile' => '/run/vlmcsd.pid',
 );
 
+logging::info('Loading kms-server (' . $version . ')');
 declare(ticks = 1);
 pcntl_signal(SIGCHLD, 'subExit'); // receive SIGCHLD signal
-logging::info('Loading kms-server (' . $version . ')');
 
 new Process($nginx['command']);
 logging::info('Start nginx server...OK');
