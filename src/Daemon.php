@@ -3,10 +3,6 @@
 require_once 'Logger.php';
 require_once 'Process.php';
 
-function subExit(): void {
-    pcntl_wait($status); // avoid zombie process
-}
-
 function msSleep(int $ms): void { // sleep for xxx ms
     for ($i = 0; $i < $ms; $i++) {
         usleep(1000); // split multiple times (avoid SIGCHLD signal)

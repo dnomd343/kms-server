@@ -25,8 +25,11 @@ $vlmcsd = array(
 );
 
 logging::info('Loading kms-server (' . $version . ')');
+
 declare(ticks = 1);
-pcntl_signal(SIGCHLD, 'subExit'); // receive SIGCHLD signal
+pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
+    pcntl_wait($status, WNOHANG); // avoid zombie process
+});
 
 new Process($nginx['command']);
 logging::info('Start nginx server...OK');
