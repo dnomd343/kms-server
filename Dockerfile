@@ -23,6 +23,9 @@ RUN sed -i '/blahblah/i\return 0;' config.m4 && \
 FROM alpine:3.16 AS asset
 COPY --from=iconv /iconv/ /asset/usr/
 COPY --from=vlmcsd /tmp/vlmcs* /asset/usr/bin/
+RUN apk add php8-fpm && mkdir -p /asset/etc/php8/ && \
+    sed -i 's/^;\(pid\)/\1/' /etc/php8/php-fpm.conf && \
+    mv /etc/php8/php-fpm.conf /asset/etc/php8/
 COPY . /asset/kms-server/
 RUN mkdir -p /asset/etc/ && mv /asset/kms-server/nginx/ /asset/etc/
 
