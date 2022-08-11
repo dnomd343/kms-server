@@ -12,11 +12,11 @@
 
 ## 使用方法
 
-以 `kms.343.re` 为例，在成功部署KMS服务以后：
+以 `kms.343.re` 为例，在成功部署以后：
 
-1. 在需要KMS服务的地方，填入 `kms.343.re` 即可激活；
++ 在需要KMS服务的地方，填入 `kms.343.re` 即可激活；
 
-2. 通过[网页](https://kms.343.re/)或命令行环境获取激活密钥。
++ 可通过[网页](https://kms.343.re/)或命令行curl获取激活密钥：
 
 ```
 # 输出操作说明
@@ -32,7 +32,7 @@ shell> curl kms.343.re/win-server
 shell> curl kms.343.re/office
 ```
 
-3. 测试其他KMS服务器是否正常
++ 可用于测试其他KMS服务器是否正常：
 
 ```
 # 端口号可不填，默认为1688
@@ -84,17 +84,19 @@ Docker version ···, build ···
 
 > 本项目基于Docker构建，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的各版本镜像。
 
-`kms-server` 同时发布在多个镜像源上，国内网络可首选阿里云仓库。容器使用 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活服务，后者为HTTP接口。
+> 容器使用 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活，后者为HTTP接口。
 
-+ `Docker Hub` ：dnomd343/kms-server
+`kms-server` 同时发布在多个镜像源上（国内网络可首选阿里云仓库）：
 
-+ `Github Package` ：ghcr.io/dnomd343/kms-server
++ `Docker Hub` ：`dnomd343/kms-server`
 
-+ `阿里云镜像` ：registry.cn-shenzhen.aliyuncs.com/dnomd343/kms-server
++ `Github Package` ：`ghcr.io/dnomd343/kms-server`
+
++ `阿里云镜像` ：`registry.cn-shenzhen.aliyuncs.com/dnomd343/kms-server`
 
 > 下述命令中，容器路径可替换为上述其他源
 
-若仅需KMS激活功能，使用以下命令，并忽略后续步骤
+若仅需KMS激活功能，使用以下命令，并忽略后续步骤：
 
 ```
 shell> docker run -d --restart=always --name kms -p 1688:1688 dnomd343/kms-server
@@ -124,12 +126,12 @@ shell> vim kms.conf
 server {
     listen 80;
     listen [::]:80;
-    server_name kms.343.re; # 改为自己的KMS域名
+    server_name kms.343.re;  # 改为自己的KMS域名
     location / {
-        if ($http_user_agent !~* (curl|wget)) { # 来自非命令行的请求，重定向到https
+        if ($http_user_agent !~* (curl|wget)) {  # 来自非命令行的请求，重定向到https
             return 301 https://$server_name$request_uri;
         }
-        proxy_set_header Host $http_host; # 反向代理转发当前域名
+        proxy_set_header Host $http_host;  # 反向代理转发当前域名
         proxy_pass http://127.0.0.1:1689;
     }
 }
@@ -137,11 +139,11 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name kms.343.re; # 改为自己的KMS域名
-    ssl_certificate /etc/ssl/certs/343.re/fullchain.pem; # 改为自己的TLS证书
-    ssl_certificate_key /etc/ssl/certs/343.re/privkey.pem; # 改为自己的TLS私钥
+    server_name kms.343.re;  # 改为自己的KMS域名
+    ssl_certificate /etc/ssl/certs/343.re/fullchain.pem;  # 改为自己的TLS证书文件
+    ssl_certificate_key /etc/ssl/certs/343.re/privkey.pem;  # 改为自己的TLS私钥文件
     
-    gzip on; # 开启gzip，提高加载速度
+    gzip on;  # 开启gzip压缩，提高加载速度
     gzip_buffers 32 4K;
     gzip_comp_level 6;
     gzip_min_length 100;
@@ -150,7 +152,7 @@ server {
     gzip_vary on;
 
     location / {
-        proxy_set_header Host $http_host; # 反向代理转发当前域名
+        proxy_set_header Host $http_host;  # 反向代理转发当前域名
         proxy_pass http://127.0.0.1:1689;
     }
 }
@@ -162,18 +164,19 @@ server {
 shell> nginx -s reload
 ```
 
-访问KMS服务域名，页面正常显示即部署成功。
+访问KMS服务域名，页面正常显示即反向代理成功。
 
 ### 6. 检查服务是否正常
 
-以 `kms.dnomd343.top` 为例，使用以下命令检查该KMS服务器是否正常：
+使用以下命令检查部署的KMS服务器是否正常：
 
 ```
+# 检查服务器kms.dnomd343.top
 shell> curl kms.343.re/check/kms.dnomd343.top
 KMS Server: kms.dnomd343.top (1688) -> available
 ```
 
-输出 `available` 即工作正常，若失败请检查防火墙是否屏蔽1688/tcp端口。
+输出 `available` 即工作正常，若失败请检查防火墙是否屏蔽1688端口。
 
 ## 开发相关
 
@@ -181,19 +184,19 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 `kms-server` 预留了以下JSON接口，用于输出内置的KMS密钥。
 
++ `/json`：输出全部KMS密钥；
+
 + `/win/json`：输出各版本Windows的KMS密钥；
 
 + `/win-server/json`：输出各版本Windows Server的KMS密钥；
 
-+ `/json`：输出各版本Windows和Windows Server的KMS密钥；
-
 ### KMS测试
 
-`kms-server` 内置了检测其他KMS服务器是否可用的功能，接口位于 `/check` 下，使用时指定目标服务器以下参数
+`kms-server` 内置了检测其他KMS服务器是否可用的功能，接口位于 `/check` 下，使用以下参数：
 
-+ `host`：服务器IPv4、IPv6地址或域名
++ `host`：目标服务器IPv4、IPv6地址或域名
 
-+ `port`：KMS服务端口，可选，默认为1688
++ `port`：目标服务端口，可选，默认为1688
 
 ```
 shell> curl -sL "https://kms.343.re/check?host=8.210.148.24" | jq .
@@ -225,8 +228,9 @@ shell> docker build -t kms-server https://github.com/dnomd343/kms-server.git
 
 **交叉构建**
 
+> 构建x86_64、x86、arm64、arm32镜像，同时推送至远程仓库
+
 ```
-# 构建并推送至Docker Hub
 shell> docker buildx build -t dnomd343/kms-server --platform="linux/amd64,linux/arm64,linux/386,linux/arm/v7" https://github.com/dnomd343/kms-server.git --push
 ```
 
