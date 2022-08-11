@@ -12,18 +12,27 @@ function lenUtf8(string $str): int { // get string length (Chinese -> 2)
     return strlen(iconv('utf-8', 'gb2312', $str));
 }
 
-function isIPv4($ip): bool {
+function isIPv4(string $ip): bool {
     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 }
 
-function isIPv6($ip): bool {
+function isIPv6(string $ip): bool {
     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 }
 
-function isDomain($domain): bool {
+function isDomain(string $domain): bool {
     $regex = '/^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/';
     preg_match($regex, $domain, $match);
     return count($match) != 0;
+}
+
+function isHost(string $host): bool { // IPv4 / IPv6 / Domain
+    return isIPv4($host) or isIPv6($host) or isDomain($host);
+}
+
+function isPort(int $port): bool {
+    $port = intval($port);
+    return ($port < 65536 and $port > 0);
 }
 
 function getKeys(bool $isWinServer = false): array { // get kms keys asset
@@ -43,7 +52,7 @@ function getHost(): string {
         return 'KMS_HOST';
     }
     $host = v6DelBracket($_SERVER['HTTP_HOST']); // try to remove ipv6 bracket
-    if (isIPv4($host) or isIPv6($host) or isDomain($host)) { // invalid host
+    if (isHost($host)) { // valid host
         return $host;
     }
     preg_match_all('/(\S+):\d+$/', $host, $match);
@@ -51,7 +60,7 @@ function getHost(): string {
         return 'KMS_HOST';
     }
     $host = v6DelBracket($match[1][0]); // try to remove ipv6 bracket again
-    return (isIPv4($host) or isIPv6($host) or isDomain($host)) ? $host : 'KMS_HOST';
+    return (isHost($host)) ? $host : 'KMS_HOST';
 }
 
 function officeInfo(): array { // office dir and kms key for different version

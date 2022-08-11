@@ -34,9 +34,11 @@ if ($url == '/' or $url == '/help') {
     } else {
         $isCli ? showKeysCli($kmsKeys, $isGbk) : showKeysHtml($kmsKeys, $caption); // kms keys of windows
     }
-} else if ($url == '/check') {
+} else if ($url == '/check' or $url == '/check/') {
     mimeJson();
-    echo json_encode(kmsCheck()); // check kms server
+    echo json_encode(kmsCheckApi()); // check kms server
+} else if (str_starts_with($url, '/check/')) {
+    kmsCheckCli(substr($url, 7)); // check kms server (split `/check/`)
 } else { // unknown request
     if ($isCli) {
         echo "Illegal Request\n";

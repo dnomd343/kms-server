@@ -11,7 +11,7 @@ function vlmcsCheck(string $host, int $port = 1688): bool {
     return count($match[0]) != 0;
 }
 
-function kmsCheck(): array {
+function kmsCheckApi(): array {
     if (!isset($_GET['host'])) { // missing host param
         return array(
             'success' => false,
@@ -35,12 +35,42 @@ function kmsCheck(): array {
     if (vlmcsCheck($host, $port)) { // KMS server available
         return array(
             'success' => true,
+            'available' => true,
+            'host' => $host,
+            'port' => intval($port),
             'message' => 'kms server available'
         );
     } else { // KMS server couldn't reach
         return array(
-            'success' => false,
+            'success' => true,
+            'available' => false,
+            'host' => $host,
+            'port' => intval($port),
             'message' => 'kms server connect failed'
         );
     }
+}
+
+function kmsCheckCli(string $host): void {
+    $port = 1688;
+    $host = v6DelBracket($host); // try to remove ipv6 bracket
+    if (!isIPv4($host) and !isIPv6($host) and !isDomain($host)) { // invalid host
+        preg_match_all('/(\S+):(\d+)$/', $host, $match);
+        if (!count($match[1]) or !count($match[2])) { // ${HOST}:${PORT} format not found
+            echo "Invalid host\n";
+            exit;
+        }
+        $port = $match[2][0];
+        $host = v6DelBracket($match[1][0]); // try to remove ipv6 bracket
+        if (!isIPv4($host) and !isIPv6($host) and !isDomain($host)) { // still invalid host
+            echo "Invalid host\n";
+            exit;
+        }
+    }
+    if (!isPort($port)) {
+        echo "Invalid port\n";
+        exit;
+    }
+    echo "KMS Server: $host ($port) -> ";
+    echo (vlmcsCheck($host, $port) ? 'available': 'connect failed') . PHP_EOL;
 }
