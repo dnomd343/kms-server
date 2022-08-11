@@ -1,9 +1,11 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 require_once 'Logger.php';
 require_once 'Process.php';
 
-function msSleep(int $ms): void { // sleep for xxx ms
+function msDelay(int $ms): void { // delay for xxx ms
     for ($i = 0; $i < $ms; $i++) {
         usleep(1000); // split multiple times (avoid SIGCHLD signal)
     }
@@ -44,4 +46,20 @@ function daemon(array $info): void {
         new Process($info['command']);
         logging::info('Restart ' . $info['name'] . ' success');
     }
+}
+
+#[NoReturn] function subExit(string $nginxPid, string $phpFpmPid, string $vlmcsdPid): void {
+    $nginxPid = getPid($nginxPid);
+    logging::info("Sending kill signal to nginx ($nginxPid)");
+    posix_kill($nginxPid, SIGTERM);
+    $phpFpmPid = getPid($phpFpmPid);
+    logging::info("Sending kill signal to php-fpm ($phpFpmPid)");
+    posix_kill($phpFpmPid, SIGTERM);
+    $vlmcsdPid = getPid($vlmcsdPid);
+    logging::info("Sending kill signal to vlmcsd ($vlmcsdPid)");
+    posix_kill($vlmcsdPid, SIGTERM);
+    logging::info('Waiting sub process exit...');
+    pcntl_wait($status); // wait all process exit
+    logging::info('All process exit, Goodbye!');
+    exit;
 }

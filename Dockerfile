@@ -30,7 +30,7 @@ COPY . /asset/kms-server/
 RUN mkdir -p /asset/etc/ && mv /asset/kms-server/nginx/ /asset/etc/
 
 FROM alpine:3.16
-RUN apk add --no-cache nginx php8 php8-fpm php8-iconv php8-pcntl
+RUN apk add --no-cache nginx php8 php8-fpm php8-iconv php8-pcntl php8-posix
 COPY --from=asset /asset/ /
 EXPOSE 1688/tcp 1689/tcp
 WORKDIR /kms-server/
