@@ -6,6 +6,10 @@ require_once './src/Daemon.php';
 require_once './src/Logger.php';
 require_once './src/Process.php';
 
+if (in_array('--debug', $argv)) { // debug mode
+    logging::$logLevel = logging::DEBUG;
+}
+
 $nginx = array(
     'name' => 'nginx',
     'command' => ['/usr/sbin/nginx'],

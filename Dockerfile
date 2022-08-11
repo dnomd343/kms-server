@@ -34,4 +34,4 @@ RUN apk add --no-cache nginx php8 php8-fpm php8-iconv php8-pcntl
 COPY --from=asset /asset/ /
 EXPOSE 1688/tcp 1689/tcp
 WORKDIR /kms-server/
-CMD ["php", "main.php"]
+ENTRYPOINT ["php", "main.php"]
