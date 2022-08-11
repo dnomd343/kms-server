@@ -9,7 +9,7 @@ require_once './src/Process.php';
 $nginx = array(
     'name' => 'nginx',
     'command' => ['/usr/sbin/nginx'],
-    'pidFile' => '/run/nginx/nginx.pid',
+    'pidFile' => '/run/nginx.pid',
 );
 
 $phpFpm = array(
