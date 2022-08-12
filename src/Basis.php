@@ -60,6 +60,7 @@ function getHost(): string {
         return 'KMS_HOST';
     }
     $host = v6DelBracket($match[1][0]); // try to remove ipv6 bracket again
+    $host = ($host == '127.0.0.1' or $host == '::1') ? 'KMS_HOST' : $host; // ignore localhost forward
     return (isHost($host)) ? $host : 'KMS_HOST';
 }
 
