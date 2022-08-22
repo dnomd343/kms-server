@@ -1,14 +1,14 @@
 # KMS Server
 
-- [x] 支持Windows与Office全系列激活
++ 支持Windows与Office全系列激活
 
-- [x] 快速部署，仅需一句命令即可使用
++ 快速部署，仅需一句命令即可使用
 
-- [x] 内置各版本KMS密钥，无需自行查询
++ 内置各版本KMS密钥，无需自行查询
 
-- [x] 网页端、命令行下快速检索密钥与说明
++ 网页端、命令行下快速检索密钥与说明
 
-- [x] API接口，检查其他KMS服务器工作状态
++ API接口，检查其他KMS服务器工作状态
 
 ## 使用方法
 
@@ -44,7 +44,7 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 ### 1. 防火墙检查
 
-> 服务器1688端口接受外网KMS激活请求，务必检查是否被防火墙拦截。
+> 服务器tcp/1688端口接受外网KMS激活请求，务必检查是否被防火墙拦截。
 
 如果开启了 `ufw` 防火墙服务，使用以下命令放行：
 
@@ -70,7 +70,7 @@ shell> docker --version
 ···Docker版本信息···
 ```
 
-若上述命令出现 `command not found`，使用以下命令安装Docker
+若上述命令未输出版本信息，使用以下命令安装Docker：
 
 ```
 shell> sudo curl https://get.docker.com | bash
@@ -223,12 +223,12 @@ shell> curl -sL "https://kms.343.re/check?host=kms.dnomd343.top&port=8861" | jq 
 **本地构建**
 
 ```
-shell> docker build -t kms-server https://github.com/dnomd343/kms-server.git
+shell> git clone https://github.com/dnomd343/kms-server.git
+shell> cd ./kms-server/
+shell> docker build -t kms-server .
 ```
 
 **交叉构建**
-
-> 构建x86_64、x86、arm64、arm32镜像，同时推送至远程仓库
 
 ```
 shell> docker buildx build -t dnomd343/kms-server --platform="linux/amd64,linux/arm64,linux/386,linux/arm/v7" https://github.com/dnomd343/kms-server.git --push
