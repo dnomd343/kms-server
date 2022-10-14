@@ -10,10 +10,10 @@ ENV ICONV="1.17"
 RUN apk add build-base php8-dev
 RUN wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-${ICONV}.tar.gz && tar xf libiconv-${ICONV}.tar.gz
 RUN wget https://php.net/distributions/php-$(php -v | awk 'NR==1 {print $2}').tar.gz && \
-    tar xf php-*.tar.gz && mv ./php-*/ ./php8/
+    tar xf php-*.tar.gz php-$(php -v | awk 'NR==1 {print $2}')/ext/iconv --strip-components 2
 WORKDIR /libiconv-${ICONV}/
 RUN ./configure && make && make install && cp ./lib/.libs/libiconv.so.2 /tmp/
-WORKDIR /php8/ext/iconv/
+WORKDIR /iconv/
 RUN sed -i '/blahblah/i\return 0;' config.m4 && phpize && \
     ./configure --with-iconv=/usr/local && make && mv ./modules/iconv.so /tmp/
 RUN strip /tmp/*.so*
