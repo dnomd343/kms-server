@@ -1,7 +1,7 @@
 #!/usr/bin/env php8
 <?php
 
-$version = 'v1.2.0-rc2';
+$version = 'v1.2.1';
 
 require_once './src/Daemon.php';
 require_once './src/Logger.php';
