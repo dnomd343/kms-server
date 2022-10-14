@@ -27,10 +27,11 @@ WORKDIR /asset/etc/php8/
 RUN sed -i 's/^;\(pid\)/\1/' /etc/php8/php-fpm.conf && mv /etc/php8/php-fpm.conf ./
 COPY ./nginx/ /asset/etc/nginx/
 COPY ./ /asset/kms-server/
+RUN ln -s /kms-server/kms.php /asset/usr/bin/kms
 
 FROM alpine:3.16
 RUN apk add --no-cache nginx php8 php8-fpm php8-iconv php8-pcntl php8-posix
 COPY --from=asset /asset/ /
 EXPOSE 1688/tcp 1689/tcp
 WORKDIR /kms-server/
-ENTRYPOINT ["kms.php"]
+ENTRYPOINT ["kms"]

@@ -1,3 +1,4 @@
+#!/usr/bin/env php8
 <?php
 
 $version = 'v1.2.0-rc2';
