@@ -82,7 +82,7 @@ Docker version ···, build ···
 
 ### 3. 启动KMS服务
 
-> 本项目基于Docker构建，在[Docker Hub](https://hub.docker.com/repository/docker/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/TProxy/pkgs/container/kms-server)可以查看已构建的各版本镜像。
+> 本项目基于Docker构建，在[Docker Hub](https://hub.docker.com/r/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/kms-server/pkgs/container/kms-server)可以查看已构建的各版本镜像。
 
 > 容器使用 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活，后者为HTTP接口。
 
