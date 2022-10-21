@@ -1,6 +1,8 @@
 #!/usr/bin/env php8
 <?php
 
+# TODO: add PORT option
+
 $version = 'v1.2.1';
 
 require_once './src/Daemon.php';

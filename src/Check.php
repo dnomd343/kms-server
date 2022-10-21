@@ -71,6 +71,6 @@ function kmsCheckCli(string $host): void {
         echo "Invalid port\n";
         exit;
     }
-    echo "KMS Server: $host ($port) -> ";
-    echo (vlmcsCheck($host, $port) ? 'available': 'connect failed') . PHP_EOL;
+    echo "KMS Server: \033[33m$host\033[0m\033[36m:$port\033[0m ->";
+    echo (vlmcsCheck($host, $port) ? "\033[32m available\033[0m": "\033[31m connect failed\033[0m") . PHP_EOL;
 }
