@@ -1,9 +1,7 @@
 #!/usr/bin/env php8
 <?php
 
-# TODO: add PORT option
-
-$version = 'v1.2.2';
+$VERSION = 'v1.2.2';
 
 require_once './src/Daemon.php';
 require_once './src/Logger.php';
@@ -42,11 +40,20 @@ pcntl_signal(SIGINT, function() { // receive SIGINT signal
     subExit($nginx['pidFile'], $phpFpm['pidFile'], $vlmcsd['pidFile']);
 });
 
+$KMS_PORT = 1688; // kms expose port -> only in message output
+if (sizeof(getopt('', ['port:'])) == 1) { // port option
+    $KMS_PORT = getopt('', ['port:'])['port'];
+    if (is_array($KMS_PORT)) {
+        $KMS_PORT = end($KMS_PORT);
+    }
+}
+
+
 if (in_array('--debug', $argv)) { // enter debug mode
     logging::$logLevel = logging::DEBUG;
 }
 
-logging::info('Loading kms-server (' . $version . ')');
+logging::info('Loading kms-server (' . $VERSION . ')');
 new Process($nginx['command']);
 logging::info('Start nginx server...OK');
 new Process($phpFpm['command']);

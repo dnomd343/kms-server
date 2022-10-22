@@ -5,11 +5,8 @@ require_once 'Check.php';
 require_once 'KmsCli.php';
 require_once 'KmsWeb.php';
 
-// TODO: get kms port from env
-//$kmsPort = 1688;
-$kmsPort = 1689;
-
 $kmsHost = getHost(); // kms server address
+$kmsPort = getPort(); // kms server port
 $url = $_SERVER['DOCUMENT_URI']; // request url
 $isCli = ($_GET['cli'] == 'true'); // shell or web browser
 

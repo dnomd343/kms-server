@@ -64,6 +64,14 @@ function getHost(): string {
     return (isHost($host)) ? $host : 'KMS_HOST';
 }
 
+function getPort(): int {
+    // TODO: check env
+
+    echo 'KMS_PORT -> ' . getenv("KMS_PORT");
+
+    return 1688;
+}
+
 function officeInfo(): array { // office dir and kms key for different version
     return array(
         '2010' => ['Office14', 'VYBBJ-TRJPB-QFQRF-QFT4D-H3GVB'],
