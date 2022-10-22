@@ -19,13 +19,20 @@ function showKeysCli(array $kmsKeys, bool $isGbk = false): void { // show kms ke
     echo $isGbk ? iconv('utf-8', 'gb2312', $ret) : $ret; // utf-8 or gbk
 }
 
-function showHelpCli(string $host): void { // show help message in shell
-    $length = strlen($host);
+function showHelpCli(string $host, int $port): void { // show help message in shell
+    $kmsServer = $host;
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $kmsServer = '[' . $host . ']';
+    }
+    if ($port != 1688) {
+        $kmsServer = $kmsServer . ':' . $port; // add kms server port
+    }
+    $length = strlen($kmsServer);
     echo "\n" . genStr(floor(($length - 2) / 2)) . "Activation Command\n";
     echo "┏" . genStr($length + 14, '-') . "┓\n";
     echo "| slmgr /upk" . genStr($length + 3) . "|\n";
     echo "| slmgr /ipk KMS_KEY" . genStr($length - 5) . "|\n";
-    echo "| slmgr /skms $host |\n";
+    echo "| slmgr /skms $kmsServer |\n";
     echo "| slmgr /ato" . genStr($length + 3) . "|\n";
     echo "| slmgr /dlv" . genStr($length + 3) . "|\n";
     echo "┗" . genStr($length + 14, '-') . "┛\n\n";
@@ -36,13 +43,16 @@ function showHelpCli(string $host): void { // show help message in shell
     echo "             -> http://$host/win-server/gbk\n\n";
 }
 
-function showOfficeCli(string $host): void { // show office commands in shell
+function showOfficeCli(string $host, int $port): void { // show office commands in shell
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $host = '[' . $host . ']';
+    }
     $lenLeft = $lenRight = 0;
-    $ospp = osppCommand($host);
+    $ospp = osppCommand($host, $port);
     foreach (officeInfo() as $version => $officeInfo) {
         echo "\n" . genStr(34) . "Office Professional Plus $version VL Activation Command\n";
         echo genStr(120, '-') . "\n";
-        echo officeCommand($officeInfo[0], $officeInfo[1], $host);
+        echo officeCommand($officeInfo[0], $officeInfo[1], $host, $port);
         echo genStr(120, '-') . "\n";
     }
     foreach ($ospp as $cmd => $desc) {

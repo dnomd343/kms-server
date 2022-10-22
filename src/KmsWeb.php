@@ -16,30 +16,40 @@ function showKeysHtml(array $kmsKeys, string $header): void { // show kms keys i
     echo '</div></body></html>';
 }
 
-function showHelpHtml(string $host): void { // show help message in html
+function showHelpHtml(string $host, int $port): void { // show help message in html
+    $kmsServer = $host;
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $kmsServer = '[' . $host . ']';
+    }
+    if ($port != 1688) {
+        $kmsServer = $kmsServer . ':' . $port; // add kms server port
+    }
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" />';
     echo "<title>Windows Activation</title></head>\n";
     echo '<body><div><h2>Windows KMS Activation</h2><pre>';
-    echo "<code> slmgr /upk\n slmgr /ipk KMS_KEY\n slmgr /skms $host\n slmgr /ato\n slmgr /dlv </code>";
+    echo "<code> slmgr /upk\n slmgr /ipk KMS_KEY\n slmgr /skms $kmsServer\n slmgr /ato\n slmgr /dlv </code>";
     echo '</pre><p><a href="./office">KMS (Office)</a><br>';
     echo '<a href="./win">KMS_KEY (Windows)</a><br>';
     echo '<a href="./win-server">KMS_KEY (Windows Server)</a></p></div></body></html>';
 }
 
-function showOfficeHtml(string $host): void { // show office commands in html
+function showOfficeHtml(string $host, int $port): void { // show office commands in html
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $host = '[' . $host . ']';
+    }
     echo '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" />';
     echo "<title>Office KMS Server</title></head>\n<body><div>";
     foreach (officeInfo() as $version => $officeInfo) {
         echo "<h2>Office Professional Plus $version VL</h2>\n";
-        echo "<pre><code>" . officeCommand($officeInfo[0], $officeInfo[1], $host) . "</code></pre>\n";
+        echo "<pre><code>" . officeCommand($officeInfo[0], $officeInfo[1], $host, $port) . "</code></pre>\n";
     }
     echo "<h2>常用激活命令</h2>\n";
     echo "<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>";
-    foreach (osppCommand($host) as $cmd => $desc) {
+    foreach (osppCommand($host, $port) as $cmd => $desc) {
         echo "<tr><td>cscript ospp.vbs $cmd</td>";
         echo "<td>$desc[1]</td></tr>";
     }

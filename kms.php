@@ -1,7 +1,7 @@
 #!/usr/bin/env php8
 <?php
 
-$version = 'v1.2.1';
+$VERSION = 'v1.2.2';
 
 require_once './src/Daemon.php';
 require_once './src/Logger.php';
@@ -44,7 +44,22 @@ if (in_array('--debug', $argv)) { // enter debug mode
     logging::$logLevel = logging::DEBUG;
 }
 
-logging::info('Loading kms-server (' . $version . ')');
+$KMS_PORT = 1688; // kms expose port -> only in message output
+if (sizeof(getopt('', ['port:'])) == 1) { // port option
+    $KMS_PORT = getopt('', ['port:'])['port'];
+    if (is_array($KMS_PORT)) {
+        $KMS_PORT = end($KMS_PORT);
+    }
+}
+logging::debug('KMS Server Port -> ' . $KMS_PORT);
+if ($KMS_PORT != 1688) {
+    array_push($vlmcsd['command'], '-P', strval($KMS_PORT));
+}
+$php_env_file = fopen('/etc/nginx/kms_params', 'w');
+fwrite($php_env_file, 'fastcgi_param KMS_PORT "' . $KMS_PORT . '";' . PHP_EOL);
+fclose($php_env_file);
+
+logging::info('Loading kms-server (' . $VERSION . ')');
 new Process($nginx['command']);
 logging::info('Start nginx server...OK');
 new Process($phpFpm['command']);

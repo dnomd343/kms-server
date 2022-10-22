@@ -6,6 +6,7 @@ require_once 'KmsCli.php';
 require_once 'KmsWeb.php';
 
 $kmsHost = getHost(); // kms server address
+$kmsPort = getPort(); // kms server port
 $url = $_SERVER['DOCUMENT_URI']; // request url
 $isCli = ($_GET['cli'] == 'true'); // shell or web browser
 
@@ -22,9 +23,9 @@ if ($url == '/win/json' or $url == '/win-server/json') {
 
 // start route process
 if ($url == '/' or $url == '/help') {
-    $isCli ? showHelpCli($kmsHost) : showHelpHtml($kmsHost); // show help message
+    $isCli ? showHelpCli($kmsHost, $kmsPort) : showHelpHtml($kmsHost, $kmsPort); // show help message
 } else if ($url == '/office') {
-    $isCli ? showOfficeCli($kmsHost) : showOfficeHtml($kmsHost); // show office commands
+    $isCli ? showOfficeCli($kmsHost, $kmsPort) : showOfficeHtml($kmsHost, $kmsPort); // show office commands
 } else if ($url == '/win' or $url == '/win-server') {
     $kmsKeys = getKeys(($url != '/win'));
     $caption = 'Windows ' . (($url == '/win') ? '' : 'Server ') . 'KMS Keys';
