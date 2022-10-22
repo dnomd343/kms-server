@@ -35,18 +35,21 @@ function showHelpHtml(string $host, int $port): void { // show help message in h
     echo '<a href="./win-server">KMS_KEY (Windows Server)</a></p></div></body></html>';
 }
 
-function showOfficeHtml(string $host): void { // show office commands in html
+function showOfficeHtml(string $host, int $port): void { // show office commands in html
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $host = '[' . $host . ']';
+    }
     echo '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" />';
     echo "<title>Office KMS Server</title></head>\n<body><div>";
     foreach (officeInfo() as $version => $officeInfo) {
         echo "<h2>Office Professional Plus $version VL</h2>\n";
-        echo "<pre><code>" . officeCommand($officeInfo[0], $officeInfo[1], $host) . "</code></pre>\n";
+        echo "<pre><code>" . officeCommand($officeInfo[0], $officeInfo[1], $host, $port) . "</code></pre>\n";
     }
     echo "<h2>常用激活命令</h2>\n";
     echo "<table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody>";
-    foreach (osppCommand($host) as $cmd => $desc) {
+    foreach (osppCommand($host, $port) as $cmd => $desc) {
         echo "<tr><td>cscript ospp.vbs $cmd</td>";
         echo "<td>$desc[1]</td></tr>";
     }

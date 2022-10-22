@@ -28,7 +28,7 @@ if ($url == '/win/json' or $url == '/win-server/json') {
 if ($url == '/' or $url == '/help') {
     $isCli ? showHelpCli($kmsHost, $kmsPort) : showHelpHtml($kmsHost, $kmsPort); // show help message
 } else if ($url == '/office') {
-    $isCli ? showOfficeCli($kmsHost) : showOfficeHtml($kmsHost); // show office commands
+    $isCli ? showOfficeCli($kmsHost, $kmsPort) : showOfficeHtml($kmsHost, $kmsPort); // show office commands
 } else if ($url == '/win' or $url == '/win-server') {
     $kmsKeys = getKeys(($url != '/win'));
     $caption = 'Windows ' . (($url == '/win') ? '' : 'Server ') . 'KMS Keys';

@@ -43,13 +43,16 @@ function showHelpCli(string $host, int $port): void { // show help message in sh
     echo "             -> http://$host/win-server/gbk\n\n";
 }
 
-function showOfficeCli(string $host): void { // show office commands in shell
+function showOfficeCli(string $host, int $port): void { // show office commands in shell
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $host = '[' . $host . ']';
+    }
     $lenLeft = $lenRight = 0;
-    $ospp = osppCommand($host);
+    $ospp = osppCommand($host, $port);
     foreach (officeInfo() as $version => $officeInfo) {
         echo "\n" . genStr(34) . "Office Professional Plus $version VL Activation Command\n";
         echo genStr(120, '-') . "\n";
-        echo officeCommand($officeInfo[0], $officeInfo[1], $host);
+        echo officeCommand($officeInfo[0], $officeInfo[1], $host, $port);
         echo genStr(120, '-') . "\n";
     }
     foreach ($ospp as $cmd => $desc) {
