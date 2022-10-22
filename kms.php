@@ -3,7 +3,7 @@
 
 # TODO: add PORT option
 
-$version = 'v1.2.1';
+$version = 'v1.2.2';
 
 require_once './src/Daemon.php';
 require_once './src/Logger.php';

@@ -16,13 +16,20 @@ function showKeysHtml(array $kmsKeys, string $header): void { // show kms keys i
     echo '</div></body></html>';
 }
 
-function showHelpHtml(string $host): void { // show help message in html
+function showHelpHtml(string $host, int $port): void { // show help message in html
+    $kmsServer = $host;
+    if (isIPv6($host)) { // host without ipv6 bracket
+        $kmsServer = '[' . $host . ']';
+    }
+    if ($port != 1688) {
+        $kmsServer = $kmsServer . ':' . $port; // add kms server port
+    }
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<link rel="stylesheet" href="./assets/style.css" />';
     echo "<title>Windows Activation</title></head>\n";
     echo '<body><div><h2>Windows KMS Activation</h2><pre>';
-    echo "<code> slmgr /upk\n slmgr /ipk KMS_KEY\n slmgr /skms $host\n slmgr /ato\n slmgr /dlv </code>";
+    echo "<code> slmgr /upk\n slmgr /ipk KMS_KEY\n slmgr /skms $kmsServer\n slmgr /ato\n slmgr /dlv </code>";
     echo '</pre><p><a href="./office">KMS (Office)</a><br>';
     echo '<a href="./win">KMS_KEY (Windows)</a><br>';
     echo '<a href="./win-server">KMS_KEY (Windows Server)</a></p></div></body></html>';

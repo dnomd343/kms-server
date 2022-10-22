@@ -5,6 +5,10 @@ require_once 'Check.php';
 require_once 'KmsCli.php';
 require_once 'KmsWeb.php';
 
+// TODO: get kms port from env
+//$kmsPort = 1688;
+$kmsPort = 1689;
+
 $kmsHost = getHost(); // kms server address
 $url = $_SERVER['DOCUMENT_URI']; // request url
 $isCli = ($_GET['cli'] == 'true'); // shell or web browser
@@ -22,7 +26,7 @@ if ($url == '/win/json' or $url == '/win-server/json') {
 
 // start route process
 if ($url == '/' or $url == '/help') {
-    $isCli ? showHelpCli($kmsHost) : showHelpHtml($kmsHost); // show help message
+    $isCli ? showHelpCli($kmsHost, $kmsPort) : showHelpHtml($kmsHost, $kmsPort); // show help message
 } else if ($url == '/office') {
     $isCli ? showOfficeCli($kmsHost) : showOfficeHtml($kmsHost); // show office commands
 } else if ($url == '/win' or $url == '/win-server') {
