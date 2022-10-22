@@ -31,7 +31,6 @@ function isHost(string $host): bool { // IPv4 / IPv6 / Domain
 }
 
 function isPort(int $port): bool {
-    $port = intval($port);
     return ($port < 65536 and $port > 0);
 }
 

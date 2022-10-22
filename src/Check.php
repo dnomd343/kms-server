@@ -67,6 +67,7 @@ function kmsCheckCli(string $host): void {
             exit;
         }
     }
+    $port = intval($port);
     if (!isPort($port)) {
         echo "Invalid port\n";
         exit;
