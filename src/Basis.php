@@ -65,11 +65,10 @@ function getHost(): string {
 }
 
 function getPort(): int {
-    // TODO: check env
-
-    echo 'KMS_PORT -> ' . getenv("KMS_PORT");
-
-    return 1688;
+    if (getenv("KMS_PORT") == null) {
+        return 1688; // default server port
+    }
+    return intval(getenv("KMS_PORT"));
 }
 
 function officeInfo(): array { // office dir and kms key for different version
