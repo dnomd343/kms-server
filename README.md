@@ -180,6 +180,12 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 ## 开发相关
 
+### 运行参数
+
++ `--debug` ：进入DEBUG模式，输出调试日志
+
++ `--port` ：指定KMS激活端口，默认值为 `1688`
+
 ### JSON接口
 
 `kms-server` 预留了以下JSON接口，用于输出内置的KMS密钥。
