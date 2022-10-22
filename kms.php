@@ -52,6 +52,9 @@ if (sizeof(getopt('', ['port:'])) == 1) { // port option
     }
 }
 logging::debug('KMS Server Port -> ' . $KMS_PORT);
+if ($KMS_PORT != 1688) {
+    array_push($vlmcsd['command'], '-P', strval($KMS_PORT));
+}
 $php_env_file = fopen('/etc/nginx/kms_params', 'w');
 fwrite($php_env_file, 'fastcgi_param KMS_PORT "' . $KMS_PORT . '";' . PHP_EOL);
 fclose($php_env_file);
