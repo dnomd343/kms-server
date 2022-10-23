@@ -19,12 +19,14 @@ RUN sed -i '/blahblah/i\return 0;' config.m4 && phpize && \
 RUN strip /tmp/*.so*
 
 FROM alpine:3.16 AS asset
+RUN apk add php8-fpm
+WORKDIR /asset/etc/php8/
+RUN cat /etc/php8/php-fpm.conf | sed 's/^;\(pid\)/\1/' > php-fpm.conf
+WORKDIR /asset/etc/php8/php-fpm.d/
+RUN cat /etc/php8/php-fpm.d/www.conf | sed 's?127.0.0.1:9000?/run/php-fpm.sock?' > www.conf
 COPY --from=vlmcsd /tmp/vlmcs* /asset/usr/bin/
 COPY --from=iconv /tmp/libiconv.so.2 /asset/usr/local/lib/
 COPY --from=iconv /tmp/iconv.so /asset/usr/lib/php8/modules/
-RUN apk add php8-fpm
-WORKDIR /asset/etc/php8/
-RUN sed -i 's/^;\(pid\)/\1/' /etc/php8/php-fpm.conf && mv /etc/php8/php-fpm.conf ./
 COPY ./nginx/ /asset/etc/nginx/
 COPY ./ /asset/kms-server/
 RUN ln -s /kms-server/kms.php /asset/usr/bin/kms-server
