@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Logger.php';
+
 class Process {
     private $process;
     public int $pid = -1;
@@ -15,6 +17,7 @@ class Process {
             $desc[1] = array('pipe', 'w'); // stdout
             $desc[2] = array('pipe', 'w'); // stderr
         }
+        logging::debug('Process command -> `' . implode(' ', $command) . '`');
         $this->process = proc_open($command, $desc, $pipes, null, $env); // start process
         if (is_resource($this->process)) { // process start success
             $this->pid = proc_get_status($this->process)['pid'];
