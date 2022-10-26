@@ -5,23 +5,16 @@ require_once 'Check.php';
 require_once 'KmsCli.php';
 require_once 'KmsWeb.php';
 
-if (getenv("KMS_CLI") === 'true') {
-    echo "cli mode" . PHP_EOL;
-} else {
-    echo "not cli mode" . PHP_EOL;
-}
-return;
-
 $kmsHost = getHost(); // kms server address
 $kmsPort = getPort(); // kms server port
 $url = $_SERVER['DOCUMENT_URI']; // request url
-$isCli = ($_GET['cli'] == 'true'); // shell or web browser
+$isCli = (getenv("KMS_CLI") === 'true'); // shell or web browser
 
 if ($url == '/json') { // show keys in json format
     mimeJson();
     echo json_encode(array(
-        'win' => getKeys(false),
-        'win-server' => getKeys(true),
+        'win' => getKeys(), // win keys
+        'win-server' => getKeys(true), // win-server keys
     ));
     return; // skip following process
 }
