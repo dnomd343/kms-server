@@ -68,12 +68,31 @@ function load_params(array $args): void {
     if (in_array('--debug', $args)) { // enter debug mode
         logging::$logLevel = logging::DEBUG;
     }
+    global $KMS_PORT, $HTTP_PORT;
+    $KMS_PORT = intval(get_param('kms-port', strval($KMS_PORT)));
+    $HTTP_PORT = intval(get_param('http-port', strval($HTTP_PORT)));
+}
 
-    global $KMS_PORT;
-    $KMS_PORT = intval(get_param('kms-port', '1688'));
-    logging::warning('KMS Server Port -> ' . $KMS_PORT);
-
-    # TODO: load http port
+function apply_params(): void {
+    global $KMS_PORT, $HTTP_PORT;
+    if ($KMS_PORT < 1 || $KMS_PORT > 65535) { // 1 ~ 65535
+        logging::critical('Illegal KMS Port -> ' . $KMS_PORT);
+        // TODO: process crash
+    }
+    if ($HTTP_PORT < 1 || $HTTP_PORT > 65535) { // 1 ~ 65535
+        logging::critical('Illegal HTTP Port -> ' . $HTTP_PORT);
+        // TODO: process crash
+    }
+    if ($KMS_PORT != 1688) { // not default kms port
+        logging::warning('KMS Server Port -> ' . $KMS_PORT);
+    } else {
+        logging::debug('KMS Server Port -> ' . $KMS_PORT);
+    }
+    if ($HTTP_PORT != 1689) { // not default http port
+        logging::warning('HTTP Server Port -> ' . $HTTP_PORT);
+    } else {
+        logging::debug('HTTP Server Port -> ' . $HTTP_PORT);
+    }
 }
 
 declare(ticks = 1);
@@ -92,13 +111,14 @@ pcntl_signal(SIGINT, function() { // receive SIGINT signal
 });
 
 load_params($argv);
-
-# TODO: check port between 1 to 65535
-//if ($KMS_PORT != 1688) {
-//    array_push($vlmcsd['command'], '-P', strval($KMS_PORT));
-//}
-
+apply_params();
+# TODO: load vlmcsd process
 load_nginx_config($KMS_PORT, $HTTP_PORT);
+
+if ($KMS_PORT != 1688) { // not default kms port
+    array_push($VLMCSD['command'], '-P', strval($KMS_PORT));
+}
+
 
 logging::info('Loading kms-server (' . $VERSION . ')');
 new Process($NGINX['command']);
