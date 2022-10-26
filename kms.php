@@ -53,7 +53,17 @@ function load_nginx_config(int $kms_port, int $http_port): void {
     fclose($nginx_file);
 }
 
+function load_vlmcsd_command(int $kms_port): void { // add port option for vlmcsd
+    global $VLMCSD;
+    if ($kms_port != 1688) { // not default kms port
+        array_push($VLMCSD['command'], '-P', strval($kms_port));
+    }
+}
+
 function get_param(string $field, string $default): string {
+
+    # TODO: fix missing params
+
     if (sizeof(getopt('', [$field . ':'])) != 1) { // without target option
         return $default;
     }
@@ -68,30 +78,54 @@ function load_params(array $args): void {
     if (in_array('--debug', $args)) { // enter debug mode
         logging::$logLevel = logging::DEBUG;
     }
-    global $KMS_PORT, $HTTP_PORT;
-    $KMS_PORT = intval(get_param('kms-port', strval($KMS_PORT)));
-    $HTTP_PORT = intval(get_param('http-port', strval($HTTP_PORT)));
-}
 
-function apply_params(): void {
-    global $KMS_PORT, $HTTP_PORT;
+    global $KMS_PORT;
+    $KMS_PORT = intval(get_param('kms-port', strval($KMS_PORT)));
     if ($KMS_PORT < 1 || $KMS_PORT > 65535) { // 1 ~ 65535
         logging::critical('Illegal KMS Port -> ' . $KMS_PORT);
-        // TODO: process crash
-    }
-    if ($HTTP_PORT < 1 || $HTTP_PORT > 65535) { // 1 ~ 65535
-        logging::critical('Illegal HTTP Port -> ' . $HTTP_PORT);
-        // TODO: process crash
+        exit;
     }
     if ($KMS_PORT != 1688) { // not default kms port
         logging::warning('KMS Server Port -> ' . $KMS_PORT);
     } else {
         logging::debug('KMS Server Port -> ' . $KMS_PORT);
     }
+
+    global $HTTP_PORT;
+    $HTTP_PORT = intval(get_param('http-port', strval($HTTP_PORT)));
+    if ($HTTP_PORT < 1 || $HTTP_PORT > 65535) { // 1 ~ 65535
+        logging::critical('Illegal HTTP Port -> ' . $HTTP_PORT);
+        exit;
+    }
     if ($HTTP_PORT != 1689) { // not default http port
         logging::warning('HTTP Server Port -> ' . $HTTP_PORT);
     } else {
         logging::debug('HTTP Server Port -> ' . $HTTP_PORT);
+    }
+}
+
+# TODO: disable http option
+function start_process(): void { // start sub processes
+    global $NGINX, $PHP_FPM, $VLMCSD;
+    new Process($NGINX['command']);
+    logging::info('Start nginx server...OK');
+    new Process($PHP_FPM['command']);
+    logging::info('Start php-fpm server...OK');
+    new Process($VLMCSD['command']);
+    logging::info('Start vlmcsd server...OK');
+}
+
+# TODO: disable http option
+function enter_daemon(): void { // daemon sub processes
+    logging::info('Enter daemon process');
+    global $NGINX, $PHP_FPM, $VLMCSD;
+    while (true) { // start daemon
+        for ($i = 0; $i < 500; $i++) { // sleep 5s
+            msDelay(10); // return main loop every 10ms
+        }
+        daemon($NGINX);
+        daemon($PHP_FPM);
+        daemon($VLMCSD);
     }
 }
 
@@ -110,30 +144,9 @@ pcntl_signal(SIGINT, function() { // receive SIGINT signal
     subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
 });
 
-load_params($argv);
-apply_params();
-# TODO: load vlmcsd process
-load_nginx_config($KMS_PORT, $HTTP_PORT);
-
-if ($KMS_PORT != 1688) { // not default kms port
-    array_push($VLMCSD['command'], '-P', strval($KMS_PORT));
-}
-
-
 logging::info('Loading kms-server (' . $VERSION . ')');
-new Process($NGINX['command']);
-logging::info('Start nginx server...OK');
-new Process($PHP_FPM['command']);
-logging::info('Start php-fpm server...OK');
-new Process($VLMCSD['command']);
-logging::info('Start vlmcsd server...OK');
-
-logging::info('Enter daemon process');
-while (true) { // start daemon
-    for ($i = 0; $i < 500; $i++) { // sleep 5s
-        msDelay(10); // return main loop every 10ms
-    }
-    daemon($NGINX);
-    daemon($PHP_FPM);
-    daemon($VLMCSD);
-}
+load_params($argv);
+load_vlmcsd_command($KMS_PORT);
+load_nginx_config($KMS_PORT, $HTTP_PORT);
+start_process();
+enter_daemon();
