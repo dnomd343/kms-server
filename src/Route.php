@@ -5,6 +5,13 @@ require_once 'Check.php';
 require_once 'KmsCli.php';
 require_once 'KmsWeb.php';
 
+if (getenv("KMS_CLI") === 'true') {
+    echo "cli mode" . PHP_EOL;
+} else {
+    echo "not cli mode" . PHP_EOL;
+}
+return;
+
 $kmsHost = getHost(); // kms server address
 $kmsPort = getPort(); // kms server port
 $url = $_SERVER['DOCUMENT_URI']; // request url
