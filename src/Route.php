@@ -10,6 +10,15 @@ $kmsPort = getPort(); // kms server port
 $url = $_SERVER['DOCUMENT_URI']; // request url
 $isCli = ($_GET['cli'] == 'true'); // shell or web browser
 
+if ($url == '/json') { // show keys in json format
+    mimeJson();
+    echo json_encode(array(
+        'win' => getKeys(false),
+        'win-server' => getKeys(true),
+    ));
+    return; // skip following process
+}
+
 $isGbk = false; // utf-8 or gbk
 $isJson = false; // json output
 if ($url == '/win/gbk' or $url == '/win-server/gbk') {
