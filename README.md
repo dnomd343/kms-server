@@ -44,7 +44,7 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 ### 1. 防火墙检查
 
-> 服务器tcp/1688端口接受外网KMS激活请求，务必检查是否被防火墙拦截。
+> 服务器 `1688/tcp` 端口接受外网KMS激活请求，务必检查是否被防火墙拦截。
 
 如果开启了 `ufw` 防火墙服务，使用以下命令放行：
 
@@ -63,28 +63,25 @@ shell> firewall-cmd --list-ports
 
 部分云服务商可能会在网页端控制台提供防火墙服务，请在对应页面开放 `1688/tcp` 端口。
 
-### 2. Docker环境
+### 2. Docker检查
 
 ```
 shell> docker --version
 ···Docker版本信息···
 ```
 
-若上述命令未输出版本信息，使用以下命令安装Docker：
+若上述命令未输出版本信息，使用以下命令安装：
 
 ```
 shell> sudo curl https://get.docker.com | bash
-···
-···
-shell> docker --version
-Docker version ···, build ···
+··· Docker安装信息 ···
 ```
 
 ### 3. 启动KMS服务
 
 > 本项目基于Docker构建，在[Docker Hub](https://hub.docker.com/r/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/kms-server/pkgs/container/kms-server)可以查看已构建的各版本镜像。
 
-`kms-server` 同时发布在多个镜像源上（国内网络可首选阿里云仓库）：
+`kms-server` 同时发布在多个镜像源上（国内网络可使用阿里云仓库加速）：
 
 + `Docker Hub` ：`dnomd343/kms-server`
 
@@ -203,7 +200,7 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 + `host`：目标服务器IPv4、IPv6地址或域名
 
-+ `port`：目标服务端口，可选，默认为1688
++ `port`：目标服务端口，可选，默认值为 `1688`
 
 ```
 shell> curl -sL "https://kms.343.re/check?host=8.210.148.24" | jq .
