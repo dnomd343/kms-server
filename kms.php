@@ -7,25 +7,28 @@ require_once './src/Daemon.php';
 require_once './src/Logger.php';
 require_once './src/Process.php';
 
-$nginx = array(
+$KMS_PORT = 1688; // kms expose port
+$HTTP_PORT = 1689; // http server port
+
+$NGINX = array( // nginx process
     'name' => 'nginx',
     'command' => ['/usr/sbin/nginx'],
     'pidFile' => '/run/nginx.pid',
 );
 
-$phpFpm = array(
+$PHP_FPM = array( // php-fpm process
     'name' => 'php-fpm8',
     'command' => ['/usr/sbin/php-fpm8'],
     'pidFile' => '/run/php-fpm8.pid',
 );
 
-$vlmcsd = array(
+$VLMCSD = array( // vlmcsd process
     'name' => 'vlmcsd',
     'command' => ['/usr/bin/vlmcsd', '-e', '-p', '/run/vlmcsd.pid'],
     'pidFile' => '/run/vlmcsd.pid',
 );
 
-function load_nginx_config(int $kms_port = 1688, int $http_port = 1689): void {
+function load_nginx_config(int $kms_port, int $http_port): void {
     $nginx_config = "server {
     listen $http_port;
     listen [::]:$http_port ipv6only=on;
@@ -50,47 +53,59 @@ function load_nginx_config(int $kms_port = 1688, int $http_port = 1689): void {
     fclose($nginx_file);
 }
 
+function get_param(string $field, string $default): string {
+    if (sizeof(getopt('', [$field . ':'])) != 1) { // without target option
+        return $default;
+    }
+    $param = getopt('', [$field . ':'])[$field]; // split target option
+    if (is_array($param)) { // with multi-params
+        $param = end($param); // get last one
+    }
+    return $param;
+}
+
+function load_params(array $args): void {
+    if (in_array('--debug', $args)) { // enter debug mode
+        logging::$logLevel = logging::DEBUG;
+    }
+
+    global $KMS_PORT;
+    $KMS_PORT = intval(get_param('kms-port', '1688'));
+    logging::warning('KMS Server Port -> ' . $KMS_PORT);
+
+    # TODO: load http port
+}
+
 declare(ticks = 1);
 pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
     pcntl_wait($status, WNOHANG); // avoid zombie process
 });
 pcntl_signal(SIGTERM, function() { // receive SIGTERM signal
-    global $nginx, $phpFpm, $vlmcsd;
+    global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGTERM -> exit');
-    subExit($nginx['pidFile'], $phpFpm['pidFile'], $vlmcsd['pidFile']);
+    subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
 });
 pcntl_signal(SIGINT, function() { // receive SIGINT signal
-    global $nginx, $phpFpm, $vlmcsd;
+    global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGINT -> exit');
-    subExit($nginx['pidFile'], $phpFpm['pidFile'], $vlmcsd['pidFile']);
+    subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
 });
 
+load_params($argv);
 
-# TODO: params load function
-if (in_array('--debug', $argv)) { // enter debug mode
-    logging::$logLevel = logging::DEBUG;
-}
+# TODO: check port between 1 to 65535
+//if ($KMS_PORT != 1688) {
+//    array_push($vlmcsd['command'], '-P', strval($KMS_PORT));
+//}
 
-$KMS_PORT = 1688; // kms expose port -> only in message output
-if (sizeof(getopt('', ['port:'])) == 1) { // port option
-    $KMS_PORT = getopt('', ['port:'])['port'];
-    if (is_array($KMS_PORT)) {
-        $KMS_PORT = end($KMS_PORT);
-    }
-}
-logging::debug('KMS Server Port -> ' . $KMS_PORT);
-if ($KMS_PORT != 1688) {
-    array_push($vlmcsd['command'], '-P', strval($KMS_PORT));
-}
-
-load_nginx_config();
+load_nginx_config($KMS_PORT, $HTTP_PORT);
 
 logging::info('Loading kms-server (' . $VERSION . ')');
-new Process($nginx['command']);
+new Process($NGINX['command']);
 logging::info('Start nginx server...OK');
-new Process($phpFpm['command']);
+new Process($PHP_FPM['command']);
 logging::info('Start php-fpm server...OK');
-new Process($vlmcsd['command']);
+new Process($VLMCSD['command']);
 logging::info('Start vlmcsd server...OK');
 
 logging::info('Enter daemon process');
@@ -98,7 +113,7 @@ while (true) { // start daemon
     for ($i = 0; $i < 500; $i++) { // sleep 5s
         msDelay(10); // return main loop every 10ms
     }
-    daemon($nginx);
-    daemon($phpFpm);
-    daemon($vlmcsd);
+    daemon($NGINX);
+    daemon($PHP_FPM);
+    daemon($VLMCSD);
 }

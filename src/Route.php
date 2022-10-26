@@ -8,7 +8,7 @@ require_once 'KmsWeb.php';
 $kmsHost = getHost(); // kms server address
 $kmsPort = getPort(); // kms server port
 $url = $_SERVER['DOCUMENT_URI']; // request url
-$isCli = (getenv("KMS_CLI") === 'true'); // shell or web browser
+$isCli = (getenv('KMS_CLI') === 'true'); // shell or web browser
 
 if ($url == '/json') { // show keys in json format
     mimeJson();

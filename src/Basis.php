@@ -64,10 +64,10 @@ function getHost(): string {
 }
 
 function getPort(): int {
-    if (getenv("KMS_PORT") == null) {
+    if (getenv('KMS_PORT') == null) {
         return 1688; // default server port
     }
-    return intval(getenv("KMS_PORT"));
+    return intval(getenv('KMS_PORT'));
 }
 
 function officeInfo(): array { // office dir and kms key for different version
