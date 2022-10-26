@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Logger.php';
+
 class Process {
     private $process;
     public int $pid = -1;
