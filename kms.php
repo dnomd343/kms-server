@@ -61,26 +61,25 @@ function load_vlmcsd_command(int $kms_port): void { // add port option for vlmcs
 }
 
 function get_param(string $field, string $default): string {
-
-    # TODO: fix missing params
-
-    if (sizeof(getopt('', [$field . ':'])) != 1) { // without target option
+    global $argv;
+    if (!in_array($field, $argv)) { // field not exist
         return $default;
     }
-    $param = getopt('', [$field . ':'])[$field]; // split target option
-    if (is_array($param)) { // with multi-params
-        $param = end($param); // get last one
+    $index = array_search($field, $argv) + 1;
+    if ($index == sizeof($argv)) { // reach arguments end
+        return $default;
     }
-    return $param;
+    return $argv[$index]; // return next argument
 }
 
-function load_params(array $args): void {
-    if (in_array('--debug', $args)) { // enter debug mode
+function load_params(): void {
+    global $argv;
+    if (in_array('--debug', $argv)) { // enter debug mode
         logging::$logLevel = logging::DEBUG;
     }
 
     global $KMS_PORT;
-    $KMS_PORT = intval(get_param('kms-port', strval($KMS_PORT)));
+    $KMS_PORT = intval(get_param('--kms-port', strval($KMS_PORT)));
     if ($KMS_PORT < 1 || $KMS_PORT > 65535) { // 1 ~ 65535
         logging::critical('Illegal KMS Port -> ' . $KMS_PORT);
         exit;
@@ -92,7 +91,7 @@ function load_params(array $args): void {
     }
 
     global $HTTP_PORT;
-    $HTTP_PORT = intval(get_param('http-port', strval($HTTP_PORT)));
+    $HTTP_PORT = intval(get_param('--http-port', strval($HTTP_PORT)));
     if ($HTTP_PORT < 1 || $HTTP_PORT > 65535) { // 1 ~ 65535
         logging::critical('Illegal HTTP Port -> ' . $HTTP_PORT);
         exit;
@@ -104,7 +103,6 @@ function load_params(array $args): void {
     }
 }
 
-# TODO: disable http option
 function start_process(): void { // start sub processes
     global $NGINX, $PHP_FPM, $VLMCSD;
     new Process($NGINX['command']);
@@ -113,20 +111,6 @@ function start_process(): void { // start sub processes
     logging::info('Start php-fpm server...OK');
     new Process($VLMCSD['command']);
     logging::info('Start vlmcsd server...OK');
-}
-
-# TODO: disable http option
-function enter_daemon(): void { // daemon sub processes
-    logging::info('Enter daemon process');
-    global $NGINX, $PHP_FPM, $VLMCSD;
-    while (true) { // start daemon
-        for ($i = 0; $i < 500; $i++) { // sleep 5s
-            msDelay(10); // return main loop every 10ms
-        }
-        daemon($NGINX);
-        daemon($PHP_FPM);
-        daemon($VLMCSD);
-    }
 }
 
 declare(ticks = 1);
@@ -145,8 +129,17 @@ pcntl_signal(SIGINT, function() { // receive SIGINT signal
 });
 
 logging::info('Loading kms-server (' . $VERSION . ')');
-load_params($argv);
+load_params();
 load_vlmcsd_command($KMS_PORT);
 load_nginx_config($KMS_PORT, $HTTP_PORT);
+
 start_process();
-enter_daemon();
+logging::info('Enter daemon process');
+while (true) { // start daemon
+    for ($i = 0; $i < 500; $i++) { // sleep 5s
+        msDelay(10); // return main loop every 10ms
+    }
+    daemon($NGINX);
+    daemon($PHP_FPM);
+    daemon($VLMCSD);
+}
