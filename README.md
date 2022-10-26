@@ -40,7 +40,7 @@ shell> curl kms.343.re/check/kms.dnomd343.top:1688
 KMS Server: kms.dnomd343.top (1688) -> available
 ```
 
-## 快速部署
+## 部署流程
 
 ### 1. 防火墙检查
 
@@ -84,8 +84,6 @@ Docker version ···, build ···
 
 > 本项目基于Docker构建，在[Docker Hub](https://hub.docker.com/r/dnomd343/kms-server)或[Github Package](https://github.com/dnomd343/kms-server/pkgs/container/kms-server)可以查看已构建的各版本镜像。
 
-> 容器使用 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活，后者为HTTP接口。
-
 `kms-server` 同时发布在多个镜像源上（国内网络可首选阿里云仓库）：
 
 + `Docker Hub` ：`dnomd343/kms-server`
@@ -96,21 +94,23 @@ Docker version ···, build ···
 
 > 下述命令中，容器路径可替换为上述其他源
 
-若仅需KMS激活功能，使用以下命令，并忽略后续步骤：
+使用以下命令启动KMS服务：
 
 ```
-shell> docker run -d --restart=always --name kms -p 1688:1688 dnomd343/kms-server
+shell> docker run -d --restart=always --network host dnomd343/kms-server
 ```
 
-如需使用其他功能，执行以下命令并继续后面步骤：
+> 容器使用 `1688/tcp` 与 `1689/tcp` 端口，前者用于KMS激活，后者为HTTP服务
 
-```
-shell> docker run -d --restart=always --name kms -p 1688-1689:1688-1689 dnomd343/kms-server
-```
+> 容器启动时，添加 `--kms-port xxx` 与 `--http-port xxx` 选项可修改以上端口
+
+若仅需KMS激活功能，无需执行后续步骤，本步完成后即可正常使用。
 
 ### 5. 配置反向代理
 
-将用于KMS服务的域名解析到当前服务器，配置反向代理到本机 `1689/tcp` 端口，下面以Nginx为例：
+> 这一步用于配置反向代理，对外暴露kms-server的HTTP服务
+
+将用于KMS服务的域名DNS解析到当前服务器，配置反向代理到本机 `1689/tcp` 端口，以Nginx为例：
 
 ```
 # 进入nginx配置目录
@@ -168,10 +168,9 @@ shell> nginx -s reload
 
 ### 6. 检查服务是否正常
 
-使用以下命令检查部署的KMS服务器是否正常：
+检查部署的KMS服务器是否正常，例如检测新搭建的服务器 `kms.dnomd343.top` ，执行以下命令：
 
 ```
-# 检查服务器kms.dnomd343.top
 shell> curl kms.343.re/check/kms.dnomd343.top
 KMS Server: kms.dnomd343.top (1688) -> available
 ```
@@ -184,7 +183,9 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 + `--debug` ：进入DEBUG模式，输出调试日志
 
-+ `--port` ：指定KMS激活端口，默认值为 `1688`
++ `--kms-port` ：指定KMS激活端口，默认值为 `1688`
+
++ `--http-port` ：指定HTTP服务端口，默认值为 `1689`
 
 ### JSON接口
 
