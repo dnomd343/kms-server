@@ -25,6 +25,31 @@ $vlmcsd = array(
     'pidFile' => '/run/vlmcsd.pid',
 );
 
+function load_nginx_config(int $kms_port = 1688, int $http_port = 1689): void {
+    $nginx_config = "server {
+    listen $http_port;
+    listen [::]:$http_port ipv6only=on;
+
+    location /assets {
+        root /kms-server;
+    }
+
+    location / {
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php-fpm.sock;
+        if (\$http_user_agent ~* (curl|wget)) {
+            set \$cli_mode true;
+        }
+        fastcgi_param KMS_PORT $kms_port;
+        fastcgi_param KMS_CLI \$cli_mode;
+        fastcgi_param SCRIPT_FILENAME /kms-server/src/Route.php;
+    }\n}\n";
+    logging::debug("Nginx configure ->\n" . $nginx_config);
+    $nginx_file = fopen('/etc/nginx/kms.conf', 'w');
+    fwrite($nginx_file, $nginx_config); // save nginx configure file
+    fclose($nginx_file);
+}
+
 declare(ticks = 1);
 pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
     pcntl_wait($status, WNOHANG); // avoid zombie process
@@ -40,6 +65,8 @@ pcntl_signal(SIGINT, function() { // receive SIGINT signal
     subExit($nginx['pidFile'], $phpFpm['pidFile'], $vlmcsd['pidFile']);
 });
 
+
+# TODO: params load function
 if (in_array('--debug', $argv)) { // enter debug mode
     logging::$logLevel = logging::DEBUG;
 }
@@ -55,9 +82,8 @@ logging::debug('KMS Server Port -> ' . $KMS_PORT);
 if ($KMS_PORT != 1688) {
     array_push($vlmcsd['command'], '-P', strval($KMS_PORT));
 }
-$php_env_file = fopen('/etc/nginx/kms_params', 'w');
-fwrite($php_env_file, 'fastcgi_param KMS_PORT "' . $KMS_PORT . '";' . PHP_EOL);
-fclose($php_env_file);
+
+load_nginx_config();
 
 logging::info('Loading kms-server (' . $VERSION . ')');
 new Process($nginx['command']);
