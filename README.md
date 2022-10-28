@@ -186,6 +186,16 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 + `--disable-http` ：禁用HTTP服务，默认值为 `false`
 
+### 环境变量
+
++ `DEBUG` ：值为 `true` 时，进入DEBUG模式
+
++ `KMS_PORT` ：指定KMS激活端口，默认值为 `1688`
+
++ `HTTP_PORT` ：指定HTTP服务端口，默认值为 `1689`
+
++ `DISABLE_HTTP` ：值为 `true` 时，禁用HTTP服务
+
 ### JSON接口
 
 `kms-server` 预留了以下JSON接口，用于输出内置的KMS密钥。
