@@ -129,6 +129,7 @@ server {
         if ($http_user_agent !~* (curl|wget)) {  # 来自非命令行的请求，重定向到https
             return 301 https://$server_name$request_uri;
         }
+        proxy_set_header X-Real-IP $remote_addr;  # 反向代理转发真实IP
         proxy_set_header Host $http_host;  # 反向代理转发当前域名
         proxy_pass http://127.0.0.1:1689;
     }
@@ -150,6 +151,7 @@ server {
     gzip_vary on;
 
     location / {
+        proxy_set_header X-Real-IP $remote_addr;  # 反向代理转发真实IP
         proxy_set_header Host $http_host;  # 反向代理转发当前域名
         proxy_pass http://127.0.0.1:1689;
     }
