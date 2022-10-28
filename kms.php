@@ -1,7 +1,7 @@
 #!/usr/bin/env php8
 <?php
 
-$VERSION = 'v1.2.2';
+$VERSION = 'v1.2.3';
 
 require_once './src/Daemon.php';
 require_once './src/Logger.php';
@@ -117,12 +117,14 @@ declare(ticks = 1);
 pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
     pcntl_wait($status, WNOHANG); // avoid zombie process
 });
+
 pcntl_signal(SIGTERM, function() { // receive SIGTERM signal
     global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGTERM -> exit');
     subExit($NGINX, $PHP_FPM, $VLMCSD);
     exit;
 });
+
 pcntl_signal(SIGINT, function() { // receive SIGINT signal
     global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGINT -> exit');

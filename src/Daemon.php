@@ -48,20 +48,12 @@ function daemon(array $info): void {
 
 function subExit(array $nginx, array $phpFpm, array $vlmcsd): void {
 
-    $nginxName = $nginx['name'];
-    $nginxPid = getPid($nginx['pidFile']);
-    logging::info("Sending kill signal to $nginxName (PID = $nginxPid)");
-    posix_kill($nginxPid, SIGTERM);
-
-    $phpFpmName = $phpFpm['name'];
-    $phpFpmPid = getPid($phpFpm['pidFile']);
-    logging::info("Sending kill signal to $phpFpmName (PID = $phpFpmPid)");
-    posix_kill($phpFpmPid, SIGTERM);
-
-    $vlmcsdName = $vlmcsd['name'];
-    $vlmcsdPid = getPid($vlmcsd['pidFile']);
-    logging::info("Sending kill signal to $vlmcsdName (PID = $vlmcsdPid)");
-    posix_kill($vlmcsdPid, SIGTERM);
+    foreach (array($nginx, $phpFpm, $vlmcsd) as $subFunc) {
+        $subName = $subFunc['name'];
+        $subPid = getPid($subFunc['pidFile']);
+        logging::info("Sending kill signal to $subName (PID = $subPid)");
+        posix_kill($subPid, SIGTERM);
+    }
 
     logging::info('Waiting sub process exit...');
     pcntl_wait($status); // wait all process exit
