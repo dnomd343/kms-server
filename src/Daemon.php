@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 require_once 'Logger.php';
 require_once 'Process.php';
 
@@ -48,18 +46,24 @@ function daemon(array $info): void {
     }
 }
 
-#[NoReturn] function subExit(string $nginxPid, string $phpFpmPid, string $vlmcsdPid): void {
-    $nginxPid = getPid($nginxPid);
-    logging::info("Sending kill signal to nginx ($nginxPid)");
+function subExit(array $nginx, array $phpFpm, array $vlmcsd): void {
+
+    $nginxName = $nginx['name'];
+    $nginxPid = getPid($nginx['pidFile']);
+    logging::info("Sending kill signal to $nginxName (PID = $nginxPid)");
     posix_kill($nginxPid, SIGTERM);
-    $phpFpmPid = getPid($phpFpmPid);
-    logging::info("Sending kill signal to php-fpm ($phpFpmPid)");
+
+    $phpFpmName = $phpFpm['name'];
+    $phpFpmPid = getPid($phpFpm['pidFile']);
+    logging::info("Sending kill signal to $phpFpmName (PID = $phpFpmPid)");
     posix_kill($phpFpmPid, SIGTERM);
-    $vlmcsdPid = getPid($vlmcsdPid);
-    logging::info("Sending kill signal to vlmcsd ($vlmcsdPid)");
+
+    $vlmcsdName = $vlmcsd['name'];
+    $vlmcsdPid = getPid($vlmcsd['pidFile']);
+    logging::info("Sending kill signal to $vlmcsdName (PID = $vlmcsdPid)");
     posix_kill($vlmcsdPid, SIGTERM);
+
     logging::info('Waiting sub process exit...');
     pcntl_wait($status); // wait all process exit
     logging::info('All process exit, Goodbye!');
-    exit;
 }

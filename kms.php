@@ -120,12 +120,14 @@ pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
 pcntl_signal(SIGTERM, function() { // receive SIGTERM signal
     global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGTERM -> exit');
-    subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
+    subExit($NGINX, $PHP_FPM, $VLMCSD);
+    exit;
 });
 pcntl_signal(SIGINT, function() { // receive SIGINT signal
     global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGINT -> exit');
-    subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
+    subExit($NGINX, $PHP_FPM, $VLMCSD);
+    exit;
 });
 
 logging::info('Loading kms-server (' . $VERSION . ')');
