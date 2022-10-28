@@ -101,7 +101,7 @@ shell> docker run -d --restart=always --network host dnomd343/kms-server
 
 > 容器启动时，添加 `--kms-port xxx` 与 `--http-port xxx` 选项可修改以上端口
 
-若仅需KMS激活功能，无需执行后续步骤，本步完成后即可正常使用。
+若仅需KMS激活功能，无需执行后续步骤，本步完成后即可正常使用；同时，建议添加 `--disable-http` 选项关闭内部HTTP服务，以减少多余的性能占用。
 
 ### 5. 配置反向代理
 
@@ -183,6 +183,8 @@ KMS Server: kms.dnomd343.top (1688) -> available
 + `--kms-port` ：指定KMS激活端口，默认值为 `1688`
 
 + `--http-port` ：指定HTTP服务端口，默认值为 `1689`
+
++ `--disable-http` ：禁用HTTP服务，默认值为 `false`
 
 ### JSON接口
 
