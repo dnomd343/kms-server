@@ -1,7 +1,7 @@
 #!/usr/bin/env php8
 <?php
 
-$VERSION = 'v1.2.2';
+$VERSION = 'v1.2.3';
 
 require_once './src/Daemon.php';
 require_once './src/Logger.php';
@@ -9,6 +9,7 @@ require_once './src/Process.php';
 
 $KMS_PORT = 1688; // kms expose port
 $HTTP_PORT = 1689; // http server port
+$ENABLE_HTTP = true; // http interface
 
 $NGINX = array( // nginx process
     'name' => 'nginx',
@@ -78,6 +79,12 @@ function load_params(): void {
         logging::$logLevel = logging::DEBUG;
     }
 
+    global $ENABLE_HTTP;
+    if (in_array('--disable-http', $argv)) { // disable http service
+        logging::warning('Disable http service');
+        $ENABLE_HTTP = false;
+    }
+
     global $KMS_PORT;
     $KMS_PORT = intval(get_param('--kms-port', strval($KMS_PORT)));
     if ($KMS_PORT < 1 || $KMS_PORT > 65535) { // 1 ~ 65535
@@ -104,28 +111,49 @@ function load_params(): void {
 }
 
 function start_process(): void { // start sub processes
+    global $ENABLE_HTTP;
     global $NGINX, $PHP_FPM, $VLMCSD;
-    new Process($NGINX['command']);
-    logging::info('Start nginx server...OK');
-    new Process($PHP_FPM['command']);
-    logging::info('Start php-fpm server...OK');
+    if ($ENABLE_HTTP) { // http server process
+        new Process($NGINX['command']);
+        logging::info('Start nginx server...OK');
+        new Process($PHP_FPM['command']);
+        logging::info('Start php-fpm server...OK');
+    }
     new Process($VLMCSD['command']);
     logging::info('Start vlmcsd server...OK');
+}
+
+function exit_process(): void { // kill sub processes
+    global $ENABLE_HTTP;
+    global $NGINX, $PHP_FPM, $VLMCSD;
+    if ($ENABLE_HTTP) {
+        subExit($NGINX, $PHP_FPM, $VLMCSD); // with http service
+    } else {
+        subExit($VLMCSD);
+    }
 }
 
 declare(ticks = 1);
 pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
     pcntl_wait($status, WNOHANG); // avoid zombie process
 });
+
 pcntl_signal(SIGTERM, function() { // receive SIGTERM signal
-    global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGTERM -> exit');
-    subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
+    exit_process();
+    exit;
 });
+
 pcntl_signal(SIGINT, function() { // receive SIGINT signal
-    global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGINT -> exit');
-    subExit($NGINX['pidFile'], $PHP_FPM['pidFile'], $VLMCSD['pidFile']);
+    exit_process();
+    exit;
+});
+
+pcntl_signal(SIGQUIT, function() { // receive SIGQUIT signal
+    logging::info('Get SIGQUIT -> exit');
+    exit_process();
+    exit;
 });
 
 logging::info('Loading kms-server (' . $VERSION . ')');
@@ -139,7 +167,9 @@ while (true) { // start daemon
     for ($i = 0; $i < 500; $i++) { // sleep 5s
         msDelay(10); // return main loop every 10ms
     }
-    daemon($NGINX);
-    daemon($PHP_FPM);
+    if ($ENABLE_HTTP) { // with http service
+        daemon($NGINX);
+        daemon($PHP_FPM);
+    }
     daemon($VLMCSD);
 }

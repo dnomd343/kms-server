@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 require_once 'Logger.php';
 require_once 'Process.php';
 
@@ -48,18 +46,14 @@ function daemon(array $info): void {
     }
 }
 
-#[NoReturn] function subExit(string $nginxPid, string $phpFpmPid, string $vlmcsdPid): void {
-    $nginxPid = getPid($nginxPid);
-    logging::info("Sending kill signal to nginx ($nginxPid)");
-    posix_kill($nginxPid, SIGTERM);
-    $phpFpmPid = getPid($phpFpmPid);
-    logging::info("Sending kill signal to php-fpm ($phpFpmPid)");
-    posix_kill($phpFpmPid, SIGTERM);
-    $vlmcsdPid = getPid($vlmcsdPid);
-    logging::info("Sending kill signal to vlmcsd ($vlmcsdPid)");
-    posix_kill($vlmcsdPid, SIGTERM);
-    logging::info('Waiting sub process exit...');
+function subExit(array ...$subList): void {
+    foreach ($subList as $sub) {
+        $subName = $sub['name'];
+        $subPid = getPid($sub['pidFile']);
+        logging::info("Sending kill signal to $subName (PID = $subPid)");
+        posix_kill($subPid, SIGTERM);
+    }
+    logging::info('Waiting sub-process exit...');
     pcntl_wait($status); // wait all process exit
     logging::info('All process exit, Goodbye!');
-    exit;
 }
