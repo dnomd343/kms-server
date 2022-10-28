@@ -46,16 +46,14 @@ function daemon(array $info): void {
     }
 }
 
-function subExit(array $nginx, array $phpFpm, array $vlmcsd): void {
-
-    foreach (array($nginx, $phpFpm, $vlmcsd) as $subFunc) {
-        $subName = $subFunc['name'];
-        $subPid = getPid($subFunc['pidFile']);
+function subExit(array ...$subList): void {
+    foreach ($subList as $sub) {
+        $subName = $sub['name'];
+        $subPid = getPid($sub['pidFile']);
         logging::info("Sending kill signal to $subName (PID = $subPid)");
         posix_kill($subPid, SIGTERM);
     }
-
-    logging::info('Waiting sub process exit...');
+    logging::info('Waiting sub-process exit...');
     pcntl_wait($status); // wait all process exit
     logging::info('All process exit, Goodbye!');
 }
