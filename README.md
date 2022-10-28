@@ -124,6 +124,7 @@ server {
     listen 80;
     listen [::]:80;
     server_name kms.343.re;  # 改为自己的KMS域名
+
     location / {
         if ($http_user_agent !~* (curl|wget)) {  # 来自非命令行的请求，重定向到https
             return 301 https://$server_name$request_uri;
@@ -139,8 +140,8 @@ server {
     server_name kms.343.re;  # 改为自己的KMS域名
     ssl_certificate /etc/ssl/certs/343.re/fullchain.pem;  # 改为自己的TLS证书文件
     ssl_certificate_key /etc/ssl/certs/343.re/privkey.pem;  # 改为自己的TLS私钥文件
-    
-    gzip on;  # 开启gzip压缩，提高加载速度
+
+    gzip on;  # 可选，开启gzip压缩，提高加载速度
     gzip_buffers 32 4K;
     gzip_comp_level 6;
     gzip_min_length 100;
