@@ -34,6 +34,11 @@ function load_nginx_config(int $kms_port, int $http_port): void {
     listen $http_port;
     listen [::]:$http_port ipv6only=on;
 
+    set_real_ip_from ::/0;
+    set_real_ip_from 0.0.0.0/0;
+    real_ip_header X-Real-IP;
+    real_ip_recursive on;
+
     location /assets {
         root /kms-server;
     }
