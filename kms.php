@@ -9,6 +9,7 @@ require_once './src/Process.php';
 
 $KMS_PORT = 1688; // kms expose port
 $HTTP_PORT = 1689; // http server port
+$ENABLE_HTTP = true; // http interface
 
 $NGINX = array( // nginx process
     'name' => 'nginx',
@@ -103,21 +104,27 @@ function load_params(): void {
     }
 }
 
-# TODO: add disable http option
 function start_process(): void { // start sub processes
+    global $ENABLE_HTTP;
     global $NGINX, $PHP_FPM, $VLMCSD;
-    new Process($NGINX['command']);
-    logging::info('Start nginx server...OK');
-    new Process($PHP_FPM['command']);
-    logging::info('Start php-fpm server...OK');
+    if ($ENABLE_HTTP) { // http server process
+        new Process($NGINX['command']);
+        logging::info('Start nginx server...OK');
+        new Process($PHP_FPM['command']);
+        logging::info('Start php-fpm server...OK');
+    }
     new Process($VLMCSD['command']);
     logging::info('Start vlmcsd server...OK');
 }
 
-# TODO: add disable http option
-function exit_process(): void {
+function exit_process(): void { // kill sub processes
+    global $ENABLE_HTTP;
     global $NGINX, $PHP_FPM, $VLMCSD;
-    subExit($NGINX, $PHP_FPM, $VLMCSD);
+    if ($ENABLE_HTTP) {
+        subExit($NGINX, $PHP_FPM, $VLMCSD); // with http server
+    } else {
+        subExit($VLMCSD);
+    }
 }
 
 declare(ticks = 1);
@@ -154,7 +161,9 @@ while (true) { // start daemon
     for ($i = 0; $i < 500; $i++) { // sleep 5s
         msDelay(10); // return main loop every 10ms
     }
-    daemon($NGINX);
-    daemon($PHP_FPM);
+    if ($ENABLE_HTTP) { // with http server
+        daemon($NGINX);
+        daemon($PHP_FPM);
+    }
     daemon($VLMCSD);
 }
