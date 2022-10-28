@@ -75,17 +75,21 @@ function get_param(string $field, string $default): string {
 
 function load_params(): void {
     global $argv;
-    if (in_array('--debug', $argv)) { // enter debug mode
-        logging::$logLevel = logging::DEBUG;
+    if (strtolower(getenv('DEBUG')) === 'true' || in_array('--debug', $argv)) {
+        logging::$logLevel = logging::DEBUG; // enter debug mode
     }
 
     global $ENABLE_HTTP;
-    if (in_array('--disable-http', $argv)) { // disable http service
+    if (strtolower(getenv('DISABLE_HTTP')) === 'true' || in_array('--disable-http', $argv)) {
         logging::warning('Disable http service');
-        $ENABLE_HTTP = false;
+        $ENABLE_HTTP = false; // disable http service
     }
 
     global $KMS_PORT;
+    if (getenv('KMS_PORT')) {
+        $KMS_PORT = intval(getenv('KMS_PORT'));
+        logging::debug('Get KMS_PORT from env -> ' . $KMS_PORT);
+    }
     $KMS_PORT = intval(get_param('--kms-port', strval($KMS_PORT)));
     if ($KMS_PORT < 1 || $KMS_PORT > 65535) { // 1 ~ 65535
         logging::critical('Illegal KMS Port -> ' . $KMS_PORT);
@@ -98,6 +102,10 @@ function load_params(): void {
     }
 
     global $HTTP_PORT;
+    if (getenv('HTTP_PORT')) {
+        $HTTP_PORT = intval(getenv('HTTP_PORT'));
+        logging::debug('Get HTTP_PORT from env -> ' . $HTTP_PORT);
+    }
     $HTTP_PORT = intval(get_param('--http-port', strval($HTTP_PORT)));
     if ($HTTP_PORT < 1 || $HTTP_PORT > 65535) { // 1 ~ 65535
         logging::critical('Illegal HTTP Port -> ' . $HTTP_PORT);
