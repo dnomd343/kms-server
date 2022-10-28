@@ -79,6 +79,12 @@ function load_params(): void {
         logging::$logLevel = logging::DEBUG;
     }
 
+    global $ENABLE_HTTP;
+    if (in_array('--disable-http', $argv)) { // disable http service
+        logging::warning('Disable http service');
+        $ENABLE_HTTP = false;
+    }
+
     global $KMS_PORT;
     $KMS_PORT = intval(get_param('--kms-port', strval($KMS_PORT)));
     if ($KMS_PORT < 1 || $KMS_PORT > 65535) { // 1 ~ 65535
@@ -121,7 +127,7 @@ function exit_process(): void { // kill sub processes
     global $ENABLE_HTTP;
     global $NGINX, $PHP_FPM, $VLMCSD;
     if ($ENABLE_HTTP) {
-        subExit($NGINX, $PHP_FPM, $VLMCSD); // with http server
+        subExit($NGINX, $PHP_FPM, $VLMCSD); // with http service
     } else {
         subExit($VLMCSD);
     }
@@ -161,7 +167,7 @@ while (true) { // start daemon
     for ($i = 0; $i < 500; $i++) { // sleep 5s
         msDelay(10); // return main loop every 10ms
     }
-    if ($ENABLE_HTTP) { // with http server
+    if ($ENABLE_HTTP) { // with http service
         daemon($NGINX);
         daemon($PHP_FPM);
     }
