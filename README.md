@@ -40,6 +40,42 @@ shell> curl kms.343.re/check/kms.dnomd343.top:1688
 KMS Server: kms.dnomd343.top (1688) -> available
 ```
 
+## 快速部署
+
+> 如果您对Linux及容器较为熟悉，可以直接参考以下命令部署；若接触较少，建议阅读后文的详细部署流程
+
+开启完整服务，`1688` 端口用于KMS激活，`1689` 端口用于HTTP访问（反向代理）：
+
+```bash
+docker run -d --restart=always --network host dnomd343/kms-server
+# 或使用bridge网络
+docker run -d --restart=always -p 1688-1689:1688-1689 dnomd343/kms-server
+```
+
+仅开启KMS服务：
+
+```bash
+docker run -d --restart=always --network host dnomd343/kms-server --disable-http
+# 或使用环境变量指定
+docker run -d --restart=always --network host --env DISABLE_HTTP=TRUE dnomd343/kms-server
+```
+
+开启DEBUG模式：
+
+```bash
+docker run -d --restart=always --network host dnomd343/kms-server --debug
+# 或使用环境变量指定
+docker run -d --restart=always --network host --env DEBUG=TRUE dnomd343/kms-server
+```
+
+使用自定义端口：
+
+```bash
+docker run -d --restart=always --network host dnomd343/kms-server --kms-port 11688 --http-port 23333
+# 或使用环境变量指定
+docker run -d --restart=always --network host --env KMS_PORT=11688 --env HTTP_PORT=23333 dnomd343/kms-server
+```
+
 ## 部署流程
 
 ### 1. 防火墙检查
