@@ -103,6 +103,7 @@ function load_params(): void {
     }
 }
 
+# TODO: add disable http option
 function start_process(): void { // start sub processes
     global $NGINX, $PHP_FPM, $VLMCSD;
     new Process($NGINX['command']);
@@ -113,22 +114,32 @@ function start_process(): void { // start sub processes
     logging::info('Start vlmcsd server...OK');
 }
 
+# TODO: add disable http option
+function exit_process(): void {
+    global $NGINX, $PHP_FPM, $VLMCSD;
+    subExit($NGINX, $PHP_FPM, $VLMCSD);
+}
+
 declare(ticks = 1);
 pcntl_signal(SIGCHLD, function() { // receive SIGCHLD signal
     pcntl_wait($status, WNOHANG); // avoid zombie process
 });
 
 pcntl_signal(SIGTERM, function() { // receive SIGTERM signal
-    global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGTERM -> exit');
-    subExit($NGINX, $PHP_FPM, $VLMCSD);
+    exit_process();
     exit;
 });
 
 pcntl_signal(SIGINT, function() { // receive SIGINT signal
-    global $NGINX, $PHP_FPM, $VLMCSD;
     logging::info('Get SIGINT -> exit');
-    subExit($NGINX, $PHP_FPM, $VLMCSD);
+    exit_process();
+    exit;
+});
+
+pcntl_signal(SIGQUIT, function() { // receive SIGQUIT signal
+    logging::info('Get SIGQUIT -> exit');
+    exit_process();
     exit;
 });
 
