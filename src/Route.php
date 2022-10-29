@@ -19,6 +19,18 @@ if ($url == '/json') { // show keys in json format
     return; // skip following process
 }
 
+if ($url == '/version') { // show version info
+    if ($isCli) { // cli mode
+        echo "\033[33mkms-server\033[0m => \033[36m" . getenv('KMS_VER') . "\033[0m\n";
+    } else {
+        mimeJson();
+        echo json_encode(array(
+            'version' => getenv('KMS_VER')
+        ));
+    }
+    return; // skip following process
+}
+
 $isGbk = false; // utf-8 or gbk
 $isJson = false; // json output
 if ($url == '/win/gbk' or $url == '/win-server/gbk') {
