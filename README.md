@@ -227,6 +227,8 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 + `-v` 或 `--version` ：显示版本信息并退出
 
++ `-h` 或 `--help` ：显示帮助信息并退出
+
 ### 环境变量
 
 + `DEBUG` ：值为 `true` 时，进入DEBUG模式
