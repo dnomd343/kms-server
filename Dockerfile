@@ -21,7 +21,7 @@ RUN strip /tmp/*.so*
 FROM alpine:3.16 AS asset
 RUN apk add php8-fpm
 WORKDIR /asset/etc/php8/
-RUN cat /etc/php8/php-fpm.conf | sed 's/^;\(pid\)/\1/' > php-fpm.conf
+RUN cat /etc/php8/php-fpm.conf | sed 's/^;\(pid\)/\1/;/error_log/a\error_log = /dev/stdout' > php-fpm.conf
 WORKDIR /asset/etc/php8/php-fpm.d/
 RUN cat /etc/php8/php-fpm.d/www.conf | sed 's?127.0.0.1:9000?/run/php-fpm.sock?' > www.conf
 COPY --from=vlmcsd /tmp/vlmcs* /asset/usr/bin/
