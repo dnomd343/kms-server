@@ -45,6 +45,7 @@ function load_nginx_config(int $kms_port, int $http_port): void {
     }
 
     location / {
+        set \$cli_mode false;
         include fastcgi_params;
         fastcgi_pass unix:/run/php-fpm.sock;
         if (\$http_user_agent ~* (curl|wget)) {
