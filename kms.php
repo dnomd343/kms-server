@@ -29,6 +29,19 @@ $VLMCSD = array( // vlmcsd process
     'pidFile' => '/run/vlmcsd.pid',
 );
 
+$HELP_MSG = "
+  kms-server ($VERSION)
+
+  Project: https://github.com/dnomd343/kms-server.git
+
+    --debug         Enable debug mode
+    --kms-port      Specify kms listen port
+    --http-port     Specify http listen port
+    --disable-http  Disable http service
+    --version       Show version info
+    --help          Show help message
+\n";
+
 function load_nginx_config(int $kms_port, int $http_port): void {
     global $VERSION;
     $nginx_config = "server {
@@ -174,6 +187,11 @@ pcntl_signal(SIGQUIT, function() { // receive SIGQUIT signal
 
 if (in_array('-v', $argv) || in_array('--version', $argv)) {
     echo "\033[33mkms-server\033[0m => \033[36m$VERSION\033[0m\n"; // show version info
+    exit;
+}
+
+if (in_array('-h', $argv) || in_array('--help', $argv)) {
+    echo $HELP_MSG; // show help message
     exit;
 }
 
