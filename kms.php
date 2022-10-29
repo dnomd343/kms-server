@@ -30,6 +30,7 @@ $VLMCSD = array( // vlmcsd process
 );
 
 function load_nginx_config(int $kms_port, int $http_port): void {
+    global $VERSION;
     $nginx_config = "server {
     listen $http_port;
     listen [::]:$http_port ipv6only=on;
@@ -51,6 +52,7 @@ function load_nginx_config(int $kms_port, int $http_port): void {
         }
         fastcgi_param KMS_PORT $kms_port;
         fastcgi_param KMS_CLI \$cli_mode;
+        fastcgi_param KMS_VER $VERSION;
         fastcgi_param SCRIPT_FILENAME /kms-server/src/Route.php;
     }\n}\n";
     logging::debug("Nginx configure ->\n" . $nginx_config);
