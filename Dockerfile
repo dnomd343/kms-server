@@ -23,8 +23,7 @@ RUN apk add php8-fpm
 WORKDIR /asset/etc/php8/
 RUN cat /etc/php8/php-fpm.conf | sed 's/^;\(pid\)/\1/' > php-fpm.conf
 WORKDIR /asset/etc/php8/php-fpm.d/
-RUN cat /etc/php8/php-fpm.d/www.conf | sed 's?127.0.0.1:9000?/run/php-fpm.sock?' > www.conf && \
-    echo -e 'listen.owner = nginx\nlisten.group = nginx' >> www.conf
+RUN cat /etc/php8/php-fpm.d/www.conf | sed 's?127.0.0.1:9000?/run/php-fpm.sock?' > www.conf
 COPY --from=vlmcsd /tmp/vlmcs* /asset/usr/bin/
 COPY --from=iconv /tmp/libiconv.so.2 /asset/usr/local/lib/
 COPY --from=iconv /tmp/iconv.so /asset/usr/lib/php8/modules/
