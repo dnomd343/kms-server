@@ -172,6 +172,11 @@ pcntl_signal(SIGQUIT, function() { // receive SIGQUIT signal
     exit;
 });
 
+if (in_array('-v', $argv) || in_array('--version', $argv)) {
+    echo "\033[33mkms-server\033[0m => \033[36m$VERSION\033[0m\n"; // show version info
+    exit;
+}
+
 logging::info('Loading kms-server (' . $VERSION . ')');
 load_params();
 load_vlmcsd_command($KMS_PORT);
