@@ -225,6 +225,8 @@ KMS Server: kms.dnomd343.top (1688) -> available
 
 + `--disable-http` ：禁用HTTP服务，默认值为 `false`
 
++ `-v` 或 `--version` ：显示版本信息并退出
+
 ### 环境变量
 
 + `DEBUG` ：值为 `true` 时，进入DEBUG模式
