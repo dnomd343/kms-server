@@ -9,24 +9,24 @@
       {
         "name": {
           "en-us": "Windows Server 2022 Datacenter",
-          "zh-cn": "Windows Server 2022 Datacenter",
-          "zh-tw": "Windows Server 2022 Datacenter"
+          "zh-cn": "Windows Server 2022 数据中心版",
+          "zh-tw": "Windows Server 2022 數據中心版"
         },
         "key": "WX4NM-KYWYW-QJJR4-XV3QB-6VM33"
       },
       {
         "name": {
-          "en-us": "Windows Server 2022 Datacenter\nAzure Edition",
-          "zh-cn": "Windows Server 2022 Datacenter\nAzure Edition",
-          "zh-tw": "Windows Server 2022 Datacenter\nAzure 版本"
+          "en-us": "Windows Server 2022 Datacenter (Azure Edition)",
+          "zh-cn": "Windows Server 2022 数据中心版 (Azure 版本)",
+          "zh-tw": "Windows Server 2022 數據中心版 (Azure 版本)"
         },
         "key": "NTBV8-9K7Q8-V27C6-M2BTV-KHMXV"
       },
       {
         "name": {
           "en-us": "Windows Server 2022 Standard",
-          "zh-cn": "Windows Server 2022 Standard",
-          "zh-tw": "Windows Server 2022 Standard"
+          "zh-cn": "Windows Server 2022 标准版",
+          "zh-tw": "Windows Server 2022 標準版"
         },
         "key": "VDYBN-27WPP-V4HQT-9VMD4-VMK7H"
       }
@@ -42,24 +42,24 @@
       {
         "name": {
           "en-us": "Windows Server 2019 Datacenter",
-          "zh-cn": "Windows Server 2019 Datacenter",
-          "zh-tw": "Windows Server 2019 Datacenter"
+          "zh-cn": "Windows Server 2019 数据中心版",
+          "zh-tw": "Windows Server 2019 數據中心版"
         },
         "key": "WMDGN-G9PQG-XVVXX-R3X43-63DFG"
       },
       {
         "name": {
           "en-us": "Windows Server 2019 Standard",
-          "zh-cn": "Windows Server 2019 Standard",
-          "zh-tw": "Windows Server 2019 Standard"
+          "zh-cn": "Windows Server 2019 标准版",
+          "zh-tw": "Windows Server 2019 標準版"
         },
         "key": "N69G4-B89J2-4G8F4-WWYCC-J464C"
       },
       {
         "name": {
           "en-us": "Windows Server 2019 Essentials",
-          "zh-cn": "Windows Server 2019 Essentials",
-          "zh-tw": "Windows Server 2019 Essentials"
+          "zh-cn": "Windows Server 2019 基础版",
+          "zh-tw": "Windows Server 2019 基礎版"
         },
         "key": "WVDHN-86M7X-466P6-VHXV7-YY726"
       }
@@ -75,24 +75,24 @@
       {
         "name": {
           "en-us": "Windows Server 2016 Datacenter",
-          "zh-cn": "Windows Server 2016 Datacenter",
-          "zh-tw": "Windows Server 2016 Datacenter"
+          "zh-cn": "Windows Server 2016 数据中心版",
+          "zh-tw": "Windows Server 2016 數據中心版"
         },
         "key": "CB7KF-BWN84-R7R2Y-793K2-8XDDG"
       },
       {
         "name": {
           "en-us": "Windows Server 2016 Standard",
-          "zh-cn": "Windows Server 2016 Standard",
-          "zh-tw": "Windows Server 2016 Standard"
+          "zh-cn": "Windows Server 2016 标准版",
+          "zh-tw": "Windows Server 2016 標準版"
         },
         "key": "WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY"
       },
       {
         "name": {
           "en-us": "Windows Server 2016 Essentials",
-          "zh-cn": "Windows Server 2016 Essentials",
-          "zh-tw": "Windows Server 2016 Essentials"
+          "zh-cn": "Windows Server 2016 基础版",
+          "zh-tw": "Windows Server 2016 基礎版"
         },
         "key": "JCKRF-N37P4-C2D82-9YXRT-4M63B"
       }
@@ -100,24 +100,24 @@
   },
   "windows-server-versions-20h2-2004-1909-1903-and-1809": {
     "name": {
-      "en-us": "Windows Server, versions 20H2, 2004, 1909, 1903, and 1809",
-      "zh-cn": "Windows Server，版本 20H2、2004、1909、1903 和 1809",
-      "zh-tw": "Windows Server 版本 20H2、2004、1909、1903 和 1809"
+      "en-us": "Windows Server version 1809/1903/1909/2004/20H2",
+      "zh-cn": "Windows Server 1809/1903/1909/2004/20H2 版本",
+      "zh-tw": "Windows Server 1809/1903/1909/2004/20H2 版本"
     },
     "content": [
       {
         "name": {
           "en-us": "Windows Server Datacenter",
-          "zh-cn": "Windows Server Datacenter",
-          "zh-tw": "Windows Server Datacenter"
+          "zh-cn": "Windows Server 数据中心版",
+          "zh-tw": "Windows Server 數據中心版"
         },
         "key": "6NMRW-2C8FM-D24W7-TQWMY-CWH2D"
       },
       {
         "name": {
           "en-us": "Windows Server Standard",
-          "zh-cn": "Windows Server Standard",
-          "zh-tw": "Windows Server Standard"
+          "zh-cn": "Windows Server 标准版",
+          "zh-tw": "Windows Server 標準版"
         },
         "key": "N2KJX-J94YW-TQVFB-DG9YT-724CC"
       }
@@ -125,104 +125,104 @@
   },
   "windows-11-and-windows-10-semi-annual-channel-versions": {
     "name": {
-      "en-us": "Windows 11 and Windows 10 (Semi-Annual Channel versions)",
-      "zh-cn": "Windows 11 和 Windows 10（半年频道版本）",
-      "zh-tw": "Windows 11和Windows 10 (半年通道版本) "
+      "en-us": "Windows 10/11 (Semi-Annual Channel versions)",
+      "zh-cn": "Windows 10/11 (半年频道版本)",
+      "zh-tw": "Windows 10/11 (半年頻道版本)"
     },
     "content": [
       {
         "name": {
-          "en-us": "Windows 11 Pro\nWindows 10 Pro",
-          "zh-cn": "Windows 11 专业版\nWindows 10 专业版",
-          "zh-tw": "Windows 11 專業版\nWindows 10 Pro"
+          "en-us": "Windows 10/11 Pro",
+          "zh-cn": "Windows 10/11 专业版",
+          "zh-tw": "Windows 10/11 專業版"
         },
         "key": "W269N-WFGWX-YVC9B-4J6C9-T83GX"
       },
       {
         "name": {
-          "en-us": "Windows 11 Pro N\nWindows 10 Pro N",
-          "zh-cn": "Windows 11 专业版 N\nWindows 10 专业版 N",
-          "zh-tw": "Windows 11 專業版 N\nWindows 10 Pro N"
+          "en-us": "Windows 10/11 Pro N",
+          "zh-cn": "Windows 10/11 专业版 N",
+          "zh-tw": "Windows 10/11 專業版 N"
         },
         "key": "MH37W-N47XK-V7XM9-C7227-GCQG9"
       },
       {
         "name": {
-          "en-us": "Windows 11 Pro for Workstations\nWindows 10 Pro for Workstations",
-          "zh-cn": "Windows 11 专业工作站版\nWindows 10 专业工作站版",
-          "zh-tw": "Windows 11 專業工作站版\nWindows 10 工作站專業版"
+          "en-us": "Windows 10/11 Pro for Workstations",
+          "zh-cn": "Windows 10/11 专业工作站版",
+          "zh-tw": "Windows 10/11 專業工作站版"
         },
         "key": "NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J"
       },
       {
         "name": {
-          "en-us": "Windows 11 Pro for Workstations N\nWindows 10 Pro for Workstations N",
-          "zh-cn": "Windows 11 专业工作站版 N\nWindows 10 专业工作站版 N",
-          "zh-tw": "Windows 11 專業工作站版 N\nWindows 10 工作站專業版 N"
+          "en-us": "Windows 10/11 Pro for Workstations N",
+          "zh-cn": "Windows 10/11 专业工作站版 N",
+          "zh-tw": "Windows 10/11 專業工作站版 N"
         },
         "key": "9FNHH-K3HBT-3W4TD-6383H-6XYWF"
       },
       {
         "name": {
-          "en-us": "Windows 11 Pro Education\nWindows 10 Pro Education",
-          "zh-cn": "Windows 11 专业教育版\nWindows 10 专业教育版",
-          "zh-tw": "Windows 11 專業教育版\nWindows 10 專業教育版"
+          "en-us": "Windows 10/11 Pro Education",
+          "zh-cn": "Windows 10/11 专业教育版",
+          "zh-tw": "Windows 10/11 專業教育版"
         },
         "key": "6TP4R-GNPTD-KYYHQ-7B7DP-J447Y"
       },
       {
         "name": {
-          "en-us": "Windows 11 Pro Education N\nWindows 10 Pro Education N",
-          "zh-cn": "Windows 11 专业教育版 N\nWindows 10 专业教育版 N",
-          "zh-tw": "Windows 11 專業教育版 N\nWindows 10 專業教育版 N"
+          "en-us": "Windows 10/11 Pro Education N",
+          "zh-cn": "Windows 10/11 专业教育版 N",
+          "zh-tw": "Windows 10/11 專業教育版 N"
         },
         "key": "YVWGF-BXNMC-HTQYQ-CPQ99-66QFC"
       },
       {
         "name": {
-          "en-us": "Windows 11 Education\nWindows 10 Education",
-          "zh-cn": "Windows 11 教育版\nWindows 10 教育版",
-          "zh-tw": "Windows 11 教育版\nWindows 10 Education"
+          "en-us": "Windows 10/11 Education",
+          "zh-cn": "Windows 10/11 教育版",
+          "zh-tw": "Windows 10/11 教育版"
         },
         "key": "NW6C2-QMPVW-D7KKK-3GKT6-VCFB2"
       },
       {
         "name": {
-          "en-us": "Windows 11 Education N\nWindows 10 Education N",
-          "zh-cn": "Windows 11 教育版 N\nWindows 10 教育版 N",
-          "zh-tw": "Windows 11 教育版 N\nWindows 10 Education N"
+          "en-us": "Windows 10/11 Education N",
+          "zh-cn": "Windows 10/11 教育版 N",
+          "zh-tw": "Windows 10/11 教育版 N"
         },
         "key": "2WH4N-8QGBV-H22JP-CT43Q-MDWWJ"
       },
       {
         "name": {
-          "en-us": "Windows 11 Enterprise\nWindows 10 Enterprise",
-          "zh-cn": "Windows 11 企业版\nWindows 10 企业版",
-          "zh-tw": "Windows 11 企業版\nWindows 10 Enterprise"
+          "en-us": "Windows 10/11 Enterprise",
+          "zh-cn": "Windows 10/11 企业版",
+          "zh-tw": "Windows 10/11 企業版"
         },
         "key": "NPPR9-FWDCX-D2C8J-H872K-2YT43"
       },
       {
         "name": {
-          "en-us": "Windows 11 Enterprise N\nWindows 10 Enterprise N",
-          "zh-cn": "Windows 11 企业版 N\nWindows 10 企业版 N",
-          "zh-tw": "Windows 11 企業版 N\nWindows 10 Enterprise N"
+          "en-us": "Windows 10/11 Enterprise N",
+          "zh-cn": "Windows 10/11 企业版 N",
+          "zh-tw": "Windows 10/11 企業版 N"
         },
         "key": "DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4"
       },
       {
         "name": {
-          "en-us": "Windows 11 Enterprise G\nWindows 10 Enterprise G",
-          "zh-cn": "Windows 11 企业版 G\nWindows 10 企业版 G",
-          "zh-tw": "Windows 11 企業版 G\nWindows 10 企業版 G"
+          "en-us": "Windows 10/11 Enterprise G",
+          "zh-cn": "Windows 10/11 企业版 G",
+          "zh-tw": "Windows 10/11 企業版 G"
         },
         "key": "YYVX9-NTFWV-6MDM3-9PT4T-4M68B"
       },
       {
         "name": {
-          "en-us": "Windows 11 Enterprise G N\nWindows 10 Enterprise G N",
-          "zh-cn": "Windows 11 企业版 G N\nWindows 10 企业版 G N",
-          "zh-tw": "Windows 11 企業版 G N\nWindows 10 企業版 G N"
+          "en-us": "Windows 10/11 Enterprise G N",
+          "zh-cn": "Windows 10/11 企业版 G N",
+          "zh-tw": "Windows 10/11 企業版 G N"
         },
         "key": "44RPN-FTY23-9VTTB-MP9BX-T84FV"
       }
@@ -230,24 +230,24 @@
   },
   "windows-10-ltsc-2021-and-2019": {
     "name": {
-      "en-us": "Windows 10 LTSC 2021 and 2019",
-      "zh-cn": "Windows 10 LTSC 2021 和 2019",
-      "zh-tw": "Windows 10 LTSC 2021 和 2019"
+      "en-us": "Windows 10 LTSC 2019/2021",
+      "zh-cn": "Windows 10 LTSC 2019/2021",
+      "zh-tw": "Windows 10 LTSC 2019/2021"
     },
     "content": [
       {
         "name": {
-          "en-us": "Windows 10 Enterprise LTSC 2021\nWindows 10 Enterprise LTSC 2019",
-          "zh-cn": "Windows 10 企业版 LTSC 2021\nWindows 10 企业版 LTSC 2019",
-          "zh-tw": "Windows 10 企業版 LTSC 2021\nWindows 10 企業版 LTSC 2019"
+          "en-us": "Windows 10 Enterprise LTSC 2019/2021",
+          "zh-cn": "Windows 10 企业版 LTSC 2019/2021",
+          "zh-tw": "Windows 10 企業版 LTSC 2019/2021"
         },
         "key": "M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
       },
       {
         "name": {
-          "en-us": "Windows 10 Enterprise N LTSC 2021\nWindows 10 Enterprise N LTSC 2019",
-          "zh-cn": "Windows 10 企业版 N LTSC 2021\nWindows 10 企业版 N LTSC 2019",
-          "zh-tw": "Windows 10 企業版 N LTSC 2021\nWindows 10 企業版 N LTSC 2019"
+          "en-us": "Windows 10 Enterprise N LTSC 2019/2021",
+          "zh-cn": "Windows 10 企业版 N LTSC 2019/2021",
+          "zh-tw": "Windows 10 企業版 N LTSC 2019/2021"
         },
         "key": "92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
       }
@@ -264,7 +264,7 @@
         "name": {
           "en-us": "Windows 10 Enterprise LTSB 2016",
           "zh-cn": "Windows 10 企业版 LTSB 2016",
-          "zh-tw": "Windows 10 Enterprise LTSB 2016"
+          "zh-tw": "Windows 10 企業版 LTSB 2016"
         },
         "key": "DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ"
       },
@@ -272,7 +272,7 @@
         "name": {
           "en-us": "Windows 10 Enterprise N LTSB 2016",
           "zh-cn": "Windows 10 企业版 N LTSB 2016",
-          "zh-tw": "Windows 10 Enterprise N LTSB 2016"
+          "zh-tw": "Windows 10 企業版 N LTSB 2016"
         },
         "key": "QFFDN-GRT3P-VKWWX-X7T3R-8B639"
       }
@@ -289,7 +289,7 @@
         "name": {
           "en-us": "Windows 10 Enterprise 2015 LTSB",
           "zh-cn": "Windows 10 企业版 2015 LTSB",
-          "zh-tw": "Windows 10 Enterprise 2015 LTSB"
+          "zh-tw": "Windows 10 企業版 2015 LTSB"
         },
         "key": "WNMTR-4C88C-JK8YV-HQ7T2-76DF9"
       },
@@ -297,7 +297,7 @@
         "name": {
           "en-us": "Windows 10 Enterprise 2015 LTSB N",
           "zh-cn": "Windows 10 企业版 2015 LTSB N",
-          "zh-tw": "Windows 10 Enterprise 2015 LTSB N"
+          "zh-tw": "Windows 10 企業版 2015 LTSB N"
         },
         "key": "2F77B-TNFGY-69QQF-B8YKP-D69TJ"
       }
@@ -305,24 +305,24 @@
   },
   "windows-server-version-1803": {
     "name": {
-      "en-us": "Windows Server, version 1803",
-      "zh-cn": "Windows Server 版本 1803",
-      "zh-tw": "Windows Server 1803 版"
+      "en-us": "Windows Server version 1803",
+      "zh-cn": "Windows Server 1803 版本",
+      "zh-tw": "Windows Server 1803 版本"
     },
     "content": [
       {
         "name": {
           "en-us": "Windows Server Datacenter",
-          "zh-cn": "Windows Server Datacenter",
-          "zh-tw": "Windows Server Datacenter"
+          "zh-cn": "Windows Server 数据中心版",
+          "zh-tw": "Windows Server 數據中心版"
         },
         "key": "2HXDN-KRXHB-GPYC7-YCKFJ-7FVDG"
       },
       {
         "name": {
           "en-us": "Windows Server Standard",
-          "zh-cn": "Windows Server Standard",
-          "zh-tw": "Windows Server Standard"
+          "zh-cn": "Windows Server 标准版",
+          "zh-tw": "Windows Server 標準版"
         },
         "key": "PTXN8-JFHJM-4WC78-MPCBR-9W4KR"
       }
@@ -330,24 +330,24 @@
   },
   "windows-server-version-1709": {
     "name": {
-      "en-us": "Windows Server, version 1709",
-      "zh-cn": "Windows Server 版本 1709",
-      "zh-tw": "Windows Server 1709 版"
+      "en-us": "Windows Server version 1709",
+      "zh-cn": "Windows Server 1709 版本",
+      "zh-tw": "Windows Server 1709 版本"
     },
     "content": [
       {
         "name": {
           "en-us": "Windows Server Datacenter",
-          "zh-cn": "Windows Server Datacenter",
-          "zh-tw": "Windows Server Datacenter"
+          "zh-cn": "Windows Server 数据中心版",
+          "zh-tw": "Windows Server 數據中心版"
         },
         "key": "6Y6KB-N82V8-D8CQV-23MJW-BWTG6"
       },
       {
         "name": {
           "en-us": "Windows Server Standard",
-          "zh-cn": "Windows Server Standard",
-          "zh-tw": "Windows Server Standard"
+          "zh-cn": "Windows Server 标准版",
+          "zh-tw": "Windows Server 標準版"
         },
         "key": "DPCNP-XQFKJ-BJF7R-FRC8D-GF6G4"
       }
@@ -363,24 +363,24 @@
       {
         "name": {
           "en-us": "Windows Server 2012 R2 Standard",
-          "zh-cn": "Windows Server 2012 R2 Standard",
-          "zh-tw": "Windows Server 2012 R2 Standard"
+          "zh-cn": "Windows Server 2012 R2 标准版",
+          "zh-tw": "Windows Server 2012 R2 標準版"
         },
         "key": "D2N9P-3P6X9-2R39C-7RTCD-MDVJX"
       },
       {
         "name": {
           "en-us": "Windows Server 2012 R2 Datacenter",
-          "zh-cn": "Windows Server 2012 R2 Datacenter",
-          "zh-tw": "Windows Server 2012 R2 Datacenter"
+          "zh-cn": "Windows Server 2012 R2 数据中心版",
+          "zh-tw": "Windows Server 2012 R2 數據中心版"
         },
         "key": "W3GGN-FT8W3-Y4M27-J84CP-Q3VJ9"
       },
       {
         "name": {
           "en-us": "Windows Server 2012 R2 Essentials",
-          "zh-cn": "Windows Server 2012 R2 Essentials",
-          "zh-tw": "Windows Server 2012 R2 Essentials"
+          "zh-cn": "Windows Server 2012 R2 基础版",
+          "zh-tw": "Windows Server 2012 R2 基礎版"
         },
         "key": "KNC87-3J2TX-XB4WP-VCPJV-M4FWM"
       }
@@ -413,7 +413,7 @@
         "name": {
           "en-us": "Windows Server 2012 Single Language",
           "zh-cn": "Windows Server 2012 单语言版",
-          "zh-tw": "Windows Server 2012 單一語言"
+          "zh-tw": "Windows Server 2012 單語言版"
         },
         "key": "2WN2H-YGCQR-KFX6K-CD6TF-84YXQ"
       },
@@ -421,15 +421,15 @@
         "name": {
           "en-us": "Windows Server 2012 Country Specific",
           "zh-cn": "Windows Server 2012 特定国家/地区版",
-          "zh-tw": "Windows Server 2012 國家/地區特定"
+          "zh-tw": "Windows Server 2012 特定國家/地區版"
         },
         "key": "4K36P-JN4VD-GDC6V-KDT89-DYFKP"
       },
       {
         "name": {
           "en-us": "Windows Server 2012 Standard",
-          "zh-cn": "Windows Server 2012 Standard",
-          "zh-tw": "Windows Server 2012 Standard"
+          "zh-cn": "Windows Server 2012 标准版",
+          "zh-tw": "Windows Server 2012 標準版"
         },
         "key": "XC9B7-NBPP2-83J2H-RHMBY-92BT4"
       },
@@ -437,7 +437,7 @@
         "name": {
           "en-us": "Windows Server 2012 MultiPoint Standard",
           "zh-cn": "Windows Server 2012 MultiPoint 标准版",
-          "zh-tw": "Windows Server 2012 MultiPoint Standard"
+          "zh-tw": "Windows Server 2012 MultiPoint 標準版"
         },
         "key": "HM7DN-YVMH3-46JC3-XYTG7-CYQJJ"
       },
@@ -445,15 +445,15 @@
         "name": {
           "en-us": "Windows Server 2012 MultiPoint Premium",
           "zh-cn": "Windows Server 2012 MultiPoint 高级版",
-          "zh-tw": "Windows Server 2012 MultiPoint Premium"
+          "zh-tw": "Windows Server 2012 MultiPoint 高級版"
         },
         "key": "XNH6W-2V9GX-RGJ4K-Y8X6F-QGJ2G"
       },
       {
         "name": {
           "en-us": "Windows Server 2012 Datacenter",
-          "zh-cn": "Windows Server 2012 Datacenter",
-          "zh-tw": "Windows Server 2012 Datacenter"
+          "zh-cn": "Windows Server 2012 数据中心版",
+          "zh-tw": "Windows Server 2012 數據中心版"
         },
         "key": "48HP8-DN98B-MYWDG-T2DCC-8W83P"
       }
@@ -469,7 +469,7 @@
       {
         "name": {
           "en-us": "Windows Server 2008 R2 Web",
-          "zh-cn": "Windows Server 2008 R2 Web 版",
+          "zh-cn": "Windows Server 2008 R2 Web",
           "zh-tw": "Windows Server 2008 R2 Web"
         },
         "key": "6TPJF-RBVHG-WBW2R-86QPH-6RTM4"
@@ -477,8 +477,8 @@
       {
         "name": {
           "en-us": "Windows Server 2008 R2 HPC edition",
-          "zh-cn": "Windows Server 2008 R2 HPC 版",
-          "zh-tw": "Windows Server 2008 R2 HPC Edition"
+          "zh-cn": "Windows Server 2008 R2 HPC 版本",
+          "zh-tw": "Windows Server 2008 R2 HPC 版本"
         },
         "key": "TT8MH-CG224-D3D7Q-498W2-9QCTX"
       },
@@ -486,7 +486,7 @@
         "name": {
           "en-us": "Windows Server 2008 R2 Standard",
           "zh-cn": "Windows Server 2008 R2 标准版",
-          "zh-tw": "Windows Server 2008 R2 Standard"
+          "zh-tw": "Windows Server 2008 R2 標準版"
         },
         "key": "YC6KT-GKW9T-YTKYR-T4X34-R7VHC"
       },
@@ -494,23 +494,23 @@
         "name": {
           "en-us": "Windows Server 2008 R2 Enterprise",
           "zh-cn": "Windows Server 2008 R2 企业版",
-          "zh-tw": "Windows Server 2008 R2 Enterprise"
+          "zh-tw": "Windows Server 2008 R2 企業版"
         },
         "key": "489J6-VHDMP-X63PK-3K798-CPX3Y"
       },
       {
         "name": {
           "en-us": "Windows Server 2008 R2 Datacenter",
-          "zh-cn": "Windows Server 2008 R2 Datacenter",
-          "zh-tw": "Windows Server 2008 R2 Datacenter"
+          "zh-cn": "Windows Server 2008 R2 数据中心版",
+          "zh-tw": "Windows Server 2008 R2 數據中心版"
         },
         "key": "74YFP-3QFB3-KQT8W-PMXWJ-7M648"
       },
       {
         "name": {
           "en-us": "Windows Server 2008 R2 for Itanium-based Systems",
-          "zh-cn": "面向基于 Itanium 系统的 Windows Server 2008 R2",
-          "zh-tw": "Windows Server 2008 R2 for Itanium-based Systems"
+          "zh-cn": "Windows Server 2008 R2 (基于 Itanium 系统)",
+          "zh-tw": "Windows Server 2008 R2 (基於 Itanium 系統)"
         },
         "key": "GT63C-RJFQ3-4GMB6-BRFB9-CB83V"
       }
@@ -519,7 +519,7 @@
   "windows-server-2008": {
     "name": {
       "en-us": "Windows Server 2008",
-      "zh-cn": "Windows 2008 Server",
+      "zh-cn": "Windows Server 2008",
       "zh-tw": "Windows Server 2008"
     },
     "content": [
@@ -535,15 +535,15 @@
         "name": {
           "en-us": "Windows Server 2008 Standard",
           "zh-cn": "Windows Server 2008 标准版",
-          "zh-tw": "Windows Server 2008 Standard"
+          "zh-tw": "Windows Server 2008 標準版"
         },
         "key": "TM24T-X9RMF-VWXK6-X8JC9-BFGM2"
       },
       {
         "name": {
           "en-us": "Windows Server 2008 Standard without Hyper-V",
-          "zh-cn": "不带 Hyper-V 的 Windows Server 2008 标准版",
-          "zh-tw": "Windows Server 2008 Standard (無 Hyper-V)"
+          "zh-cn": "Windows Server 2008 标准版 (无 Hyper-V)",
+          "zh-tw": "Windows Server 2008 標準版 (無 Hyper-V)"
         },
         "key": "W7VD6-7JFBR-RX26B-YKQ3Y-6FFFJ"
       },
@@ -551,15 +551,15 @@
         "name": {
           "en-us": "Windows Server 2008 Enterprise",
           "zh-cn": "Windows Server 2008 企业版",
-          "zh-tw": "Windows Server 2008 Enterprise"
+          "zh-tw": "Windows Server 2008 企業版"
         },
         "key": "YQGMW-MPWTJ-34KDK-48M3W-X4Q6V"
       },
       {
         "name": {
           "en-us": "Windows Server 2008 Enterprise without Hyper-V",
-          "zh-cn": "不带 Hyper-V 的 Windows Server 2008 企业版",
-          "zh-tw": "Windows Server 2008 Enterprise (無 Hyper-V)"
+          "zh-cn": "Windows Server 2008 企业版 (无 Hyper-V)",
+          "zh-tw": "Windows Server 2008 企業版 (無 Hyper-V)"
         },
         "key": "39BXF-X8Q23-P2WWT-38T2F-G3FPG"
       },
@@ -574,24 +574,24 @@
       {
         "name": {
           "en-us": "Windows Server 2008 Datacenter",
-          "zh-cn": "Windows Server 2008 Datacenter",
-          "zh-tw": "Windows Server 2008 Datacenter"
+          "zh-cn": "Windows Server 2008 数据中心版",
+          "zh-tw": "Windows Server 2008 數據中心版"
         },
         "key": "7M67G-PC374-GR742-YH8V4-TCBY3"
       },
       {
         "name": {
           "en-us": "Windows Server 2008 Datacenter without Hyper-V",
-          "zh-cn": "不带 Hyper-V 的 Windows Server 2008 数据中心版",
-          "zh-tw": "Windows Server 2008 Datacenter (無 Hyper-V)"
+          "zh-cn": "Windows Server 2008 数据中心版 (无 Hyper-V)",
+          "zh-tw": "Windows Server 2008 數據中心版 (無 Hyper-V)"
         },
         "key": "22XQ2-VRXRG-P8D42-K34TD-G3QQC"
       },
       {
         "name": {
           "en-us": "Windows Server 2008 for Itanium-Based Systems",
-          "zh-cn": "面向基于 Itanium 系统的 Windows Server 2008",
-          "zh-tw": "Windows Server 2008 for Itanium-Based Systems"
+          "zh-cn": "Windows Server 2008 (基于 Itanium 系统)",
+          "zh-tw": "Windows Server 2008 (基於 Itanium 系統)"
         },
         "key": "4DWFP-JF3DJ-B7DTH-78FJB-PDRHK"
       }
@@ -624,7 +624,7 @@
         "name": {
           "en-us": "Windows 8.1 Enterprise",
           "zh-cn": "Windows 8.1 企业版",
-          "zh-tw": "Windows 8.1 Enterprise"
+          "zh-tw": "Windows 8.1 企業版"
         },
         "key": "MHF9N-XY6XB-WVXMC-BTDCT-MKKG7"
       },
@@ -632,7 +632,7 @@
         "name": {
           "en-us": "Windows 8.1 Enterprise N",
           "zh-cn": "Windows 8.1 企业版 N",
-          "zh-tw": "Windows 8.1 Enterprise N"
+          "zh-tw": "Windows 8.1 企業版 N"
         },
         "key": "TT4HM-HN7YT-62K67-RGRQJ-JFFXW"
       }
@@ -649,7 +649,7 @@
         "name": {
           "en-us": "Windows 8 Pro",
           "zh-cn": "Windows 8 专业版",
-          "zh-tw": "Windows 8 Pro"
+          "zh-tw": "Windows 8 專業版"
         },
         "key": "NG4HW-VH26C-733KW-K6F98-J8CK4"
       },
@@ -714,7 +714,7 @@
         "name": {
           "en-us": "Windows 7 Enterprise",
           "zh-cn": "Windows 7 企业版",
-          "zh-tw": "Windows 7 Enterprise"
+          "zh-tw": "Windows 7 企業版"
         },
         "key": "33PXH-7Y6KF-2VJC9-XBBR8-HVTHH"
       },
@@ -747,7 +747,7 @@
         "name": {
           "en-us": "Windows Vista Business",
           "zh-cn": "Windows Vista 商用版",
-          "zh-tw": "Windows Vista Business"
+          "zh-tw": "Windows Vista 商用版"
         },
         "key": "YFKBB-PQJJV-G996G-VWGXY-2V3X8"
       },
@@ -755,7 +755,7 @@
         "name": {
           "en-us": "Windows Vista Business N",
           "zh-cn": "Windows Vista 商用版 N",
-          "zh-tw": "Windows Vista Business N"
+          "zh-tw": "Windows Vista 商用版 N"
         },
         "key": "HMBQG-8H2RH-C77VX-27R82-VMQBT"
       },
@@ -763,7 +763,7 @@
         "name": {
           "en-us": "Windows Vista Enterprise",
           "zh-cn": "Windows Vista 企业版",
-          "zh-tw": "Windows Vista Enterprise"
+          "zh-tw": "Windows Vista 企業版"
         },
         "key": "VKK3X-68KWM-X2YGT-QR4M6-4BWMV"
       },
@@ -771,7 +771,7 @@
         "name": {
           "en-us": "Windows Vista Enterprise N",
           "zh-cn": "Windows Vista 企业版 N",
-          "zh-tw": "Windows Vista Enterprise N"
+          "zh-tw": "Windows Vista 企業版 N"
         },
         "key": "VTC42-BM838-43QHV-84HX6-XJXKV"
       }
