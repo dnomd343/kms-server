@@ -4,15 +4,16 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+TIMEOUT = 10
 LANG = ['en-us', 'zh-cn', 'zh-tw']
 URL = 'https://learn.microsoft.com/%s/windows-server/get-started/kms-client-activation-keys'
 
 
-def analyseKeys(items: list) -> dict:
+def extractKeys(items: list) -> dict:  # detached from original html elements
     def splitHeader(header) -> tuple[str, str]:
         return header['id'], header.text
 
-    def splitTable(table) -> dict:
+    def splitTable(table) -> dict:  # split from html table
         dat = {}
         for item in [x for x in table.tbody if x.name == 'tr']:
             name, key = item.select('td')
@@ -22,7 +23,7 @@ def analyseKeys(items: list) -> dict:
     result = {}
     for index in range(len(items)):
         if items[index].name == 'table':
-            keyContent = splitTable(items[index])
+            keyContent = splitTable(items[index])  # GVLK content
             keyId, keyName = splitHeader(items[index - 1])
             result[keyId] = {
                 'name': keyName,
@@ -31,24 +32,24 @@ def analyseKeys(items: list) -> dict:
     return result
 
 
-def fetchKeys(lang: str) -> dict:
-    request = requests.get(URL % lang, timeout = 10)
-    request.raise_for_status()
+def fetchGvlk(lang: str) -> dict:  # fetch GVLKs of the specified language
+    request = requests.get(URL % lang, timeout = TIMEOUT)
+    request.raise_for_status()  # only http-code 2xx
     request.encoding = 'utf-8'
-    content = BeautifulSoup(request.text, 'lxml').select('.content')[0]
+    content = BeautifulSoup(request.text, 'lxml').select('.content')[0]  # html parsing
 
-    items = []
+    result = []
     for element in content.children:
         try:
             if element['id'] == 'generic-volume-license-keys-gvlk':
-                items = []  # GVLK record begin
+                result = []  # GVLK record begin
         except: pass
         if element.name in ['h3', 'h4', 'table']:  # match target DOM
-            items.append(element)
-    return analyseKeys(items)
+            result.append(element)
+    return extractKeys(result)
 
 
-def combineKeys(rawData: dict) -> dict:
+def combineGvlk(rawData: dict) -> dict:  # merge multiple languages
     firstVal = lambda x: list(x.values())[0]
     flipDict = lambda x: {v: k for k, v in x.items()}
 
@@ -70,6 +71,5 @@ def combineKeys(rawData: dict) -> dict:
     return result
 
 
-print(json.dumps(
-    combineKeys({x: fetchKeys(x) for x in LANG})
-))
+gvlkData = combineGvlk({x: fetchGvlk(x) for x in LANG})
+print(json.dumps(gvlkData))  # output as json format
