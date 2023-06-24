@@ -4,6 +4,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+LANG = ['en-us', 'zh-cn', 'zh-tw']
 URL = 'https://learn.microsoft.com/%s/windows-server/get-started/kms-client-activation-keys'
 
 
@@ -47,8 +48,28 @@ def fetchKeys(lang: str) -> dict:
     return analyseKeys(items)
 
 
-ret = fetchKeys('zh-cn')
-print(json.dumps(ret))
+def combineKeys(rawData: dict) -> dict:
+    firstVal = lambda x: list(x.values())[0]
+    flipDict = lambda x: {v: k for k, v in x.items()}
 
-ret = fetchKeys('en-us')
-print(json.dumps(ret))
+    def release(version: str) -> dict:
+        keys = [x for _, x in firstVal(rawData)[version]['content'].items()]
+        gvlkItem = {
+            'name': {lang: data[version]['name'] for (lang, data) in rawData.items()},
+            'content': [{'name': {}, 'key': x} for x in keys]
+        }
+        for index in range(len(keys)):
+            for (lang, data) in rawData.items():
+                data = flipDict(data[version]['content'])
+                gvlkItem['content'][index]['name'][lang] = data[keys[index]]
+        return gvlkItem
+
+    result = {}
+    for gvlkVersion in list(firstVal(rawData)):
+        result[gvlkVersion] = release(gvlkVersion)
+    return result
+
+
+print(json.dumps(
+    combineKeys({x: fetchKeys(x) for x in LANG})
+))
