@@ -71,8 +71,7 @@ def combineGvlk(rawData: dict) -> dict:  # merge multiple languages
     return result
 
 
-gvlkData = combineGvlk({x: fetchGvlk(x) for x in LANG})
-
-with open('raw.json', 'w') as fp:  # output as `raw.json`
-    fp.write(json.dumps(gvlkData, indent = 2, ensure_ascii = False))
-    fp.write('\n')
+if __name__ == '__main__':
+    gvlkData = combineGvlk({x: fetchGvlk(x) for x in LANG})
+    with open('raw.json', 'w') as fp:  # output as `raw.json`
+        fp.write(json.dumps(gvlkData, indent = 2, ensure_ascii = False) + '\n')
