@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import json
+import yaml
 import requests
 from bs4 import BeautifulSoup
 
-TIMEOUT = 10
-LANG = ['en-us', 'zh-cn', 'zh-tw']
+LANG = yaml.full_load(open('config.yml').read())['lang']
 URL = 'https://learn.microsoft.com/%s/windows-server/get-started/kms-client-activation-keys'
 
 
@@ -33,7 +33,7 @@ def extractKeys(items: list) -> dict:  # detached from original html elements
 
 
 def fetchGvlk(lang: str) -> dict:  # fetch GVLKs of the specified language
-    request = requests.get(URL % lang, timeout = TIMEOUT)
+    request = requests.get(URL % lang, timeout = 15)
     request.raise_for_status()  # only http-code 2xx
     request.encoding = 'utf-8'
     content = BeautifulSoup(request.text, 'lxml').select('.content')[0]  # html parsing
@@ -72,4 +72,7 @@ def combineGvlk(rawData: dict) -> dict:  # merge multiple languages
 
 
 gvlkData = combineGvlk({x: fetchGvlk(x) for x in LANG})
-print(json.dumps(gvlkData))  # output as json format
+
+with open('raw.json', 'w') as fp:  # output as `raw.json`
+    fp.write(json.dumps(gvlkData, indent = 2, ensure_ascii = False))
+    fp.write('\n')
