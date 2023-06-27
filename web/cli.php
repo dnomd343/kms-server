@@ -4,19 +4,22 @@ require_once "utils.php";
 
 /// Print list structural under command line.
 ///
-///    Example
-/// ┏-----------┓
-/// | xxxx      |
-/// | xxxxxxxxx |
-/// | xxxxxx    |
-/// ┗-----------┛
-function showCliList(string $title, array $content): void {
+///    Example      |    Example
+/// ┏-----------┓   |   ---------
+/// | xxxx      |   |   xxxx
+/// | xxxxxxxxx |   |   xxxxxxxxx
+/// | xxxxxx    |   |   xxxxxx
+/// ┗-----------┛   |   ---------
+function showCliList(string $title, array $content, bool $border = true): void {
     $contentLen = 0;
     foreach ($content as $row) { // found the longest row
         $contentLen = ($contentLen < stringLen($row)) ? stringLen($row) : $contentLen;
     }
 
-    $bodyLen = $contentLen + 4; // add 4-slots -> `| xxx |`
+    $bodyLen = $contentLen;
+    if ($border) {
+        $bodyLen += 4; // add 4-slots -> `| xxx |`
+    }
     $titleLen = stringLen($title);
     $bodyOffset = $titleOffset = 0;
     if ($titleLen > $bodyLen) { // title longer than body
@@ -25,17 +28,33 @@ function showCliList(string $title, array $content): void {
         $titleOffset = floor(($bodyLen - $titleLen) / 2); // title move right
     }
 
+    /// Render list without border.
+    $showWithoutBorder = function (array $content, string $prefix, int $length): void {
+        printf("%s%s\n", $prefix, stringGen($length, '-'));
+        foreach ($content as $row) { // show list body
+            printf("%s%s\n", $prefix, $row);
+        }
+        printf("%s%s\n", $prefix, stringGen($length, '-'));
+    };
+
+    /// Render list with border.
+    $showWithBorder = function (array $content, string $prefix, int $length): void {
+        printf("%s┏-%s-┓\n", $prefix, stringGen($length, '-'));
+        foreach ($content as $row) { // show list body
+            printf("%s| %s%s |\n", $prefix, $row, stringGen($length - stringLen($row)));
+        }
+        printf("%s┗-%s-┛\n", $prefix, stringGen($length, '-'));
+    };
+
     printf("%s%s\n", stringGen($titleOffset), $title); // show list title
-    printf("%s┏-%s-┓\n", stringGen($bodyOffset), stringGen($contentLen, '-'));
-    foreach ($content as $row) { // show list body
-        printf("%s| %s%s |\n",
-            stringGen($bodyOffset), $row, stringGen($contentLen - stringLen($row))
-        );
+    if (!$border) {
+        $showWithoutBorder($content, stringGen($bodyOffset), $contentLen); // without side border
+    } else {
+        $showWithBorder($content, stringGen($bodyOffset), $contentLen); // with side border
     }
-    printf("%s┗-%s-┛\n", stringGen($bodyOffset), stringGen($contentLen, '-'));
 }
 
-/// Print table with two columns under command line.
+/// Print table structural with two columns under command line.
 ///
 ///      Example
 /// ┏---------------┓
@@ -56,6 +75,15 @@ function showCliTable(string $title, array $content): void {
 }
 
 class CliOutput {
+    /// Print GVLKs under command line.
+    public function showGvlks(bool $isWinServer): void {
+        echo PHP_EOL;
+        foreach (loadGvlks($isWinServer) as $version => $content) {
+            showCliTable($version, $content);
+            echo PHP_EOL;
+        }
+    }
+
     /// Print help message under command line.
     public function showHelp(string $host, string $port): void {
         if (isIPv6($host)) {
@@ -81,16 +109,6 @@ class CliOutput {
         echo "\nOffice\n";
         echo "  -> $urlPrefix/office\n\n";
     }
-
-    /// Print GVLKs under command line.
-    public function showGvlks(bool $isWinServer): void {
-        echo PHP_EOL;
-        foreach (loadGvlks($isWinServer) as $version => $content) {
-            showCliTable($version, $content);
-            echo PHP_EOL;
-        }
-    }
-
 }
 
 $cli = new CliOutput();
@@ -99,5 +117,5 @@ $cli = new CliOutput();
 //$cli->showHelp('1.1.1.1', 1689);
 //$cli->showHelp('fc00::', 1689);
 
-$cli->showGvlks(false);
+//$cli->showGvlks(false);
 $cli->showGvlks(true);
