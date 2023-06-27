@@ -109,6 +109,11 @@ class CliOutput {
         echo "\nOffice\n";
         echo "  -> $urlPrefix/office\n\n";
     }
+
+    /// Print office message under command line.
+    public function showOffice(): void {
+
+    }
 }
 
 $cli = new CliOutput();

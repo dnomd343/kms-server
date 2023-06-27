@@ -26,3 +26,8 @@ function loadGvlks(bool $isWinServer = false): array { // load kms client keys f
     $gvlkData = json_decode(file_get_contents($assetPath), true);
     return $isWinServer ? $gvlkData['win-server'] : $gvlkData['win'];
 }
+
+function loadOsppData(): array {
+    $osppPath = '../assets/ospp.json';
+    return json_decode(file_get_contents($osppPath), true);
+}
