@@ -12,7 +12,7 @@ $ ./fetch.py
 
 Since Microsoft basically uses machine translation in other languages, manually repair the content in `raw.json` and save it in `data.json`.
 
-Then run the following command, the final data will be exported, and it will be saved in the `../assets/gvlk/` directory by default. The specific order can be specified in `config.yml`.
+Then run the following command, the final data will be saved at `../assets/gvlk.json` by default. The specific order can be specified in `config.yml`.
 
 ```bash
 $ ./release.py

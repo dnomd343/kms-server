@@ -1,41 +1,26 @@
 #!/usr/bin/env python3
 
-import os
 import json
 import yaml
 
+GvlkData = json.loads(open('data.json').read())
 Config = yaml.full_load(open('config.yml').read())
-AllGvlkData = json.loads(open('data.json').read())
 
 
-def dumpItem(lang: str, version: str) -> tuple[str, dict]:
-    gvlkData = AllGvlkData[version]
-    verName = gvlkData['name'][lang]
-    return verName, {x['name'][lang]: x['key'] for x in gvlkData['content']}
-
-
-def dumpGroup(lang: str, versions: str) -> dict:
+def dumpGvlks(language: str, versionList: list) -> dict:
     result = {}
-    for version in versions:
-        name, data = dumpItem(lang, version)
-        result[name] = data
+    for version in versionList:
+        gvlkData = GvlkData[version]
+        result[gvlkData['name'][language]] = {
+            x['name'][language]: x['key'] for x in gvlkData['content']
+        }
     return result
 
 
-def dumpGvlk(lang: str) -> str:
-    return json.dumps({
-        'win': dumpGroup(lang, Config['win']),
-        'win-server': dumpGroup(lang, Config['win-server']),
-    }, indent = 2, ensure_ascii = False)
-
-
-def release(path: str) -> None:
-    for lang in Config['lang']:
-        with open(os.path.join(path, '%s.json' % lang), 'w') as fp:
-            fp.write(dumpGvlk(lang) + '\n')
-
-
 if __name__ == '__main__':
-    if not os.path.exists(Config['path']):
-        os.makedirs(Config['path'])
-    release(Config['path'])
+    data = {lang: {
+        'win': dumpGvlks(lang, Config['win']),
+        'win-server': dumpGvlks(lang, Config['win-server']),
+    } for lang in Config['lang']}
+    with open(Config['path'], 'w') as fp:
+        fp.write(json.dumps(data, indent = 2, ensure_ascii = False) + '\n')

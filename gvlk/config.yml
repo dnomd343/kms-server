@@ -3,7 +3,7 @@ lang:
   - zh-cn
   - zh-tw
 
-path: ../assets/gvlk/
+path: ../assets/gvlk.json
 
 win:
   - 'windows-vista'
