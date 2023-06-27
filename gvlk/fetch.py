@@ -40,20 +40,20 @@ def combineGvlks(rawData: dict) -> dict:  # merge multiple languages
 
     def combined(version: str) -> dict:
         keys = [x for _, x in firstVal(rawData)[version]['content'].items()]
-        gvlksItem = {
+        result = {
             'name': {lang: data[version]['name'] for (lang, data) in rawData.items()},
             'content': [{'name': {}, 'key': x} for x in keys]
         }
         for index in range(len(keys)):
             for (lang, data) in rawData.items():
                 data = flipDict(data[version]['content'])
-                gvlksItem['content'][index]['name'][lang] = data[keys[index]]
-        return gvlksItem
+                result['content'][index]['name'][lang] = data[keys[index]]
+        return result
 
     return {x: combined(x) for x in list(firstVal(rawData))}
 
 
 if __name__ == '__main__':
-    gvlksData = combineGvlks({x: fetchGvlks(x) for x in LANG})
-    with open('raw.json', 'w') as fp:  # output at `raw.json`
-        fp.write(json.dumps(gvlksData, indent = 2, ensure_ascii = False) + '\n')
+    gvlkData = combineGvlks({x: fetchGvlks(x) for x in LANG})
+    with open('raw.json', 'w') as fp:  # output as `raw.json`
+        fp.write(json.dumps(gvlkData, indent = 2, ensure_ascii = False) + '\n')
