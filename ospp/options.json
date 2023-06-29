@@ -1,0 +1,42 @@
+{
+  "/dstatus": {
+    "en-us": "Display license information for installed product keys.",
+    "zh-cn": "显示当前已安装产品密钥的许可证信息",
+    "zh-tw": "顯示當前已安裝產品密鑰的許可證信息"
+  },
+  "/dstatusall": {
+    "en-us": "Display license information for installed licenses.",
+    "zh-cn": "显示当前已安装的所有许可证信息",
+    "zh-tw": "顯示當前已安裝的所有許可證信息"
+  },
+  "/unpkey:XXXXX": {
+    "en-us": "Uninstall a product key with the last five digits of it.",
+    "zh-cn": "卸载已安装的产品密钥（最后5位）",
+    "zh-tw": "卸載已安裝的產品密鑰（最後5位）"
+  },
+  "/inpkey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX": {
+    "en-us": "Install a product key with user-provided product key.",
+    "zh-cn": "安装产品密钥",
+    "zh-tw": "安裝產品密鑰"
+  },
+  "/sethst:@HOST@": {
+    "en-us": "Set a KMS host name with user-provided host name.",
+    "zh-cn": "设置 KMS 主机名",
+    "zh-tw": "設置 KMS 主機名"
+  },
+  "/setprt:@PORT@": {
+    "en-us": "Set a KMS port with user-provided port number.",
+    "zh-cn": "设置 KMS 主机端口",
+    "zh-tw": "設置 KMS 主機端口"
+  },
+  "/remhst": {
+    "en-us": "Remove KMS host name and sets port to default.",
+    "zh-cn": "删除 KMS 主机名",
+    "zh-tw": "刪除 KMS 主機名"
+  },
+  "/act": {
+    "en-us": "Activate installed Office product keys.",
+    "zh-cn": "激活 Office",
+    "zh-tw": "激活 Office"
+  }
+}

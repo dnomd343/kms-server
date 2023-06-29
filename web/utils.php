@@ -1,5 +1,8 @@
 <?php
 
+$GVLK_ASSET = '../assets/gvlk.json';
+$OSPP_ASSET = '../assets/ospp.json';
+
 function isIPv4(string $ip): bool {
     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 }
@@ -22,12 +25,12 @@ function stringGen(int $length, string $fillStr = ' '): string { // generate a s
 }
 
 function loadGvlks(bool $isWinServer = false): array { // load kms client keys from assets
-    $assetPath = '../assets/gvlk/' . getLang() . '.json';
-    $gvlkData = json_decode(file_get_contents($assetPath), true);
+    global $GVLK_ASSET;
+    $gvlkData = json_decode(file_get_contents($GVLK_ASSET), true)[getLang()];
     return $isWinServer ? $gvlkData['win-server'] : $gvlkData['win'];
 }
 
-function loadOsppData(): array {
-    $osppPath = '../assets/ospp.json';
-    return json_decode(file_get_contents($osppPath), true);
+function loadOsppData(): array { // load office ospp data
+    global $OSPP_ASSET;
+    return json_decode(file_get_contents($OSPP_ASSET), true);
 }
